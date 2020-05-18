@@ -8,5 +8,6 @@ There are two main areas:
 There will be some that are the same programs with slight modifications for the different
 environments they will run in.
 
-I am trying to create a template that would work on both with just one modification. We'll see
-how that goes.
+I am trying to create a template that would work on both with just one modification. 
+
+We'll see how that goes.
