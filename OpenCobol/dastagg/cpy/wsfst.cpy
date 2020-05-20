@@ -1,4 +1,4 @@
-      * Copybook file-status
+      * Copybook wsfst
            12 WS-:tag:-status            pic x(2).
               88 WS-:tag:-EOF            value "10".
               88 WS-:tag:-Good           value "00".

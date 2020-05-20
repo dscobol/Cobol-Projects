@@ -10,12 +10,13 @@
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-       SELECT MembershipReport
+           SELECT MembershipReport
            ASSIGN TO "../spool/Listing8-3-Members.rpt"
            ORGANIZATION IS SEQUENTIAL
            FILE STATUS IS WS-Report-Status.
 
-       SELECT MemberFile  ASSIGN TO "../data/members.dat"
+           SELECT MemberFile  
+           ASSIGN TO "../data/members.dat"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-Member-Status.
 
@@ -29,14 +30,14 @@
            02 MemberId      PIC X(5).
            02 MemberName    PIC X(20).
            02 MemberType    PIC 9.
-           02 Gender        PIC X.
+           02 MemberGender  PIC X.
 
 
        WORKING-STORAGE SECTION.
 
        01 WS-File-Status.
-       COPY file-status REPLACING ==:tag:== BY ==Member==. 
-       COPY file-status REPLACING ==:tag:== BY ==Report==.
+       COPY wsfst REPLACING ==:tag:== BY ==Member==. 
+       COPY wsfst REPLACING ==:tag:== BY ==Report==.
 
        01  PageHeading.
            02 FILLER        PIC X(44)
@@ -58,7 +59,7 @@
            02 FILLER        PIC XX VALUE SPACES.
            02 PrnMemberType PIC X.
            02 FILLER        PIC X(4) VALUE SPACES.
-           02 PrnGender     PIC X.
+           02 PrnMemberGender     PIC X.
 
        01  ReportFooting    PIC X(38)
            VALUE "**** End of Membership Report ****".
@@ -152,7 +153,7 @@
            MOVE MemberId   TO PrnMemberId.
            MOVE MemberName TO PrnMemberName.
            MOVE MemberType TO PrnMemberType.
-           MOVE Gender     TO PrnGender.
+           MOVE MemberGender     TO PrnMemberGender.
            WRITE PrintLine FROM MemberDetailLine AFTER ADVANCING 1 LINE.
            ADD 1 TO LineCount.
            PERFORM 5000-Read-Member-File.
