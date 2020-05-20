@@ -35,12 +35,8 @@
        WORKING-STORAGE SECTION.
 
        01 WS-File-Status.
-           12 WS-Member-Status PIC X(2).
-               88 WS-Member-EOF  VALUE "10".
-               88 WS-Member-Good VALUE "00".
-               88 WS-Member-Okay VALUES "00" "10".
-           12 WS-Report-Status PIC X(2).
-               88 WS-Report-Good VALUE "00".
+       COPY file-status REPLACING ==:tag:== BY ==Member==. 
+       COPY file-status REPLACING ==:tag:== BY ==Report==.
 
        01  PageHeading.
            02 FILLER        PIC X(44)

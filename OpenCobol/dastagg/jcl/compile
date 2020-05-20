@@ -2,7 +2,7 @@
 
 if [ -n "$1" ]; then # If first parameter passed then print Hi
 
-	cobc -x ../cbl/$1.cbl -o ../bin/$1
+	cobc -x ../cbl/$1.cbl -I ../cpy -o ../bin/$1
 
 else
 
