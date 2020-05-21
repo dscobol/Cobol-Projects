@@ -10,9 +10,10 @@ There will be quite a few programs that are the same but with slight modificatio
 
 The Mainframe area is divided into two areas:
 
-    MVS: These are created and ran on a TK4-/Hercules Emulator running on a Raspberry Pi.
+MVS: These are created and ran on a TK4-/Hercules Emulator running on a Raspberry Pi.
 
-    ZOS: They will be run on a Z14? being provided by IBM as part of their [Learn to code in COBOL](https://www.openmainframeproject.org/projects/coboltrainingcourse) program.
+ZOS: They will be run on a Z14? being provided by IBM as part of 
+their [Learn to code in COBOL](https://www.openmainframeproject.org/projects/coboltrainingcourse) program.
 
 The ZOS programs should be the same as the programs in the MVS area but to be safe, they will be separated.
 
@@ -22,7 +23,8 @@ I can't run CICS on ZOS (I don't have access to it) but I can and am running VSA
 
 There are also two different "areas" under the ZOS directory.
 
-    Normal: This is as it sounds. I create the Source, Copybooks and JCL and then upload it and run it.
+Normal: This is as it sounds. I create the Source, Copybooks and JCL and then upload it and run it.
 
-    [Zowe](https://www.zowe.org/): From their site: "Zowe is an open source project created to host technologies that benefit the Z platform". It's an API that allows you to interface with the Mainframe in a couple of different ways. It's kinda neat! 
+[Zowe](https://www.zowe.org/): From their site: "Zowe is an open source project created to host technologies that benefit the Z platform". 
+It's an API that allows you to interface with the Mainframe in a couple of different ways. It's kinda neat! 
 
