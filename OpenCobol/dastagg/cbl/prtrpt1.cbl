@@ -11,12 +11,12 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT MembershipReport
-           ASSIGN TO "../spool/Listing8-3-Members.rpt"
+           ASSIGN TO S-OUTFILE
            ORGANIZATION IS SEQUENTIAL
            FILE STATUS IS WS-Report-Status.
 
            SELECT MemberFile  
-           ASSIGN TO "../data/members.dat"
+           ASSIGN TO S-INFILE
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-Member-Status.
 
@@ -34,6 +34,24 @@
 
 
        WORKING-STORAGE SECTION.
+
+      * SET UP PARAMETERS IF RUN ON MF OR PC. 
+       01 PGM-RUN-PARAMETERS.
+           05 RUNNING-SYSTEM   PIC X.
+               88 RS-MAINFRAME VALUE "M".
+               88 RS-GNUCOBOL  VALUE "G".
+      * THESE ARE ONLY USED IF RUNNING ON PC.
+           05 argv                 pic x(100) value spaces.
+               88 infile           value "-i", "--infile".
+               88 outfile          value "-o", "--outfile".
+           05 cmdstatus            pic x    value spaces.
+               88 lastcmd          value "l".
+           05 reptinfo.
+               08 rept-infile         pic x(30) value spaces.
+               08 rept-outfile        pic x(30) value spaces.  
+           05 DEFAULT_INFILE PIC X(30) VALUE "../data/members.dat".
+           05 DEFAULT_OUTFILE PIC X(30) VALUE "../spool/roster.rpt".
+
 
        01 WS-File-Status.
        COPY wsfst REPLACING ==:tag:== BY ==Member==. 
@@ -78,10 +96,49 @@
 
        PROCEDURE DIVISION.
        0000-Mainline.
+      * NEED TO SET THIS BEFORE COMPILE.
+           SET RS-GNUCOBOL TO TRUE.
+      *     SET RS-MAINFRAME TO TRUE.
+
+           IF RS-GNUCOBOL
+               perform until lastcmd
+                   move low-values        to argv
+                   accept argv            from argument-value
+                   if argv > low-values
+                        perform 0100-process-arguments
+                   else
+                        move "l"            to cmdstatus
+                   end-if
+               end-perform
+      
+      *        IF NO ARGS ARE SUPPLIED, USE DEFAULTS         
+               if rept-infile = spaces
+                   move DEFAULT_INFILE to S-INFILE
+               end-if
+
+               if rept-outfile = spaces
+                   move DEFAULT_OUTFILE to S-OUTFILE
+               end-if
+           END-IF.
+
            PERFORM 1000-Begin-Job.
            PERFORM 2000-Process.
            PERFORM 3000-End-Job.
            STOP RUN.
+
+       0100-process-arguments.
+           evaluate true
+               when infile
+                   if rept-infile = spaces
+                       accept rept-infile from argument-value
+                       move rept-infile to S-INFILE
+                   end-if
+               when outfile
+                   if rept-outfile = spaces
+                       accept rept-outfile from argument-value
+                       move rept-outfile to S-OUTFILE
+                   end-if
+           end-evaluate.
 
        1000-Begin-Job.
            PERFORM 1010-Open-Report.
