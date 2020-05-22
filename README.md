@@ -15,11 +15,17 @@ MVS: These are created and ran on a TK4-/Hercules Emulator running on a Raspberr
 ZOS: They will be run on a Z14? being provided by IBM as part of 
 their [Learn to code in COBOL](https://www.openmainframeproject.org/projects/coboltrainingcourse) program.
 
-The ZOS programs should be the same as the programs in the MVS area but to be safe, they will be separated.
+The ZOS programs will be close to the MVS programs but there are sometimes small differences in both source code and jcl so they will be tracked seperately.
 
-The most probable changes are VSAM, and CICS. 
+One huge difference between the two areas are VSAM, and CICS. 
 
 I can't run CICS on ZOS (I don't have access to it) but I can and am running VSAMIO and KIKS on the TK4- system.
+
+There are two users under the MVS directory: HERC01 and HERC03.
+
+HERC01 is the "System Admin" account.
+
+HERC03 is a "normal" user and all code that I am creating and sharing between the different environments will be found here.
 
 There are also two different "areas" under the ZOS directory.
 
