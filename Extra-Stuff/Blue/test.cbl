@@ -1,8 +1,8 @@
       ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
+      * AUTHOR:
+      * date:
+      * purpose:
+      * tectonics: cobc
       ******************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. smallestprogram.
@@ -10,7 +10,7 @@
        FILE SECTION.
        WORKING-STORAGE SECTION.
        PROCEDURE DIVISION.
-       main-PROCEDURE.
-            DISPLAY "hello world"
+       MAIN-PROCEDURE.
+            DISPLAY "Hello World"
             STOP RUN.
        END PROGRAM smallestprogram.

@@ -1,10 +1,14 @@
-""" Blue - the COBOL uppercaser. 
+""" Blue - the cobol UPPERCASER. 
 
-This is an application that reads in the keywords.txt file,
-reads the COBOL file supplied as an argument and searches for 
-and replaces any COBOL keywords that are in lower case text.
+This is an application that reads in the keywords.txt file
+which is a list of all the COBOL keywords.
+It reads the COBOL file as an argument and searches for 
+and replaces any COBOL keywords that are in lowercase  or 
+mixed-case text.
 
-NOTE: At this time, it will not find/replace mixed case keywords.
+Example run:
+
+$ python blue test.cbl
 
 """
 
@@ -20,7 +24,7 @@ with open("keywords.txt") as k_input:
 print(f"I will uppercase the file: {file_to_uppercase}")
 
 uppercase = lambda x: x.group(1).upper()
-re_replace = re.compile(r"\b({})\b".format("|".join(keywords)))
+re_replace = re.compile(r"\b({})\b".format("|".join(keywords)), re.IGNORECASE)
 
 with open(file_to_uppercase) as f_input:
     text = f_input.read()
