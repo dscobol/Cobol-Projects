@@ -2,31 +2,32 @@ Because I am working through multiple Tutorials, I will describe the naming conv
 
 As it is my intension to move each program from PC to MVS to ZOS, this will keep the tracking of the source code easier and since I am starting on the PC, it's better to just do this at the beginning.
 
-['Beginning COBOL for Programmers' by Michael Coughlan](http://www.apress.com/9781430262534):
+[The Open Mainframe Project](https://www.openmainframeproject.org/projects/coboltrainingcourse) :
 
-Original Source: AMC0X0Y
+My Source : ODSXXXX
 
-My Source: ADS0X0Y
+Where XXXX is as close as I can match with the original name.
+
+For example: CBL0001.cobol becomes:
+
+ODS0001.cbl
+
+
+['Beginning COBOL for Programmers' by Michael Coughlan](http://www.apress.com/9781430262534) :
+
+My Source: BDS0X0Y
 
 Where 0X is the chapter number and 0Y is the exercise number.
 
 For example: Listing8-1.cbl becomes:
 
-AMC0801.cbl - Original
-
-ADS0801.cbl - My version
+BDS0801.cbl
 
 
 ['The Punctilious Programmer' by David E. Woolbright ](https://punctiliousprogrammer.com/ibm-enterprise-cobol/):
 
-Original Source: BDW0X0Y
-
-My Source: BDS0X0Y
+My Source: PDS0X0Y
 
 Where 0X is the Unit number and 0Y is the exercise number.
 
-There is one issue with this in that he gives the programs short names already so the names I will be using don't have a direct link to the original source but I will try to follow in sequence.
-
-BDW0101.cbl - Original
-
-BDS0101.cbl - My version
+There is one issue with this in that he gives the programs short names already so the names I will be using don't have a direct link to the original source but I will try to follow close to the sequence as presented. I may skip over some programs that are too similar to programs in other tutorials though.
