@@ -1,17 +1,16 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. Listing7-2.
-       AUTHOR. Michael Coughlan.
+       PROGRAM-ID. BDS0702.
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT EmployeeFile ASSIGN TO "../data/Employee.dat"
+           SELECT EmployeeFile ASSIGN TO "../data/Employee.dat "
                ORGANIZATION IS SEQUENTIAL.
        
        DATA DIVISION.
        FILE SECTION.
        FD EmployeeFile.
        01 EmployeeDetails.
-          88  EndOfEmployeeFile   VALUE HIGH-VALUES.
+          88  Emp-EOF             VALUE "10".
           02  EmpSSN              PIC 9(9). 
           02  EmpName.
               03 EmpSurname       PIC X(15).
@@ -23,17 +22,26 @@
           02  EmpGender           PIC X.
        
        PROCEDURE DIVISION.
-       Begin.
-           OPEN INPUT EmployeeFile
+       0000-Mainline.
+           PERFORM 1000-BOJ.
+           PERFORM 2000-Process.
+           PERFORM 3000-EOJ.
+
+       1000-BOJ.
+           OPEN INPUT EmployeeFile.
            READ EmployeeFile
-               AT END SET EndOfEmployeeFile TO TRUE
-           END-READ
-           PERFORM UNTIL EndOfEmployeeFile
+               AT END SET Emp-EOF TO TRUE
+           END-READ.
+
+       2000-Process.
+           PERFORM UNTIL Emp-EOF
                DISPLAY EmpForename SPACE EmpSurname " - " 
                    EmpMOB "/" EmpDOB "/" EmpYOB
                READ EmployeeFile
-                   AT END SET EndOfEmployeeFile TO TRUE
+                   AT END SET Emp-EOF TO TRUE
                END-READ
-           END-PERFORM
-           CLOSE EmployeeFile
+           END-PERFORM.
+
+       3000-EOJ.
+           CLOSE EmployeeFile.
            STOP RUN.
