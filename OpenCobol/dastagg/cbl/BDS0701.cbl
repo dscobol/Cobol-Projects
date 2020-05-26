@@ -4,7 +4,8 @@
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT EmployeeFile ASSIGN TO "../data/Employee.dat"
+           SELECT EmployeeFile 
+               ASSIGN TO "../../../common/data/Employee.dat"
                ORGANIZATION IS LINE SEQUENTIAL.
       
        DATA DIVISION.
