@@ -10,14 +10,15 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT GadgetStockFile 
-           ASSIGN TO "../data/gadgets.dat.txt"
-           ORGANIZATION IS LINE SEQUENTIAL
+           ASSIGN TO GADGETS
+           ORGANIZATION IS SEQUENTIAL
            FILE STATUS IS WS-Gadget-Status.
                  
        DATA DIVISION.
        FILE SECTION.
-       FD GadgetStockFile.
-       01 StockRec.
+       FD GadgetStockFile
+           RECORDING MODE IS F.
+        01 StockRec.
           02 GadgetID         PIC 9(6).
           02 GadgetName       PIC X(30).
           02 QtyInStock       PIC 9(4).
@@ -59,9 +60,8 @@
            MOVE FinalStockTotal TO PrnFinalTotal.
            DISPLAY PrnFinalStockTotal.  
 
-       3000-End-Job.
+       3000-END-Job.
            CLOSE GadgetStockFile.
-
       
        5010-DisplayGadgetValues.
            COMPUTE StockValue = Price * QtyInStock
