@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PGM=bds0801
+PGM=BDS0801
 SYSLIB="$HOME/dev/cobol/common/cpy"
 
 cobc -x ../cbl/$PGM.cbl -I $SYSLIB -o ../bin/$PGM
