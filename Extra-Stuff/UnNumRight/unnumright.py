@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """ UnNumRight - Remove the Sequence Numbers from the right side. 
 
 This is an application that removes the sequence numbers from 

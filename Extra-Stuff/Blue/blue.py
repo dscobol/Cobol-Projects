@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """ Blue - the cobol UPPERCASER. 
 
 This is an application that reads in the keywords.txt file

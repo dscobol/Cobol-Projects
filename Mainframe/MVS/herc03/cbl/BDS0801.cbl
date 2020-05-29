@@ -1,0 +1,76 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. BDS0801.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT SHOP-FILE ASSIGN TO DA-S-SHOPFILE.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD  SHOP-FILE
+           LABEL RECORDS ARE STANDARD
+           RECORDING MODE IS V
+           BLOCK CONTAINS 0 RECORDS
+           RECORD CONTAINS 36 CHARACTERS.
+       01  SF-DETAILS.
+           02 SF-REC-TYPE-CODE     PIC X.
+               88 SF-HEADER        VALUE 'H'.
+               88 SF-SALE          VALUE 'S'.
+           02 SH-SHOP-ID           PIC X(5).
+           02 SH-SHOP-LOCATION     PIC X(30).
+
+       01  SF-RECEIPT.
+           02 SF-REC-TYPE-CODE     PIC X.
+           02 SR-ITEM-ID           PIC X(8).
+           02 SR-QTY-SOLD          PIC 9(3).
+           02 SR-ITEM-COST         PIC 999V99.
+
+       WORKING-STORAGE SECTION.
+
+       01  WS-FILE-STATUS.
+           12 WS-EOF           PIC X(1) VALUE 'N'.
+
+       01  RPT-SHOP-SALES-TOTAL-LINE.
+           02 FILLER           PIC X(21) VALUE 'TOTAL SALES FOR SHOP '.
+           02 RPT-SHOP-ID      PIC X(5).
+           02 RPT-SHOP-TOTAL   PIC $$$$,$$9.99.
+
+       01  WS-SHOP-TOTAL           PIC 9(5)V99 VALUE ZERO.
+
+       PROCEDURE DIVISION.
+       0000-MAINLINE.
+           PERFORM 1000-BOJ.
+           PERFORM 2000-PROCESS.
+           PERFORM 3000-EOJ.
+           STOP RUN.
+
+       1000-BOJ.
+           OPEN INPUT SHOP-FILE.
+           READ SHOP-FILE AT END MOVE 'Y' TO WS-EOF.
+           IF NOT SF-HEADER
+               DISPLAY '*** ERROR ***' ' FIRST RECORD NOT HEADER.'
+               PERFORM 3000-EOJ
+               STOP RUN.
+
+       2000-PROCESS.
+           PERFORM 5010-SUMMARIZE-COUNTRY-SALES
+               UNTIL WS-EOF = 'Y'.
+
+       3000-EOJ.
+           CLOSE SHOP-FILE.
+
+
+       5010-SUMMARIZE-COUNTRY-SALES.
+           MOVE SH-SHOP-ID  TO RPT-SHOP-ID.
+           MOVE ZEROS TO WS-SHOP-TOTAL.
+           READ SHOP-FILE AT END MOVE 'Y' TO WS-EOF.
+           PERFORM 5020-SUMMARIZE-SHOP-SALES
+           UNTIL SF-HEADER OR WS-EOF = 'Y'.
+           MOVE WS-SHOP-TOTAL TO RPT-SHOP-TOTAL.
+           DISPLAY RPT-SHOP-SALES-TOTAL-LINE.
+
+       5020-SUMMARIZE-SHOP-SALES.
+           COMPUTE  WS-SHOP-TOTAL =
+           WS-SHOP-TOTAL + (SR-QTY-SOLD * SR-ITEM-COST).
+           READ SHOP-FILE AT END MOVE 'Y' TO WS-EOF.
+
