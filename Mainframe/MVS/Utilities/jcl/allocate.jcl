@@ -30,5 +30,6 @@
 //            DCB=(BLKSIZE=0,LRECL=40,RECFM=VB,DSORG=PS),
 //            DISP=(NEW,CATLG),
 //            UNIT=SYSDA,
+//            VOL=SER=PUB013,
 //            SPACE=(TRK,(100,10),RLSE)
 //*
