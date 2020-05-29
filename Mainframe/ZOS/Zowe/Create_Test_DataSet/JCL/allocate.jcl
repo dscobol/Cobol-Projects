@@ -6,7 +6,7 @@
 //*
 //    SET HLQ='Z81187'                        *TSO USER ID
 //    SET PROJECT='CH8'
-//    SET FILENAME='SHOP1'
+//    SET FILENAME='SHOP2'
 //*************************
 //* CLEAN UP DATASETS
 //*************************

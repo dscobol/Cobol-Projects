@@ -2,10 +2,10 @@
 ################################################################
 # Allocate and upload the test dataset.
 ################################################################
-DATANAME='shopsales1.dat.txt'
+DATANAME='shopsales2.dat.txt'
 
 PROJECT='CH8'
-MEMBNAME='SHOP1'
+MEMBNAME='SHOP2'
 
 HLC="Z81187"
 DATADIR='/home/dastagg/dev/cobol/common/data'
