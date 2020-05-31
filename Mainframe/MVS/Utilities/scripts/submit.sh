@@ -17,4 +17,4 @@ fi
 
 echo "Sending $1"
 
-cat $1 | nc -w1 localhost 3505
+cat $1 | nc -w1 192.168.0.130 3505

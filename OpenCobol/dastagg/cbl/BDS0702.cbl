@@ -4,15 +4,15 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT EmployeeFile
-           ASSIGN TO "../../../common/data/Employee.dat"
+           ASSIGN TO "../../../common/data/c07-employee.dat"
            ORGANIZATION IS SEQUENTIAL.
-       
+
        DATA DIVISION.
        FILE SECTION.
        FD EmployeeFile.
        01 EmployeeDetails.
           88  Emp-EOF             VALUE "10".
-          02  EmpSSN              PIC 9(9). 
+          02  EmpSSN              PIC 9(9).
           02  EmpName.
               03 EmpSurname       PIC X(15).
               03 EmpForename      PIC X(10).
@@ -21,7 +21,7 @@
               03 EmpMOB           PIC 99.
               03 EmpDOB           PIC 99.
           02  EmpGender           PIC X.
-       
+
        PROCEDURE DIVISION.
        0000-Mainline.
            PERFORM 1000-BOJ.
@@ -36,7 +36,7 @@
 
        2000-Process.
            PERFORM UNTIL Emp-EOF
-               DISPLAY EmpForename SPACE EmpSurname " - " 
+               DISPLAY EmpForename SPACE EmpSurname " - "
                    EmpMOB "/" EmpDOB "/" EmpYOB
                READ EmployeeFile
                    AT END SET Emp-EOF TO TRUE
