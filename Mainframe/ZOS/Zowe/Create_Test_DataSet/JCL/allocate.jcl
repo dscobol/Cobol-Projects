@@ -1,4 +1,4 @@
-//Z81187A JOB ,NOTIFY=&SYSUID,
+//Z81187A JOB NOTIFY=&SYSUID,
 // MSGCLASS=H,MSGLEVEL=(1,1),REGION=144M
 //****************************************************************
 //* THE FOLLOWING HLQ SYMBOLIC MUST CONTAIN THE HIGH LEVEL
