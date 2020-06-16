@@ -6,7 +6,7 @@
 //*
 //    SET HLQ='Z81187'                        *TSO USER ID
 //    SET PROJECT='CH8'
-//    SET FILENAME='SHOP2'
+//    SET FILENAME='MEMBERS'
 //*************************
 //* CLEAN UP DATASETS
 //*************************
@@ -26,7 +26,7 @@
 //SYSPRINT DD SYSOUT=*
 //SYSUDUMP DD SYSOUT=*
 //DD1      DD DSN=&HLQ..&PROJECT..&FILENAME.,
-//            DCB=(BLKSIZE=0,LRECL=40,RECFM=VB,DSORG=PS),
+//            DCB=(BLKSIZE=0,LRECL=27,RECFM=FB,DSORG=PS),
 //            DISP=(NEW,CATLG),
 //            SPACE=(TRK,(100,10),RLSE)
 //*
