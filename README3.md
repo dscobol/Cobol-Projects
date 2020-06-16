@@ -11,7 +11,7 @@ Status of Programs:
 | BDS0801 | Listing8-1 - Heading Record               |    X     |   X   |   X   |
 | BDS0802 | Listing8-2 - Footer Record                |    X     |   X   |   X   |
 | BDS0803 | Listing8-3 - Print Report                 |    X     |   X   |       |
-| BDS0804 | Listing8-4 - Variable Length              |          |       |       |
+| BDS0804 | Listing8-4 - Variable Length              |    X     |       |       |
 | BDS0805 | Listing8-5 - Summmary Report              |          |       |       |
 | BDS1001 | Listing10-1 - Control Break - 3 levels    |          |       |       |
 | BDS1002 | Listing10-2 - Control Break - 2 levels    |          |       |       |
