@@ -45,6 +45,7 @@ Status of Programs:
 | ODS0013 | PAYROL00      |          |       |       |
 | ODS0014 | PAYROL0X      |          |       |       |
 | ODS0015 | ADDAMT        |          |       |       |
+|         | CBL0106       |          |   X   |       |
 
 
 ['The Punctilious Programmer' by David E. Woolbright ](https://punctiliousprogrammer.com/ibm-enterprise-cobol/):
