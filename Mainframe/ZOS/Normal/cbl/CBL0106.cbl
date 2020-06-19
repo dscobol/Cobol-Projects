@@ -45,8 +45,8 @@
            05 DISP-SUB1        PIC 9999.
            05 SUB1             PIC 99.
 
-         01 OVERLIMIT.
-           03 FILLER OCCURS 5  TIMES.
+       01  OVERLIMIT.
+           03 FILLER OCCURS 45 TIMES.
                05  OL-ACCT-NO            PIC X(8).
                05  OL-ACCT-LIMIT         PIC S9(7)V99 COMP-3.
                05  OL-ACCT-BALANCE       PIC S9(7)V99 COMP-3.
@@ -133,16 +133,16 @@
            WRITE PRINT-REC FROM HEADER-3.
            WRITE PRINT-REC FROM HEADER-4.
            MOVE SPACES TO PRINT-REC.
-           MOVE 1 TO SUB1.
+           MOVE 0 TO SUB1.
       *
        READ-NEXT-RECORD.
            PERFORM READ-RECORD
-            PERFORM UNTIL LASTREC = 'Y'
-            PERFORM IS-STATE-VIRGINIA
-            PERFORM IS-OVERLIMIT
-            PERFORM WRITE-RECORD
-            PERFORM READ-RECORD
-            END-PERFORM
+           PERFORM UNTIL LASTREC = 'Y'
+              PERFORM IS-STATE-VIRGINIA
+              PERFORM IS-OVERLIMIT
+              PERFORM WRITE-RECORD
+              PERFORM READ-RECORD
+           END-PERFORM
            .
       *
        CLOSE-STOP.
@@ -159,12 +159,12 @@
       *
        IS-OVERLIMIT.
            IF ACCT-LIMIT < ACCT-BALANCE THEN
+               ADD 1 TO SUB1
                MOVE ACCT-LIMIT TO OL-ACCT-LIMIT(SUB1)
                MOVE ACCT-BALANCE TO OL-ACCT-BALANCE(SUB1)
                MOVE LAST-NAME TO OL-LASTNAME(SUB1)
                MOVE FIRST-NAME TO OL-FIRSTNAME(SUB1)
             END-IF.
-            ADD 1 TO SUB1.
 
        IS-STATE-VIRGINIA.
            IF USA-STATE = 'Virginia' THEN
@@ -172,7 +172,7 @@
            END-IF.
       *
        WRITE-OVERLIMIT.
-           IF SUB1 = 1 THEN
+           IF SUB1 = 0 THEN
                MOVE OVERLIMIT-STATUS TO PRINT-REC
                WRITE PRINT-REC
            ELSE
