@@ -6,16 +6,16 @@
 
 PROJECT='LEARN'
 
-HLC="Z81187"
+HLC="Z58622"
 DATADIR='../data'
 FILES_CMD="zos-files" # files
 JOBS_CMD="zos-jobs" # zos-jobs
 
 
 echo "Create and upload the CBL PDS"
-zowe ${FILES_CMD} create pds ${HLC}.${PROJECT}.CBL --size 3CYL --db 10
+zowe ${FILES_CMD} create pds ${HLC}.${PROJECT}.COBOL --size 2CYL --db 10
 sleep 2s
-zowe ${FILES_CMD} ul dir-to-pds ../cbl ${HLC}.${PROJECT}.CBL
+zowe ${FILES_CMD} ul dir-to-pds ../cbl ${HLC}.${PROJECT}.COBOL
 sleep 2s
 
 echo "Create and upload the JCL PDS"
@@ -26,7 +26,7 @@ sleep 2s
 
 
 echo "Create the CPY, OBJ, and LOAD PDS"
-zowe ${FILES_CMD} create pds ${HLC}.${PROJECT}.CPY
+zowe ${FILES_CMD} create pds ${HLC}.${PROJECT}.COBCOPY
 zowe ${FILES_CMD} create pds ${HLC}.${PROJECT}.OBJ
 zowe ${FILES_CMD} create pds ${HLC}.${PROJECT}.LOAD --rf U --rl 0 --bs 4096
 sleep 2s
