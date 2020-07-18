@@ -7,14 +7,14 @@
        01  PAYSTUB-V20.
            05 REPORT-DATE                       PIC XX/XX/XXXX.
            05 FULLNAME.
-                10 WS-FNAME                     PIC X(4).
-                10 WS-LNAME                     PIC X(6).
+                10 WS-FNAME                     PIC X(10).
+                10 WS-LNAME                     PIC X(15).
            05 WS-ADDRESS.
-                10 WS-CITY                      PIC X(20).
                 10 WS-STREET.
                     15  WS-STREET-NBR           PIC 9(06).
-                    15  WS-STREET-NAME          PIC X(10).
-                10 WS-STATE     PIC X(02).
+                    15  WS-STREET-NAME          PIC X(20).
+                10 WS-CITY                      PIC X(20).
+                10 WS-STATE                     PIC X(02).
                 10 ZIP.
                      15 WS-ZIP-FIRST-5          PIC X(05).
                      15 FILLER                  PIC X(01) VALUE '-'.
@@ -22,10 +22,10 @@
            05 WS-PAYROLL.
                 10 WS-EMP-TYPE                  PIC X(01).
                     88  FULL-TIME       VALUE 'F'.
-                    88  PART-TIME       VALUE 'F'.
+                    88  PART-TIME       VALUE 'P'.
                 10 WS-FULL-TIME.
-                    15 WS-FULL-TIME-SALARY          PIC 9(3)V99.
-                    15 WS-FULL-TIME-BONUS           PIC 99.
+                    15 WS-FULL-TIME-SALARY          PIC 9(6)V99.
+                    15 WS-FULL-TIME-BONUS           PIC V99.
                 10  WS-HOURLY.
                     15  WS-HOURS-WORKED             PIC 9(02).
                     15  WS-RATE                     PIC 9(3).
@@ -43,6 +43,7 @@
            MOVE 61 TO WS-STREET-NBR.
            MOVE 'BRIGHAM TAVERN LANE' TO WS-STREET-NAME.
            MOVE  FUNCTION CURRENT-DATE TO REPORT-DATE.
+           MOVE SPACES TO WS-CITY.
            MOVE 'NC' TO WS-STATE.
            MOVE '90210' TO WS-ZIP-FIRST-5.
            MOVE '1111'  TO WS-ZIP-PLUS-4.

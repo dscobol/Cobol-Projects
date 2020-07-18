@@ -54,7 +54,7 @@ Status of Programs:
 | :------------------------ | :------------------------------ | :----------: | :------: | :---: |
 |                           |                                 |              |          |       |
 | FAHR2CEL/nc               | Production Support Workshop 4.2 |      M       |    Y     |   Y   |
-| PAYROL0B/nc               | Production Support Workshop 4.4 |      M       |          |       |
+| PAYROL0B/nc               | Production Support Workshop 4.4 |      M       |    Y     |   Y   |
 
 
 
