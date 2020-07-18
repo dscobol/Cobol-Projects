@@ -38,4 +38,4 @@ There is one issue with this in that he gives the programs short names already s
 
 This tutorial is more encompassing than the other tutorials so it makes for a difficult renaming strategy.
 
-The list of programs I have restructured will be in README3. The assignments and their status will be listed in README4.
+The list of programs I have restructured or have modified per the Workshop requirements will be in README3. The assignments and their status will be listed in README4.

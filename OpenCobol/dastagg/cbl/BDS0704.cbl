@@ -10,8 +10,8 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT GadgetStockFile
-           ASSIGN TO "../../../common/data/c07-gadgets.dat"
-           ORGANIZATION IS SEQUENTIAL
+           ASSIGN TO "../../../common/data/c07-gadgets.dat.txt"
+           ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-Gadget-Status.
 
        DATA DIVISION.
@@ -46,7 +46,7 @@
            PERFORM 1000-Begin-Job.
            PERFORM 2000-Process.
            PERFORM 3000-End-Job.
-           STOP RUN.
+           GOBACK.
 
        1000-Begin-Job.
            OPEN INPUT GadgetStockFile.

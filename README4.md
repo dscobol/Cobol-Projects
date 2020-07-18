@@ -13,12 +13,12 @@
 | Workshop 4.6   | Remote Syntax Check                |      Optional      |     X     |           |
 | Workshop 5.1   | Run CBL0006                        |      Optional      |     X     |           |
 | Workshop 5.2   | Run PAYROL01                       |      Optional      |     X     |           |
-| Workshop 5.3.1 | Create FAVRPT                      |     Mandatory      |           |           |
-| Workshop 5.3.2 | Create FAVIN Test Data Records     |     Mandatory      |           |           |
-| Workshop 6.1a  | Desk-Check WARDRPT                 |      Optional      |           |           |
-| Workshop 6.1b  | Desk-Check TRTMMT                  |      Optional      |           |           |
-| Workshop 6.2   | Debug PAYROL02                     |      Optional      |           |           |
-| Workshop 6.3   | Enhancements to FAVRPT             |     Mandatory      |           |           |
+| Workshop 5.3.1 | Create FAVRPT                      |     Mandatory      |     X     |           |
+| Workshop 5.3.2 | Create FAVIN Test Data Records     |     Mandatory      |     X     |           |
+| Workshop 6.1a  | Desk-Check WARDRPT                 |      Optional      |     X     |           |
+| Workshop 6.1b  | Desk-Check TRTMMT                  |      Optional      |     X     |           |
+| Workshop 6.2   | Debug PAYROL02                     |      Optional      |     X     |           |
+| Workshop 6.3   | Enhancements to FAVRPT             |     Mandatory      |     X     |           |
 | Workshop 6.3o  | Testing FAVRPT                     |      Optional      |           |           |
 | Workshop 6.3a  | Reporting Enhancements to FAVRPT   |      Optional      |           |           |
 | Workshop 6.4   | Coding Enhancements to FILECALC    |      Optional      |           |           |

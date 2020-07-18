@@ -50,10 +50,11 @@ Status of Programs:
 
 [Enterprise COBOL For Business Application Programming](https://community.ibm.com/community/user/ibmz-and-linuxone/viewdocument/enterprise-cobol-for-business-appli?CommunityKey=b0dae4a8-74eb-44ac-86c7-90f3cd32909a&tab=librarydocuments)
 
-| Program | Description   | gnuCobol |  ZOS  |  MVS  |
-| :------ | :------------ | :------: | :---: | :---: |
-|         |               |          |       |       |
-| HELLO   | First Program |          |       |       |
+| Original/New Program Name | Description                     | Modify/Restr | gnuCobol |  ZOS  |
+| :------------------------ | :------------------------------ | :----------: | :------: | :---: |
+|                           |                                 |              |          |       |
+| FAHR2CEL/nc               | Production Support Workshop 4.2 |      M       |    Y     |   Y   |
+| PAYROL0B/nc               | Production Support Workshop 4.4 |      M       |          |       |
 
 
 
