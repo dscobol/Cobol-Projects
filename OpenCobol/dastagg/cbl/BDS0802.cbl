@@ -4,7 +4,7 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            Select Shop-File
-           ASSIGN TO "../../../common/data/shopsales2.dat.txt"
+           ASSIGN TO "../../../common/data/c08-shopsales2.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-Shop-File-Status.
 

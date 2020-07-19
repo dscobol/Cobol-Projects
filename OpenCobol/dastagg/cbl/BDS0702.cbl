@@ -4,8 +4,8 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT EmployeeFile
-           ASSIGN TO "../../../common/data/c07-employee.dat"
-           ORGANIZATION IS SEQUENTIAL.
+           ASSIGN TO "../../../common/data/c07-employee.dat.txt"
+           ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
        FILE SECTION.
