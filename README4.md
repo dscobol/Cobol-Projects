@@ -15,7 +15,7 @@
 | Workshop 5.2   | Run PAYROL01                        |      Optional      |     X     |           |
 | Workshop 5.3.1 | Create FAVRPT                       |     Mandatory      |     X     |           |
 | Workshop 5.3.2 | Create FAVIN Test Data Records      |     Mandatory      |     X     |           |
-| Workshop 5.3.3 | Creating Professional COBOL Reports |      Optional      |           |           |
+| Workshop 5.3.3 | Creating Professional COBOL Reports |   not doing wait   |           |           |
 | Workshop 6.1a  | Desk-Check WARDRPT                  |      Optional      |     X     |           |
 | Workshop 6.1b  | Desk-Check TRTMMT                   |      Optional      |     X     |           |
 | Workshop 6.2   | Debug PAYROL02                      |      Optional      |     X     |           |
