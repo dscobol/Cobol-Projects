@@ -35,7 +35,7 @@
            LABEL RECORDS ARE STANDARD
            RECORDING MODE IS F
            BLOCK CONTAINS 0 RECORDS
-           RECORD CONTAINS 63 CHARACTERS.
+           RECORD CONTAINS 58 CHARACTERS.
        01  FAVOUT-RECORD.
            12 FO-Group-Name               PIC X(30).
            12 FO-Number-Of-Musicians      PIC 9(02).
@@ -45,7 +45,6 @@
               15 FO-Shipping-Cost         PIC 9(2)V99.
               15 FO-Tax                   PIC 9(2)V99.
            12 FO-Group-Is-Still-Together  PIC X.
-           12 FO-Total-Cost               PIC 9(3)V99.
 
        WORKING-STORAGE SECTION.
        01  WS-FILE-STATUS.
@@ -81,17 +80,16 @@
            END-READ.
 
        6010-Move-Favin-Values.
-            MOVE FI-Group-Name TO FO-Group-Name.
-            MOVE FI-Number-Of-Musicians TO FO-Number-Of-Musicians.
-            MOVE FI-Musical-Genre TO FO-Musical-Genre.
-            MOVE FI-CD-Cost TO FO-CD-Cost.
-            MOVE FI-Shipping-Cost TO FO-Shipping-Cost.
-            MOVE FI-Tax TO FO-Tax.
-            MOVE FI-Group-Is-Still-Together TO
-                    FO-Group-Is-Still-Together.
+           MOVE FI-Group-Name TO FO-Group-Name.
+           MOVE FI-Number-Of-Musicians TO FO-Number-Of-Musicians.
+           MOVE FI-Musical-Genre TO FO-Musical-Genre.
+           COMPUTE FO-CD-Cost =
+               FI-CD-Cost + FI-Shipping-Cost + FI-Tax.
 
-           COMPUTE FO-Total-Cost =
-                      FO-CD-Cost + FO-Shipping-Cost + FO-Tax.
+           MOVE FI-Shipping-Cost TO FO-Shipping-Cost.
+           MOVE FI-Tax TO FO-Tax.
+           MOVE FI-Group-Is-Still-Together TO
+                    FO-Group-Is-Still-Together.
 
            WRITE FAVOUT-RECORD.
 
