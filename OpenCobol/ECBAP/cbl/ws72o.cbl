@@ -58,7 +58,11 @@
            12 CDT-GMT-Diff-Minutes    PIC 9(2). *> 00 or 30
        
        01  WS-Counters.
-           12 WS-FI-Record-Cnt           PIC 9(4) COMP. 
+           12 WS-FI-Record-Cnt        PIC 9(4) COMP VALUE ZEROES.
+           12 WS-Gross-Revenue        PIC 9(5)V99 COMP-3 VALUE ZEROES. 
+           12 WS-Total-Sale           PIC 9(5)V99 COMP-3 VALUE ZEROES.
+           12 WS-Highest-Sale         PIC 9(5)V99 COMP-3 VALUE ZEROES.
+           12 WS-Lowest-Sale          PIC 9(5)V99 COMP-3 VALUE ZEROES.
 
        01  FAVOUT-RECORD.
            12 FO-Group-Name               PIC X(30).
@@ -69,6 +73,13 @@
               15 FO-Shipping-Cost         PIC 9(2)V99.
               15 FO-Tax                   PIC 9(2)V99.
            12 FO-Group-Is-Still-Together  PIC X.
+
+       01 EOJ-Display-Messages.
+           12 EOJ-End-Message PIC X(039) VALUE 
+              "*** Program WS72O - End of Run Messages".
+           12 EOJ-Print-Message PIC X(40) VALUE SPACES.
+           12 EOJ-Print-Number  PIC ZZ,ZZ9 VALUE ZEROES.
+           12 EOJ-Print-Money   PIC $$,$$9.99 VALUE ZEROES.
 
        01  R1-Counters.
            12 R1-Max-Lines         PIC 9(4) COMP VALUE 60.
@@ -147,15 +158,25 @@
            12 FILLER             PIC X(003) VALUE SPACES.
            12 R1-Tax             PIC $,$$9.99.
            12 FILLER             PIC X(003) VALUE SPACES.
-           12 R1-Total-Cost      PIC $$,$$9.99.
+           12 R1-Total-Sale      PIC $$,$$9.99.
 
-       01  R1-Footer.
+       01  R1-Footer1.
            12 FILLER             PIC X(034)   
               VALUE "Number of Artists in this Report: ".
            12 FILLER             PIC X VALUE SPACE.
            12 R1-Total-Recs-Read PIC ZZ9.
 
+       01  R1-Footer2.
+           12 FILLER             PIC X(034)   
+              VALUE "                   Gross Revenue: ".
+           12 FILLER             PIC X VALUE SPACE.
+           12 R1-Gross-Revenue   PIC $$,$$9.99.
 
+       01  R1-Footer3.
+           12 FILLER             PIC X(034)   
+              VALUE "                 Average CD Sale: ".
+           12 FILLER             PIC X VALUE SPACE.
+           12 R1-Avg-Sale        PIC $$,$$9.99.
 
 
        PROCEDURE DIVISION.
@@ -171,6 +192,13 @@
            PERFORM 6101-Setup-R1
            PERFORM 6110-Write-R1-Page-Header.
            PERFORM 5100-Read-FAVIN.
+           PERFORM 1010-Initalize-Counters.
+
+       1010-Initalize-Counters.
+           IF WS-Favin-Okay
+              COMPUTE WS-Highest-Sale WS-Lowest-Sale = 
+                 FI-CD-Cost + FI-Shipping-Cost + FI-Tax
+           END-IF.
 
        2000-Process.
            PERFORM 2010-Move-Favin-Values UNTIL WS-Favin-EOF.
@@ -190,19 +218,33 @@
            MOVE FI-Group-Is-Still-Together TO
                     FO-Group-Is-Still-Together.
 
-           COMPUTE R1-Total-Cost =
+           COMPUTE WS-Total-Sale =
                FI-CD-Cost + FI-Shipping-Cost + FI-Tax.
+
+           PERFORM 2020-Check-High-Low-Sales.
+
+           MOVE WS-Total-Sale TO R1-Total-Sale.
+           ADD WS-Total-Sale TO WS-Gross-Revenue. 
 
            MOVE 1 TO R1-Line-Advance.
            PERFORM 6100-Write-R1.
 
            PERFORM 5100-Read-FAVIN.
+       
+       2020-Check-High-Low-Sales.
+           IF WS-Total-Sale > WS-Highest-Sale 
+              MOVE WS-Total-Sale TO WS-Highest-Sale 
+           END-IF.
+
+           IF WS-Total-Sale < WS-Lowest-Sale 
+              MOVE WS-Total-Sale TO WS-Lowest-Sale 
+           END-IF.
 
        3000-End-Job.
-           MOVE WS-FI-Record-Cnt to R1-Total-Recs-Read.
-           MOVE 2 TO R1-Line-Advance.
-           MOVE R1-Footer TO Print-Line. 
-           PERFORM 6100-Write-R1.
+           MOVE WS-FI-Record-Cnt TO R1-Total-Recs-Read.
+           MOVE WS-Gross-Revenue TO R1-Gross-Revenue.
+           COMPUTE R1-Avg-Sale = WS-Gross-Revenue / WS-FI-Record-Cnt.
+           PERFORM 6130-Write-R1-Footer.
 
            CLOSE FAVIN
                  FAV-Report.
@@ -216,15 +258,11 @@
            END-IF.
 
        6100-Write-R1.
-
            IF R1-Line-Count + R1-Line-Advance > R1-Max-Lines
-                 PERFORM 6110-Write-R1-Page-Header
-           END-IF.
-
-           IF WS-Favin-Okay
+              PERFORM 6110-Write-R1-Page-Header
               PERFORM 6120-Write-R1-Detail
            ELSE
-              PERFORM 6130-Write-R1-Footer
+              PERFORM 6120-Write-R1-Detail
            END-IF.
 
        6101-Setup-R1.
@@ -252,7 +290,27 @@
            ADD R1-Line-Advance TO R1-Line-Count.
 
        6130-Write-R1-Footer.
-           MOVE R1-Footer TO Print-Line. 
+           IF R1-Line-Count + 5 > R1-Max-Lines
+              PERFORM 6110-Write-R1-Page-Header
+           END-IF.
+           MOVE R1-Footer1 TO Print-Line. 
            WRITE Print-Line
-              AFTER ADVANCING R1-Line-Advance LINES.
-           ADD R1-Line-Advance TO R1-Line-Count.
+              AFTER ADVANCING 2 LINES.
+           MOVE R1-Footer2 TO Print-Line. 
+           WRITE Print-Line
+              AFTER ADVANCING 1 LINES.
+           MOVE R1-Footer3 TO Print-Line. 
+           WRITE Print-Line
+              AFTER ADVANCING 1 LINES.
+           PERFORM 6140-Display-EOJ-Messages.
+       
+       6140-Display-EOJ-Messages.
+           DISPLAY EOJ-End-Message.
+
+           MOVE "Highest Sale: " TO EOJ-Print-Message. 
+           MOVE WS-Highest-Sale  TO EOJ-Print-Money.
+           DISPLAY EOJ-Print-Message " " EOJ-Print-Money.
+
+           MOVE " Lowest Sale: " TO EOJ-Print-Message. 
+           MOVE WS-Lowest-Sale   TO EOJ-Print-Money. 
+           DISPLAY EOJ-Print-Message " " EOJ-Print-Money.
