@@ -27,10 +27,11 @@ HERC01 is the "System Admin" account.
 
 HERC03 is a "normal" user and all code that I am creating and sharing between the different environments will be found here.
 
-There are also two different "areas" under the ZOS directory.
+There are three different "areas" under the ZOS directory.
 
 Normal: This is as it sounds. I create the Source, Copybooks and JCL and then upload it and run it.
 
+ECBAP: This is the [Enterprise COBOL for Business Applications](https://community.ibm.com/community/user/ibmz-and-linuxone/viewdocument/enterprise-cobol-for-business-appli?CommunityKey=b0dae4a8-74eb-44ac-86c7-90f3cd32909a&tab=librarydocuments) class offered by IBM.
+
 [Zowe](https://www.zowe.org/): From their site: "Zowe is an open source project created to host technologies that benefit the Z platform". 
 It's an API that allows you to interface with the Mainframe in a couple of different ways. It's kinda neat! 
-
