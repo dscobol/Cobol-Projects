@@ -36,6 +36,18 @@ There is one issue with this in that he gives the programs short names already s
 
 [Enterprise COBOL For Business Application Programming](https://community.ibm.com/community/user/ibmz-and-linuxone/viewdocument/enterprise-cobol-for-business-appli?CommunityKey=b0dae4a8-74eb-44ac-86c7-90f3cd32909a&tab=librarydocuments)
 
-This tutorial is more encompassing than the other tutorials so it makes for a difficult renaming strategy.
+This tutorial is more encompassing than the other tutorials so it makes for a difficult workflow/renaming strategy.
 
-The list of programs I have restructured or have modified per the Workshop requirements will be in README3. The assignments and their status will be listed in README4.
+It seems the easiest way forward is to create a new member for each workshop.
+
+My Source: WSXXX
+
+Where XXX is the Workshop number. Workshop 5.2 becomes WS52.cbl.
+
+A lot of the Workshops are modifying existing programs so the new member will just be that but in SCM to be able to restore the code if need be.
+
+The FAV series of programs are created using my prefered structure, naming conventions etc. This includes FAVRPT and FAVRFP.
+
+But, in any case, they will always be identified by the Workshop number.
+
+The assignments and their status will be listed in README4.
