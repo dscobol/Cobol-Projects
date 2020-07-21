@@ -20,10 +20,10 @@
 | Workshop 6.1b  | Desk-Check TRTMMT                   |      Optional      |     X     |           |
 | Workshop 6.2   | Debug PAYROL02                      |      Optional      |     X     |           |
 | Workshop 6.3   | Enhancements to FAVRPT              |     Mandatory      |     X     |           |
-| Workshop 6.3o  | Testing FAVRPT                      |      Optional      |           |           |
-| Workshop 6.3a  | Reporting Enhancements to FAVRPT    |      Optional      |           |           |
-| Workshop 6.4   | Coding Enhancements to FILECALC     |      Optional      |           |           |
-| Workshop 6.5   | Priming Read Statements             |      Optional      |           |           |
+| Workshop 6.3o  | Testing FAVRPT                      |      Optional      |     X     |           |
+| Workshop 6.3a  | Reporting Enhancements to FAVRPT    |      Optional      |     X     |           |
+| Workshop 6.4   | Coding Enhancements to FILECALC     |      Optional      |     X     |           |
+| Workshop 6.5   | Priming Read Statements             |      Optional      |     X     |           |
 | Workshop 7.0   | Numeric Edited PIC Clauses          |      Optional      |           |           |
 | Workshop 7.1   | Mismatched Numeric Editing Results  |      Optional      |           |           |
 | Workshop 7.2   | Enhancements to FAVRPT              |     Mandatory      |           |           |
