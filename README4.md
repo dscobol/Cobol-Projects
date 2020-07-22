@@ -26,8 +26,8 @@
 | Workshop 6.5   | Priming Read Statements             |      Optional      |     X     |           |
 | Workshop 7.0   | Numeric Edited PIC Clauses          |      Optional      |           |           |
 | Workshop 7.1   | Mismatched Numeric Editing Results  |      Optional      |           |           |
-| Workshop 7.2   | Enhancements to FAVRPT              |     Mandatory      |           |           |
-| Workshop 7.2o  | Optional Enhancements to FAVRPT     |      Optional      |           |           |
+| Workshop 7.2   | Enhancements to FAVRPT              |     Mandatory      |     X     |           |
+| Workshop 7.2o  | Optional Enhancements to FAVRPT     |      Optional      |     X     |     X     |
 | Workshop 7.3   | Program Testing                     |      Optional      |           |           |
 | Workshop 7.4   | Mortgage Calculation                |      Optional      |           |           |
 | Workshop 7.5   | Mortgage Calculation                |      Optional      |           |           |
@@ -37,9 +37,9 @@
 | Workshop 7.9   | Internal Arithmetic Precision       |      Optional      |           |           |
 | Workshop 8.0a  | Field Comparison Variations         |      Optional      |           |           |
 | Workshop 8.0b  | Conditional Login Pattern           |      Optional      |           |           |
-| Workshop 8.1a  | New COBOL Development - FAVRFP      |     Mandatory      |           |           |
-| Workshop 8.1b  | New COBOL Development - FAVRFP      |     Mandatory      |           |           |
-| Workshop 8.1c  | New COBOL Development - FAVRFP      |     Mandatory      |           |           |
+| Workshop 8.1a  | New COBOL Development - FAVRFP      |     Mandatory      |    X      |    X      |
+| Workshop 8.1b  | New COBOL Development - FAVRFP      |     Mandatory      |    X      |    X      |
+| Workshop 8.1c  | New COBOL Development - FAVRFP      |     Mandatory      |    X      |    X      |
 | Workshop 8.1d  | Enhancements to FAVRFP              |      Optional      |           |           |
 | Workshop 8.1e  | Enhancements to FAVRFP              |      Optional      |           |           |
 | Workshop 8.2   | Production Support - PAYROL03       |      Optional      |           |           |
