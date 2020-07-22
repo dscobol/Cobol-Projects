@@ -41,7 +41,7 @@
 | Workshop 8.1b  | New COBOL Development - FAVRFP      |     Mandatory      |     X     |     X     |
 | Workshop 8.1c  | New COBOL Development - FAVRFP      |     Mandatory      |     X     |     X     | 8.1a,b and c. |
 | Workshop 8.1d  | Enhancements to FAVRFP              |      Optional      |     X     |           |
-| Workshop 8.1e  | Enhancements to FAVRFP              |      Optional      |           |           |
+| Workshop 8.1e  | Enhancements to FAVRFP              |      Optional      |     X     |           |
 | Workshop 8.2   | Production Support - PAYROL03       |      Optional      |           |           |
 | Workshop 9.0   | Translate EBCDIC                    |      Optional      |           |           |
 | Workshop 9.1   | Use the Debugger                    |      Optional      |           |           |
