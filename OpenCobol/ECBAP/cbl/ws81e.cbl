@@ -21,46 +21,39 @@
            SELECT RFPIN
            ASSIGN TO "../../../common/data/ECBAP/favrfp.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL
-           FILE STATUS IS WS-RFPIN-Status.
-      *     SELECT RFPIN
       *     ASSIGN TO DA-S-RFPIN
       *     ORGANIZATION IS SEQUENTIAL
-      *     FILE STATUS IS WS-RFPIN-Status.
+           FILE STATUS IS WS-RFPIN-Status.
 
            SELECT PROPOSAL
            ASSIGN TO "../../../common/data/ECBAP/proposal.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL
-           FILE STATUS IS WS-Proposal-Status.
-      *     SELECT PROPOSAL
       *     ASSIGN TO DA-S-PROPOSAL
       *     ORGANIZATION IS SEQUENTIAL
-      *     FILE STATUS IS WS-Proposal-Status.
+           FILE STATUS IS WS-Proposal-Status.
 
            SELECT BADRFP
            ASSIGN TO "../../../common/data/ECBAP/badrfp.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL
-           FILE STATUS IS WS-BadRFP-Status.
-      *     SELECT BADRFP
       *     ASSIGN TO DA-S-BADRFP
       *     ORGANIZATION IS SEQUENTIAL
-      *     FILE STATUS IS WS-BadRFP-Status.
+           FILE STATUS IS WS-BadRFP-Status.
 
            SELECT PROPRPT
            ASSIGN TO "../spool/prop-report.rpt"
-           ORGANIZATION IS LINE SEQUENTIAL.
-      *     SELECT PROPRPT
+           ORGANIZATION IS LINE SEQUENTIAL
       *     ASSIGN TO DA-S-PROPRPT
       *     ORGANIZATION IS SEQUENTIAL
-      *     FILE STATUS IS WS-Proprpt-Status.
+           FILE STATUS IS WS-Proprpt-Status.
 
 
        DATA DIVISION.
        FILE SECTION.
-       FD  RFPIN.
-      *     LABEL RECORDS ARE STANDARD
-      *     RECORDING MODE IS F
-      *     BLOCK CONTAINS 0 RECORDS
-      *     RECORD CONTAINS 80 CHARACTERS.
+       FD  RFPIN
+           LABEL RECORDS ARE STANDARD
+           RECORDING MODE IS F
+           BLOCK CONTAINS 0 RECORDS
+           RECORD CONTAINS 80 CHARACTERS.
        01  RFP-Record.
            12 RFP-Artist-Acct-No             PIC X(08).
            12 RFP-Artist-Musical-Genre       PIC X(06).
@@ -81,11 +74,11 @@
               88 RFP-Out-of-Country  VALUE 'OUT'.
            12 FILLER                         PIC X(19).
 
-       FD  PROPOSAL.
-      *     LABEL RECORDS ARE STANDARD
-      *     RECORDING MODE IS F
-      *     BLOCK CONTAINS 0 RECORDS
-      *     RECORD CONTAINS 91 CHARACTERS.
+       FD  PROPOSAL
+           LABEL RECORDS ARE STANDARD
+           RECORDING MODE IS F
+           BLOCK CONTAINS 0 RECORDS
+           RECORD CONTAINS 91 CHARACTERS.
        01  PRP-Record.
            12 PRP-Artist-Acct-No             PIC X(08).
            12 PRP-Artist-Musical-Genre       PIC X(06).
@@ -110,11 +103,11 @@
            12 PRP-Additional-Costs.
               15 PRP-Shipping-Cost           PIC 9(4)V99.
               15 PRP-Tax                     PIC 9(3)V99.
-       FD  BADRFP.
-      *     LABEL RECORDS ARE STANDARD
-      *     RECORDING MODE IS F
-      *     BLOCK CONTAINS 0 RECORDS
-      *     RECORD CONTAINS 91 CHARACTERS.
+       FD  BADRFP
+           LABEL RECORDS ARE STANDARD
+           RECORDING MODE IS F
+           BLOCK CONTAINS 0 RECORDS
+           RECORD CONTAINS 80 CHARACTERS.
        01  BRFP-Record.
            12 BRFP-Artist-Acct-No             PIC X(08).
            12 BRFP-Artist-Musical-Genre       PIC X(06).
@@ -135,14 +128,12 @@
               88 BRFP-Out-of-Country  VALUE 'OUT'.
            12 FILLER                         PIC X(19).
 
-       FD  PROPRPT.
-      *     LABEL RECORDS ARE STANDARD
-      *     RECORDING MODE IS F
-      *     BLOCK CONTAINS 0 RECORDS
-      *     RECORD CONTAINS 132 CHARACTERS.
+       FD  PROPRPT
+           LABEL RECORDS ARE STANDARD
+           RECORDING MODE IS F
+           BLOCK CONTAINS 0 RECORDS
+           RECORD CONTAINS 132 CHARACTERS.
        01  Print-Line        PIC X(132).
-
-
 
        WORKING-STORAGE SECTION.
        01  WS-FILE-STATUS.
@@ -387,7 +378,7 @@
              MOVE WS-RFP-P2 TO PRP-Shipping-Cost R1-Shipping-Cost
              MOVE WS-RFP-P3 TO PRP-Tax R1-Tax
 
-             COMPUTE WS-RFP-Total-Prop = 
+             COMPUTE WS-RFP-Total-Prop =
                 WS-RFP-Total-Prop + PRP-Cost-Per-Instrument
 
              MOVE 1 TO R1-Line-Advance
@@ -399,7 +390,7 @@
               DISPLAY RFP-Record
               DISPLAY SPACES
               MOVE RFP-Record TO BRFP-Record
-              PERFORM 6200-Write-BadRFP 
+              PERFORM 6200-Write-BadRFP
            END-IF.
 
            PERFORM 5100-Read-RFPIN.
