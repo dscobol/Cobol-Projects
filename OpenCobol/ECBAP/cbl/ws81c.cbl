@@ -14,7 +14,6 @@
       * P2 = P1 * Shipping
       * P3 = P1 * Tax.
       * COST-PER-INSTRUMENT = P1 + P2 + P3.
-      * This is a test line - IDz Git workflow learning.
       *
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
