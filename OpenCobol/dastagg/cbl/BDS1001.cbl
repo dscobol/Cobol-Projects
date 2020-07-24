@@ -1,21 +1,22 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. Listing10-1.
-       AUTHOR. Michael Coughlan.
-      * A three level Control Break program to process the Electronics2Go
-      * Sales file and produce a report that shows the value of sales for
+       PROGRAM-ID. BDS1001.
+      * A three level Control Break program to process Electronics2Go
+      * Sales file and produce a report that shows value of sales for
       * each Salesperson, each branch, each state, and for the country.
-      * The SalesFile is sorted on ascending SalespersonId within BranchId
+      * The SalesFile is sorted ascending SalespersonId within BranchId
       * within Statename.
       * The report must be printed in the same order
 
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-       SELECT SalesFile ASSIGN TO "Listing10-1TestData.Dat"
-                        ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT SalesReport
+           ASSIGN TO "../spool/Listing10-1.RPT"
+           ORGANIZATION IS SEQUENTIAL.
 
-       SELECT SalesReport ASSIGN TO "Listing10-1.RPT"
-                          ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT SalesFile
+           ASSIGN TO "../../../common/data/c10-1testdata.dat.txt"
+           ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
        FILE SECTION.
@@ -77,7 +78,7 @@
           OPEN OUTPUT SalesReport
           WRITE PrintLine FROM ReportHeading  AFTER ADVANCING 1 LINE
           WRITE PrintLine FROM SubjectHeading AFTER ADVANCING 2 LINE
- 
+
           READ SalesFile
              AT END SET EndOfSalesFile TO TRUE
           END-READ
@@ -90,13 +91,13 @@
              MOVE StateTotal TO PrnStateTotal
              WRITE PrintLine FROM StateTotalLine AFTER ADVANCING 1 LINE
           END-PERFORM
- 
+
           MOVE FinalTotal TO PrnFinalTotal
           WRITE PrintLine FROM FinalTotalLine AFTER ADVANCING 1 LINE
- 
+
           CLOSE SalesFile, SalesReport
           STOP RUN.
- 
+
        SumSalesForState.
            WRITE PrintLine FROM SPACES AFTER ADVANCING 1 LINE
            MOVE BranchId TO PrevBranchId, PrnBranchId
@@ -106,8 +107,9 @@
                          OR StateName NOT = PrevStateName
                          OR EndOfSalesFile
              MOVE BranchTotal TO PrnBranchTotal
-             WRITE PrintLine FROM BranchTotalLine AFTER ADVANCING 1 LINE.
- 
+             WRITE PrintLine FROM BranchTotalLine
+                AFTER ADVANCING 1 LINE.
+
        SumSalesForBranch.
            MOVE SalespersonId TO PrevSalespersonId, PrnSalespersonId
            MOVE ZEROS TO SalespersonTotal
@@ -120,9 +122,10 @@
            WRITE PrintLine FROM DetailLine AFTER ADVANCING 1 LINE
            SET SuppressBranchId TO TRUE
            SET SuppressStateName TO TRUE.
- 
+
        SumSalespersonSales.
-           ADD ValueOfSale TO SalespersonTotal, BranchTotal, StateTotal, FinalTotal
+           ADD ValueOfSale TO
+              SalespersonTotal, BranchTotal, StateTotal, FinalTotal
            READ SalesFile
              AT END SET EndOfSalesFile TO TRUE
            END-READ.
