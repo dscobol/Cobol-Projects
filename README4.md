@@ -49,5 +49,5 @@
 | Workshop 10.0  | Use the Debugger                    |      Optional      |           |           |
 | Workshop 11.1  | Formatting Code                     |      Optional      |           |           |
 | Workshop 11.2  | Multiple Input Record Types         |      Optional      |           |           |
-| Workshop 12    | Mid-Term Project                    |     Mandatory      |           |           |
+| Workshop 12    | Mid-Term Project                    |     Mandatory      |     X     |     X     |
 
