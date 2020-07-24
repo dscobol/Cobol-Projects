@@ -2,10 +2,12 @@
 
 if [ -n "$1" ]; then # If first parameter passed then print Hi
 
-	cobc -x ../cbl/$1.cbl -o ../bin/$1
+SYSLIB="$HOME/dev/cobol/common/cpy"
+
+    cobc -x ../cbl/$PGM.cbl -I $SYSLIB -o ../bin/$1
 
 else
 
-	echo "Must provide name of program. "
+    echo "Must provide name of program. "
 
 fi

@@ -26,15 +26,15 @@
 
        WORKING-STORAGE SECTION.
 
-       01 WS-FILE-STATUS.
-       COPY wsfst REPLACING ==:tag:== BY ==Shop-File==.
+       01  WS-FILE-STATUS.
+           COPY WSFST REPLACING ==:tag:== BY ==Shop-File==.
 
-       01 RPT-Shop-Sales-Total-Line.
+       01  RPT-Shop-Sales-Total-Line.
            02 FILLER           PIC X(21) VALUE "Total sales for shop ".
            02 RPT-Shop-Id      PIC X(5).
            02 RPT-Shop-Total   PIC $$$$,$$9.99.
 
-       01 WS-Shop-Total           PIC 9(5)V99 VALUE ZERO.
+       01  WS-Shop-Total           PIC 9(5)V99 VALUE ZERO.
 
        PROCEDURE DIVISION.
        0000-Mainline.

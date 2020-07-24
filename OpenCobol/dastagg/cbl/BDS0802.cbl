@@ -31,15 +31,15 @@
            02 SC-Rec-Count           PIC 9(5).
 
        WORKING-STORAGE SECTION.
-       01 WS-FILE-STATUS.
-       COPY "wsfst"
-           REPLACING ==:tag:== BY ==Shop-File==.
-       01 RPT-Shop-Sales-Total.
+       01  WS-FILE-STATUS.
+           COPY WSFST REPLACING ==:tag:== BY ==Shop-File==.
+
+       01  RPT-Shop-Sales-Total.
            02 FILLER            PIC X(21) VALUE "Total sales for shop ".
            02 RPT-Shop-Id       PIC X(5).
            02 RPT-Shop-Total    PIC $$$$,$$9.99.
 
-       01 RPT-Error-Message.
+       01  RPT-Error-Message.
            02 FILLER                PIC X(15) VALUE "Error on Shop: ".
            02 RPT-ERR-Shop-Id       PIC X(5).
            02 FILLER                PIC X(10) VALUE " RCount = ".
@@ -47,8 +47,8 @@
            02 FILLER                PIC X(10) VALUE " ACount = ".
            02 RPT-ERR-Actual-Count  PIC 9(5).
 
-       01 WS-Shop-Total             PIC 9(5)V99.
-       01 WS-Actual-Count           PIC 9(5).
+       01  WS-Shop-Total             PIC 9(5)V99.
+       01  WS-Actual-Count           PIC 9(5).
 
        PROCEDURE DIVISION.
        0000-Mainline.

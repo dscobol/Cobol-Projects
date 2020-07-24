@@ -24,7 +24,7 @@
        FD  INSCLAIM
            RECORDING MODE IS F
            BLOCK CONTAINS 0 RECORDS.
-           COPY claimrec.
+           COPY CLAIMREC.
 
        FD  INSRPT
            RECORDING MODE IS F
@@ -34,11 +34,11 @@
 
        WORKING-STORAGE SECTION.
        01  WS-FILE-STATUS.
-           COPY wsfst REPLACING ==:tag:== BY ==INSClaim==.
-           COPY wsfst REPLACING ==:tag:== BY ==INSRpt==.
+           COPY WSFST REPLACING ==:tag:== BY ==INSClaim==.
+           COPY WSFST REPLACING ==:tag:== BY ==INSRpt==.
 
        01  CURRENT-DATE-AND-TIME.
-           COPY wsdt REPLACING ==:tag:== BY ==CDT==.
+           COPY WSDT REPLACING ==:tag:== BY ==CDT==.
 
        01  WS-Counters.
            12 WS-INSClaim-Record-Cnt  PIC 9(4) COMP.

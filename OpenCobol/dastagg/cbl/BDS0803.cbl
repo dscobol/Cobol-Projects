@@ -25,8 +25,8 @@
 
        WORKING-STORAGE SECTION.
 
-       01 WS-FILE-STATUS.
-       COPY wsfst REPLACING ==:tag:== BY ==Memb-File==.
+       01  WS-FILE-STATUS.
+           COPY WSFST REPLACING ==:tag:== BY ==Memb-File==.
 
        01  Page-Heading.
            12 FILLER        PIC X(44)

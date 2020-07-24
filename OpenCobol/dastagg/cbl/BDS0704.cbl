@@ -17,25 +17,25 @@
        DATA DIVISION.
        FILE SECTION.
        FD GadgetStockFile.
-       01 StockRec.
-          02 GadgetID         PIC 9(6).
-          02 GadgetName       PIC X(30).
-          02 QtyInStock       PIC 9(4).
-          02 Price            PIC 9(4)V99.
+       01  StockRec.
+           02 GadgetID         PIC 9(6).
+           02 GadgetName       PIC X(30).
+           02 QtyInStock       PIC 9(4).
+           02 Price            PIC 9(4)V99.
 
        WORKING-STORAGE SECTION.
-       01 WS-FILE-STATUS.
-       COPY wsfst REPLACING ==:tag:== BY ==Gadget==.
+       01  WS-FILE-STATUS.
+           COPY WSFST REPLACING ==:tag:== BY ==Gadget==.
 
-       01 PrnStockValue.
-          02 PrnGadgetName      PIC X(30).
-          02 FILLER             PIC XX VALUE SPACES.
-          02 PrnValue           PIC $$$,$$9.99.
+       01  PrnStockValue.
+           02 PrnGadgetName      PIC X(30).
+           02 FILLER             PIC XX VALUE SPACES.
+           02 PrnValue           PIC $$$,$$9.99.
 
-       01 PrnFinalStockTotal.
-          02 FILLER              PIC X(16) VALUE SPACES.
-          02 FILLER              PIC X(16) VALUE "Stock Total:".
-          02 PrnFinalTotal       PIC $$$,$$9.99.
+       01  PrnFinalStockTotal.
+           02 FILLER              PIC X(16) VALUE SPACES.
+           02 FILLER              PIC X(16) VALUE "Stock Total:".
+           02 PrnFinalTotal       PIC $$$,$$9.99.
 
        01 FinalStockTotal        PIC 9(6)V99.
        01 StockValue             PIC 9(6)V99.
