@@ -1,8 +1,9 @@
 #!/bin/bash
 
 PGM=ws64
+SYSLIB="$HOME/dev/cobol/common/cpy"
 
-cobc -x ../cbl/$PGM.cbl -I ../cpy -o ../bin/$PGM
+cobc -x ../cbl/$PGM.cbl -I $SYSLIB -o ../bin/$PGM
 
 if [ "$?" -eq 0 ]; then
     ../bin/$PGM
