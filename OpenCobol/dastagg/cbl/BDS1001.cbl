@@ -6,13 +6,12 @@
       * The SalesFile is sorted ascending SalespersonId within BranchId
       * within Statename.
       * The report must be printed in the same order
-      * Step one, get it to run.
 
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT SalesReport
-           ASSIGN TO "../spool/Listing10-1.RPT"
+           ASSIGN TO "../spool/bds1001-1.rpt"
            ORGANIZATION IS SEQUENTIAL.
 
            SELECT SalesFile
@@ -74,59 +73,75 @@
        01  PrevSalespersonId       PIC X(6).
 
        PROCEDURE DIVISION.
-       Begin.
-          OPEN INPUT SalesFile
-          OPEN OUTPUT SalesReport
-          WRITE PrintLine FROM ReportHeading  AFTER ADVANCING 1 LINE
-          WRITE PrintLine FROM SubjectHeading AFTER ADVANCING 2 LINE
+       0000-Mainline.
+           PERFORM 1000-BOJ.
+           PERFORM 2000-Process.
+           PERFORM 3000-EOJ.
+           GOBACK.
 
-          READ SalesFile
-             AT END SET EndOfSalesFile TO TRUE
-          END-READ
-          PERFORM UNTIL EndOfSalesFile
-             MOVE StateName TO PrevStateName, PrnStateName
-             MOVE ZEROS TO StateTotal
-             PERFORM SumSalesForState
-                     UNTIL StateName NOT = PrevStateName
-                           OR EndOfSalesFile
-             MOVE StateTotal TO PrnStateTotal
-             WRITE PrintLine FROM StateTotalLine AFTER ADVANCING 1 LINE
-          END-PERFORM
+       1000-BOJ.
+           OPEN INPUT SalesFile
+           OPEN OUTPUT SalesReport
+           WRITE PrintLine FROM ReportHeading  AFTER ADVANCING 1 LINE
+           WRITE PrintLine FROM SubjectHeading AFTER ADVANCING 2 LINE
 
-          MOVE FinalTotal TO PrnFinalTotal
-          WRITE PrintLine FROM FinalTotalLine AFTER ADVANCING 1 LINE
+           PERFORM 5000-Read-Sales-File
+           .
 
-          CLOSE SalesFile, SalesReport
-          STOP RUN.
+       2000-Process.
+           PERFORM UNTIL EndOfSalesFile
+              MOVE StateName TO PrevStateName, PrnStateName
+              MOVE ZEROS TO StateTotal
+              PERFORM SumSalesForState
+                 UNTIL StateName NOT = PrevStateName
+                    OR EndOfSalesFile
+              MOVE StateTotal TO PrnStateTotal
+              WRITE PrintLine FROM StateTotalLine AFTER ADVANCING 1 LINE
+           END-PERFORM
+           .
+
+       3000-EOJ.
+           MOVE FinalTotal TO PrnFinalTotal
+           WRITE PrintLine FROM FinalTotalLine AFTER ADVANCING 1 LINE
+           CLOSE SalesFile, SalesReport
+           .
 
        SumSalesForState.
-           WRITE PrintLine FROM SPACES AFTER ADVANCING 1 LINE
+           MOVE SPACES TO Printline
+           WRITE PrintLine AFTER ADVANCING 1 LINE
            MOVE BranchId TO PrevBranchId, PrnBranchId
            MOVE ZEROS TO BranchTotal
            PERFORM SumSalesForBranch
-                   UNTIL BranchId NOT = PrevBranchId
-                         OR StateName NOT = PrevStateName
-                         OR EndOfSalesFile
-             MOVE BranchTotal TO PrnBranchTotal
-             WRITE PrintLine FROM BranchTotalLine
-                AFTER ADVANCING 1 LINE.
+              UNTIL BranchId NOT = PrevBranchId
+                 OR StateName NOT = PrevStateName
+                 OR EndOfSalesFile
+           MOVE BranchTotal TO PrnBranchTotal
+           WRITE PrintLine FROM BranchTotalLine
+              AFTER ADVANCING 1 LINE
+           .
 
        SumSalesForBranch.
            MOVE SalespersonId TO PrevSalespersonId, PrnSalespersonId
            MOVE ZEROS TO SalespersonTotal
            PERFORM SumSalespersonSales
-                   UNTIL SalespersonId NOT = PrevSalespersonId
-                         OR BranchId   NOT = PrevBranchId
-                         OR StateName  NOT = PrevStateName
-                         OR EndOfSalesFile
+              UNTIL SalespersonId NOT = PrevSalespersonId
+                 OR BranchId   NOT = PrevBranchId
+                 OR StateName  NOT = PrevStateName
+                 OR EndOfSalesFile
            MOVE SalespersonTotal TO PrnSalespersonTotal
            WRITE PrintLine FROM DetailLine AFTER ADVANCING 1 LINE
            SET SuppressBranchId TO TRUE
-           SET SuppressStateName TO TRUE.
+           SET SuppressStateName TO TRUE
+           .
 
        SumSalespersonSales.
            ADD ValueOfSale TO
               SalespersonTotal, BranchTotal, StateTotal, FinalTotal
+           PERFORM 5000-Read-Sales-File
+           .
+
+       5000-Read-Sales-File.
            READ SalesFile
-             AT END SET EndOfSalesFile TO TRUE
-           END-READ.
+              AT END SET EndOfSalesFile TO TRUE
+           END-READ
+           .
