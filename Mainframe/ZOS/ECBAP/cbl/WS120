@@ -368,7 +368,7 @@
            ADD +1 TO R1-Lines-Written.
 
        6130-Write-R1-Footer.
-           IF R1-Line-Count + 3 > R1-Max-Lines
+           IF R1-Line-Count + 4 > R1-Max-Lines
               PERFORM 6110-Write-R1-Page-Header
            END-IF.
            MOVE R1-Footer1 TO Print-Line.
