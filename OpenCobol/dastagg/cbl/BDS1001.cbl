@@ -6,6 +6,7 @@
       * The SalesFile is sorted ascending SalespersonId within BranchId
       * within Statename.
       * The report must be printed in the same order
+      * Step one, get it to run.
 
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
