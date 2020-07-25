@@ -8,7 +8,8 @@ PROJECT='C10'
 MEMBNAME='SALEFILE'
 
 HLC="Z81187"
-DATADIR='/home/dastagg/dev/cobol/common/data'
+DATADIR='C:\Users\dastagg\dev\cobol\common\data'
+#DATADIR='/home/dastagg/dev/cobol/common/data'
 FILES_CMD="zos-files" # files
 JOBS_CMD="zos-jobs" # zos-jobs
 
