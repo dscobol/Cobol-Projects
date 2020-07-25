@@ -2,10 +2,10 @@
 ################################################################
 # Allocate and upload the test dataset.
 ################################################################
-DATANAME='c08-members.dat.txt'
+DATANAME='c10-1testdata.dat.txt'
 
-PROJECT='CH8'
-MEMBNAME='MEMBERS'
+PROJECT='C10'
+MEMBNAME='SALEFILE'
 
 HLC="Z81187"
 DATADIR='/home/dastagg/dev/cobol/common/data'

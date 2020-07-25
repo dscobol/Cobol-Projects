@@ -5,8 +5,8 @@
 //* QUALIFIER UNDER WHICH THE &PROJECT. DATASETS MAY RESIDE.
 //*
 //    SET HLQ='Z81187'                        *TSO USER ID
-//    SET PROJECT='TST'
-//    SET FILENAME='WEATIN'
+//    SET PROJECT='C10'
+//    SET FILENAME='SALEFILE'
 //*************************
 //* CLEAN UP DATASETS
 //*************************
@@ -26,7 +26,7 @@
 //SYSPRINT DD SYSOUT=*
 //SYSUDUMP DD SYSOUT=*
 //DD1      DD DSN=&HLQ..&PROJECT..&FILENAME.,
-//            DCB=(BLKSIZE=0,LRECL=80,RECFM=FB,DSORG=PS),
+//            DCB=(BLKSIZE=0,LRECL=31,RECFM=FB,DSORG=PS),
 //            DISP=(NEW,CATLG),
 //            SPACE=(TRK,(10,2),RLSE)
 //*
