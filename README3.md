@@ -13,7 +13,7 @@ Status of Programs:
 | BDS0803 | Listing8-3 - Print Report                 |    X     |   X   |       |
 | BDS0804 | Listing8-4 - Variable Length              |    X     |       |       |
 | BDS0805 | Listing8-5 - Summmary Report              |          |       |       |
-| BDS1001 | Listing10-1 - Control Break - 3 levels    |          |       |       |
+| BDS1001 | Listing10-1 - Control Break - 3 levels    |    X     |   X   |       |
 | BDS1002 | Listing10-2 - Control Break - 2 levels    |          |       |       |
 | BDS1003 | Listing10-3 - File Update                 |          |       |       |
 | BDS1004 | Listing10-4 - Full File Update - ver 1    |          |       |       |
