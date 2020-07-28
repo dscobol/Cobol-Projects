@@ -2,7 +2,7 @@
 
 if [ -n "$1" ]; then # If first parameter passed then print Hi
 
-SYSLIB="$HOME/dev/cobol/common/cpy"
+SYSLIB="$DHOME/dev/cobol/Cobol-Projects/common/cpy"
 
     cobc -x ../cbl/$PGM.cbl -I $SYSLIB -o ../bin/$1
 

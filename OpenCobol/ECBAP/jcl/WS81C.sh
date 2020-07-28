@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PGM=ws81c
-SYSLIB="$HOME/dev/cobol/common/cpy"
+SYSLIB="$DHOME/dev/cobol/Cobol-Projects/common/cpy"
 
 cobc -x ../cbl/$PGM.cbl -I $SYSLIB -o ../bin/$PGM
 

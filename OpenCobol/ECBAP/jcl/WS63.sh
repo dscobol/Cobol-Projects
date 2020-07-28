@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PGM=ws63
-SYSLIB="$HOME/dev/cobol/common/cpy"
+SYSLIB="$DHOME/dev/cobol/Cobol-Projects/common/cpy"
 
 cobc -x ../cbl/$PGM.cbl -I $SYSLIB -o ../bin/$PGM
 if [ "$?" -eq 0 ]; then
