@@ -50,19 +50,19 @@
 | Workshop 11.1  | Formatting Code                     |      Optional      |           |           |
 | Workshop 11.2  | Multiple Input Record Types         |      Optional      |           |           |
 | Workshop 12    | Mid-Term Project                    |     Mandatory      |     X     |     X     |
-| Workshop 13.1  | Reusable Code Library               |     Optional       |           |           |
-| Workshop 13.2  | Add Numeric Intrinsic Function      |     Optional       |           |           |
-| Workshop 13.3  | Add Date-Manipulation Intrinsic     |     Optional       |           |           |
-| Workshop 13.4  | Add Statistical Intrinsic Function  |     Optional       |           |           |
-| Workshop 13.5  | Add Finance Intrinsic Function      |     Optional       |           |           |
-| Workshop 13.5a | Add examples to INTRNUM             |     Optional       |           |           |
-| Workshop 13.6  | Add. Date-Manipulation              |     Optional       |           |           |
-| Workshop 13.7a | Add more examples                   |     Optional       |           |           |
-| Workshop 13.7b | Search your examples                |     Optional       |           |           |
-| Workshop 14.0  | Create reusable code entries        |     Optional       |           |           |
-| Workshop 15.1  | Study and Debug TABLES00            |     Optional       |           |           |
+| Workshop 13.1  | Reusable Code Library               |      Optional      |     X     |           |
+| Workshop 13.2  | Add Numeric Intrinsic Function      |      Optional      |     X     |           |
+| Workshop 13.3  | Add Date-Manipulation Intrinsic     |      Optional      |     X     |           |
+| Workshop 13.4  | Add Statistical Intrinsic Function  |      Optional      |     X     |           |
+| Workshop 13.5  | Add Finance Intrinsic Function      |      Optional      |     X     |           |
+| Workshop 13.5a | Add examples to INTRNUM             |      Optional      |           |           |
+| Workshop 13.6  | Add. Date-Manipulation              |      Optional      |           |           |
+| Workshop 13.7a | Add more examples                   |      Optional      |           |           |
+| Workshop 13.7b | Search your examples                |      Optional      |           |           |
+| Workshop 14.0  | Create reusable code entries        |      Optional      |           |           |
+| Workshop 15.1  | Study and Debug TABLES00            |      Optional      |           |           |
 | Workshop 15.2  | Create Table-Handling program       |     Mandatory      |           |           |
-| Workshop 15.2o | Create Sales Report program         |     Optional       |           |           |
-| Workshop 15.3  | Perform Varying Table Searches      |     Optional       |           |           |
-| Workshop 15.3o | Use RefMod and String/Unstring      |     Optional       |           |           |
+| Workshop 15.2o | Create Sales Report program         |      Optional      |           |           |
+| Workshop 15.3  | Perform Varying Table Searches      |      Optional      |           |           |
+| Workshop 15.3o | Use RefMod and String/Unstring      |      Optional      |           |           |
 |                |                                     |                    |           |           |
