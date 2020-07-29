@@ -60,9 +60,10 @@
 | Workshop 13.7a | Add more examples                   |      Optional      |           |           |
 | Workshop 13.7b | Search your examples                |      Optional      |           |           |
 | Workshop 14.0  | Create reusable code entries        |      Optional      |           |           |
-| Workshop 15.1  | Study and Debug TABLES00            |      Optional      |           |           |
-| Workshop 15.2  | Create Table-Handling program       |     Mandatory      |           |           |
-| Workshop 15.2o | Create Sales Report program         |      Optional      |           |           |
-| Workshop 15.3  | Perform Varying Table Searches      |      Optional      |           |           |
-| Workshop 15.3o | Use RefMod and String/Unstring      |      Optional      |           |           |
+| Workshop 15.1  | Study and Debug TABLES00            |      Optional      |     X     |           |
+| Workshop 15.2  | Finish Coding TABLES01              |     Mandatory      |     X     |     X     |
+| Workshop 15.3  | Create new Table-Handling program   |      Optional      |           |           |
+| Workshop 15.4  | Create Sales Report program         |      Optional      |           |           |
+| Workshop 15.5  | Perform Varying Table Searches      |      Optional      |           |           |
+| Workshop 15.5o | Use RefMod and String/Unstring      |      Optional      |           |           |
 |                |                                     |                    |           |           |
