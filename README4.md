@@ -66,4 +66,12 @@
 | Workshop 15.4  | Create Sales Report program         |      Optional      |           |           |
 | Workshop 15.5  | Perform Varying Table Searches      |      Optional      |           |           |
 | Workshop 15.5o | Use RefMod and String/Unstring      |      Optional      |           |           |
+| Workshop 16.01 | COBUCLD the program TABLES03      |      Optional      |           |           |
+| Workshop 16.02 | Modify TABLES03      |      Optional      |           |           |
+| Workshop 16.11 | Create two working programs      |      Optional      |           |           |
+| Workshop 16.12 | TABLES01 Rewrite      |      Optional      |           |           |
+| Workshop 16.2a | Maintenance on Editing/Validation Program      |      Optional      |           |           |
+| Workshop 16.2ao | Fix the problems in the output report      |      Optional      |           |           |
+| Workshop 16.2b | Maintenance on Editing/Validation Program      |      Optional      |           |           |
 |                |                                     |                    |           |           |
+
