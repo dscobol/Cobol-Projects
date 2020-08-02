@@ -1,0 +1,31 @@
+Date: 2020-08-02                         Group Claims Daily Totals                                                      Page:   1
+
+Account                                     I/O Bed    Admit          Daily  Diag Ins
+Number  Patient Name        Phone Number    Pat. No.    Date         Amount  Code Typ Stay Network Co-Pay  Deduct
+===== ===================== ==============  === ==== ==========  ==========   === === ==== =======   ====  ======
+11111 Joanne     Smith      (201) 652-1111  In     1 12/12/2020   $2,721.20    10 HMO   13 Out       $302     $15
+22222 Ricky      Martin     (212) 444-1212  Out    2 10/01/2020   $2,410.30   623 PPO    7 Net       $267     $25
+63333 James      Jones      (202) 555-1212  In     3 11/23/2020   $3,143.30   547 HMO   21 Out       $349     $35
+74444 BillieJoe  McAllister (876) 234-1234  In   234 09/23/2020   $1,080.93   483 PRI   12 Out       $120     $45
+55555 Lex        Luthor     (764) 523-4324  In   984 12/31/2020   $2,548.45   746 MED    1 Net       $283     $55
+66666 P.H.       Barnum     (785) 435-4354  Out  783 09/21/2020     $671.34   439 HMO   26 Net        $74     $65
+98765 E.M.       Clampett   (546) 443-2432  In    13 08/12/2020     $746.74   138 PRI   31 Out        $82     $75
+88888 Thomas     Watson     (212) 764-3483  Out   22 07/25/2020     $956.23   329 PPO   11 Out       $106     $75
+99999 Alex       Hamilton   (909) 888-3213  In     2 06/30/2020   $4,766.14   483 HMO   21 Out       $529     $85
+10021 John       Welch      (203) 652-0980  Out    1 02/15/2020     $966.16    10 AFF   41 Net       $107     $14
+12901 Frank      Thomas     (203) 652-0980  Out    1 03/21/2020     $574.46    10 AFF   51 Net        $63     $10
+
+ Number of Input Records Read:   13
+      Number of Valid Records:   11
+    Number of Invalid Records:    2
+Network In/Out Patients:
+          In Network Patients:    5
+      Out of Network Patients:    6
+Number of Insurance Types:
+                          HMO:    4
+                      Private:    2
+                          PPO:    2
+                   Affordable:    2
+                     Medicare:    1
+
+   Grand Total: Daily Amounts:     $20,585.25
