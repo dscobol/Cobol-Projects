@@ -1,6 +1,5 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. Listing10-2.
-       AUTHOR. Michael Coughlan.
+       PROGRAM-ID. BDS1002.
       * Control Break program to process the Census file and produce
       * a report that shows, for each county, the most popular surname
       * and the number of times it occurs.
@@ -59,39 +58,45 @@
        01  PrevCountyName          PIC X(9).
        01  PrevSurname             PIC X(20).
        01  MostPopularSurname      PIC X(20).
-       01 MostPopularCount         PIC 9(6).
+       01  MostPopularCount        PIC 9(6).
        01  SurnameCount            PIC 9(6).
 
        PROCEDURE DIVISION.
-       Begin.
-          OPEN INPUT CensusFile
-          OPEN OUTPUT SurnameReport
-          WRITE PrintLine FROM ReportHeading  AFTER ADVANCING 1 LINE
-          WRITE PrintLine FROM SubjectHeading AFTER ADVANCING 1 LINE
+       0000-Mainline.
+           PERFORM 1000-BOJ.
+           PERFORM 2000-Process.
+           PERFORM 3000-EOJ.
+           GOBACK.
 
-          READ CensusFile
-             AT END SET EndOfCensusFile TO TRUE
-          END-READ
-          PERFORM UNTIL EndOfCensusFile
+       1000-BOJ.
+           OPEN INPUT CensusFile.
+           OPEN OUTPUT SurnameReport.
+           WRITE PrintLine FROM ReportHeading  AFTER ADVANCING 1 LINE.
+           WRITE PrintLine FROM SubjectHeading AFTER ADVANCING 1 LINE.
+
+           PERFORM 5000-Read-Census-File.
+
+
+
+       2000-Process.
+           PERFORM UNTIL EndOfCensusFile
              MOVE CountyName TO PrevCountyName, PrnCountyName
              MOVE ZEROS  TO MostPopularCount
              MOVE SPACES TO MostPopularSurname
-             PERFORM FindMostPopularSurname
+             PERFORM 2100-FindMostPopularSurname
                      UNTIL CountyName NOT EQUAL TO PrevCountyName
                            OR EndOfCensusFile
              MOVE MostPopularCount   TO PrnCount
              MOVE MostPopularSurname TO PrnSurname
              WRITE PrintLine FROM CountySurnameLine
                 AFTER ADVANCING 1 LINE
-          END-PERFORM
+          END-PERFORM.
 
-          WRITE PrintLine FROM ReportFooter AFTER ADVANCING 2 LINES
-          CLOSE CensusFile, SurnameReport
-          STOP RUN.
 
-       FindMostPopularSurname.
-           MOVE Surname TO PrevSurname
-           PERFORM CountSurnameOccurs VARYING SurnameCount FROM 0 BY 1
+       2100-FindMostPopularSurname.
+           MOVE Surname TO PrevSurname.
+           PERFORM 5000-Read-Census-File
+              VARYING SurnameCount FROM 0 BY 1
                    UNTIL Surname NOT EQUAL TO PrevSurname
                          OR CountyName NOT EQUAL TO PrevCountyName
                          OR EndOfCensusFile
@@ -101,7 +106,12 @@
               MOVE PrevSurname  TO MostPopularSurname
            END-IF.
 
-       CountSurnameOccurs.
-            READ CensusFile
-                 AT END SET EndOfCensusFile TO TRUE
-            END-READ.
+
+       3000-EOJ.
+           WRITE PrintLine FROM ReportFooter AFTER ADVANCING 2 LINES.
+           CLOSE CensusFile, SurnameReport.
+
+       5000-Read-Census-File.
+           READ CensusFile
+              AT END SET EndOfCensusFile TO TRUE
+           END-READ.
