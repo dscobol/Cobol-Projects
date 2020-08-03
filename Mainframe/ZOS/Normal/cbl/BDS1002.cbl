@@ -11,16 +11,16 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT CensusFile
-           ASSIGN TO "../../../common/data/c10-2testdata.dat.txt"
-           ORGANIZATION IS LINE SEQUENTIAL.
-      *     ASSIGN TO DA-S-CENSFILE
-      *     ORGANIZATION IS SEQUENTIAL
+      *     ASSIGN TO "../../../common/data/c10-2testdata.dat.txt"
+      *     ORGANIZATION IS LINE SEQUENTIAL.
+           ASSIGN TO DA-S-CENSFILE
+           ORGANIZATION IS SEQUENTIAL.
 
            SELECT SurnameReport
-           ASSIGN TO "../spool/bds1002.rpt"
-           ORGANIZATION IS LINE SEQUENTIAL.
-      *     ASSIGN TO DA-S-RPTFILE
-      *     ORGANIZATION IS SEQUENTIAL
+      *     ASSIGN TO "../spool/bds1002.rpt"
+      *     ORGANIZATION IS LINE SEQUENTIAL.
+           ASSIGN TO DA-S-RPTFILE
+           ORGANIZATION IS SEQUENTIAL.
 
 
        DATA DIVISION.
