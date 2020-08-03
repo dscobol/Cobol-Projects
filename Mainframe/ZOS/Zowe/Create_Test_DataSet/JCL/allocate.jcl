@@ -6,7 +6,8 @@
 //*
 //    SET HLQ='Z81187'                        *TSO USER ID
 //    SET PROJECT='C10'
-//    SET FILENAME='SALEFILE'
+//    SET FILENAME='CENSFILE'
+//    SET LENGTH='37'
 //*************************
 //* CLEAN UP DATASETS
 //*************************
@@ -26,7 +27,7 @@
 //SYSPRINT DD SYSOUT=*
 //SYSUDUMP DD SYSOUT=*
 //DD1      DD DSN=&HLQ..&PROJECT..&FILENAME.,
-//            DCB=(BLKSIZE=0,LRECL=31,RECFM=FB,DSORG=PS),
+//            DCB=(BLKSIZE=0,LRECL=&LENGTH.,RECFM=FB,DSORG=PS),
 //            DISP=(NEW,CATLG),
 //            SPACE=(TRK,(10,2),RLSE)
 //*
