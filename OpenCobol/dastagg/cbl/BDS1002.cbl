@@ -11,13 +11,19 @@
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-       SELECT CensusFile ASSIGN TO "Listing10-2TestData.Dat"
-                        ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT CensusFile
+           ASSIGN TO "../../../common/data/c10-2testdata.dat.txt"
+           ORGANIZATION IS LINE SEQUENTIAL.
+      *     ASSIGN TO DA-S-SALEFILE
+      *     ORGANIZATION IS SEQUENTIAL
 
-       SELECT SurnameReport  ASSIGN TO "Listing10-2.RPT"
-                         ORGANIZATION IS LINE SEQUENTIAL.
- 
- 
+           SELECT SurnameReport
+           ASSIGN TO "../spool/bds1002.rpt"
+           ORGANIZATION IS LINE SEQUENTIAL.
+      *     ASSIGN TO DA-S-SALEFILE
+      *     ORGANIZATION IS SEQUENTIAL
+
+
        DATA DIVISION.
        FILE SECTION.
        FD  CensusFile.
@@ -26,43 +32,43 @@
            02 CensusNum            PIC 9(8).
            02 Surname              PIC X(20).
            02 CountyName           PIC X(9).
- 
+
        FD SurnameReport.
        01 PrintLine                PIC X(45).
- 
- 
+
+
        WORKING-STORAGE SECTION.
        01  ReportHeading.
            02 FILLER               PIC X(13) VALUE SPACES.
            02 FILLER               PIC X(22)
               VALUE "Popular Surname Report".
- 
+
        01  SubjectHeading.
            02 FILLER               PIC X(42)
               VALUE "CountyName  Surname                  Count".
- 
+
        01  CountySurnameLine.
            02 PrnCountyName        PIC X(9).
            02 FILLER               PIC X(3) VALUE SPACES.
            02 PrnSurname           PIC X(20).
            02 PrnCount             PIC BBBZZZ,ZZ9.
- 
+
        01  ReportFooter            PIC X(43)
            VALUE "************* end of report ***************".
- 
+
        01  PrevCountyName          PIC X(9).
        01  PrevSurname             PIC X(20).
        01  MostPopularSurname      PIC X(20).
        01 MostPopularCount         PIC 9(6).
        01  SurnameCount            PIC 9(6).
- 
+
        PROCEDURE DIVISION.
        Begin.
           OPEN INPUT CensusFile
           OPEN OUTPUT SurnameReport
           WRITE PrintLine FROM ReportHeading  AFTER ADVANCING 1 LINE
           WRITE PrintLine FROM SubjectHeading AFTER ADVANCING 1 LINE
- 
+
           READ CensusFile
              AT END SET EndOfCensusFile TO TRUE
           END-READ
@@ -75,25 +81,26 @@
                            OR EndOfCensusFile
              MOVE MostPopularCount   TO PrnCount
              MOVE MostPopularSurname TO PrnSurname
-             WRITE PrintLine FROM CountySurnameLine AFTER ADVANCING 1 LINE
+             WRITE PrintLine FROM CountySurnameLine
+                AFTER ADVANCING 1 LINE
           END-PERFORM
- 
+
           WRITE PrintLine FROM ReportFooter AFTER ADVANCING 2 LINES
           CLOSE CensusFile, SurnameReport
           STOP RUN.
- 
+
        FindMostPopularSurname.
            MOVE Surname TO PrevSurname
            PERFORM CountSurnameOccurs VARYING SurnameCount FROM 0 BY 1
                    UNTIL Surname NOT EQUAL TO PrevSurname
                          OR CountyName NOT EQUAL TO PrevCountyName
                          OR EndOfCensusFile
- 
+
            IF SurnameCount > MostPopularCount
               MOVE SurnameCount TO MostPopularCount
               MOVE PrevSurname  TO MostPopularSurname
            END-IF.
- 
+
        CountSurnameOccurs.
             READ CensusFile
                  AT END SET EndOfCensusFile TO TRUE
