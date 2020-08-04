@@ -12,20 +12,20 @@
            ASSIGN TO "../../../common/data/c10-3master.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL.
       *     ASSIGN TO DA-S-MSTIN3
-      *     ORGANIZATION IS SEQUENTIAL
+      *     ORGANIZATION IS SEQUENTIAL.
 
            SELECT NewStockFile
-           ASSIGN TO "../../../common/data/c10-3newmast.dat.txt"
+           ASSIGN TO "../../../common/data/c10-bdsnewmast.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL.
       *     ASSIGN TO DA-S-MSTOUT3
-      *     ORGANIZATION IS SEQUENTIAL
+      *     ORGANIZATION IS SEQUENTIAL.
 
 
            SELECT TransactionFile
            ASSIGN TO "../../../common/data/c10-3trans.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL.
       *     ASSIGN TO DA-S-TRANS3
-      *     ORGANIZATION IS SEQUENTIAL
+      *     ORGANIZATION IS SEQUENTIAL.
 
        DATA DIVISION.
        FILE SECTION.
@@ -52,7 +52,7 @@
 
        FD TransactionFile
            LABEL RECORDS ARE STANDARD
-           RECORDING MODE IS F
+           RECORDING MODE IS V
            BLOCK CONTAINS 0 RECORDS.
        01 InsertionRec.
            88 EndOfTransFile      VALUE HIGH-VALUES.
@@ -86,45 +86,56 @@
               VALUE "Price Update Error - No such record in Master".
 
        PROCEDURE DIVISION.
-       Begin.
+       0000-Mainline.
+           PERFORM 1000-BOJ.
+           PERFORM 2000-Process.
+           PERFORM 3000-EOJ.
+           GOBACK.
+
+       1000-BOJ.
            OPEN INPUT  MasterStockFile
-           OPEN INPUT  TransactionFile
-           OPEN OUTPUT NewStockFile
-           PERFORM ReadMasterFile
-           PERFORM ReadTransFile
+                       TransactionFile.
+           OPEN OUTPUT NewStockFile.
+           PERFORM 5100-ReadMasterFile.
+           PERFORM 5000-ReadTransFile.
+
+       2000-Process.
            PERFORM UNTIL EndOfMasterFile AND EndOfTransFile
              EVALUATE TRUE
                WHEN GadgetId-TF > GadgetId-MF
-                  PERFORM CopyToNewMaster
+                  PERFORM 2100-CopyToNewMaster
                WHEN GadgetId-TF = GadgetId-MF
-                  PERFORM TryToApplyToMaster
+                  PERFORM 2200-TryToApplyToMaster
                WHEN GadgetId-TF < GadgetId-MF
-                  PERFORM TryToInsert
+                  PERFORM 2300-TryToInsert
              END-EVALUATE
-           END-PERFORM
+           END-PERFORM.
 
-           CLOSE MasterStockFile, TransactionFile, NewStockFile
-           STOP RUN.
 
-       CopyToNewMaster.
-           WRITE NewStockRec FROM MasterStockRec
-           PERFORM ReadMasterFile.
+       2100-CopyToNewMaster.
+           MOVE MasterStockRec TO NewStockRec.
+           PERFORM 6000-Write-NewStockRec
+           PERFORM 5100-ReadMasterFile.
 
-       TryToApplyToMaster.
+       2200-TryToApplyToMaster.
            EVALUATE TRUE
-             WHEN UpdatePrice MOVE Price-PCR TO Price-MF
-             WHEN Deletion    PERFORM ReadMasterFile
-             WHEN Insertion   SET InsertError TO TRUE
-                              DISPLAY ErrorMessage
+             WHEN UpdatePrice 
+                MOVE Price-PCR TO Price-MF
+             WHEN Deletion    
+                PERFORM 5100-ReadMasterFile
+             WHEN Insertion   
+                SET InsertError TO TRUE
+                DISPLAY ErrorMessage
            END-EVALUATE
-           PERFORM ReadTransFile.
+           PERFORM 5000-ReadTransFile.
 
-       TryToInsert.
-           IF Insertion    MOVE GadgetId-TF TO GadgetId-NSF
-                          MOVE GadgetName-IR TO GadgetName-NSF
-                          MOVE QtyInStock-IR TO QtyInStock-NSF
-                          MOVE Price-Ir TO Price-NSF
-                          WRITE NewStockRec
+       2300-TryToInsert.
+           IF Insertion
+              MOVE GadgetId-TF   TO GadgetId-NSF
+              MOVE GadgetName-IR TO GadgetName-NSF
+              MOVE QtyInStock-IR TO QtyInStock-NSF
+              MOVE Price-Ir      TO Price-NSF
+              PERFORM 6000-Write-NewStockRec
              ELSE
                IF UpdatePrice
                   SET PriceUpdateError TO TRUE
@@ -134,15 +145,23 @@
                END-IF
                DISPLAY ErrorMessage
            END-IF
-           PERFORM ReadTransFile.
+           PERFORM 5000-ReadTransFile.
 
-       ReadTransFile.
+       3000-EOJ.
+           CLOSE MasterStockFile, 
+                 TransactionFile, 
+                 NewStockFile.
+
+       5000-ReadTransFile.
            READ TransactionFile
                AT END SET EndOfTransFile TO TRUE
            END-READ
            MOVE GadgetId-TF TO PrnGadgetId.
 
-       ReadMasterFile.
+       5100-ReadMasterFile.
            READ MasterStockFile
                AT END SET EndOfMasterFile TO TRUE
            END-READ.
+
+       6000-Write-NewStockRec.
+           WRITE NewStockRec.
