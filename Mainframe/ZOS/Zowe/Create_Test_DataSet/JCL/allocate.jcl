@@ -6,8 +6,9 @@
 //*
 //    SET HLQ='Z81187'                        *TSO USER ID
 //    SET PROJECT='C10'
-//    SET FILENAME='CENSFILE'
-//    SET LENGTH='37'
+//    SET FILENAME='TRANS4'
+//    SET LENGTH='51'
+//    SET FORMAT='VB'
 //*************************
 //* CLEAN UP DATASETS
 //*************************
@@ -27,7 +28,7 @@
 //SYSPRINT DD SYSOUT=*
 //SYSUDUMP DD SYSOUT=*
 //DD1      DD DSN=&HLQ..&PROJECT..&FILENAME.,
-//            DCB=(BLKSIZE=0,LRECL=&LENGTH.,RECFM=FB,DSORG=PS),
+//            DCB=(BLKSIZE=0,LRECL=&LENGTH.,RECFM=&FORMAT.,DSORG=PS),
 //            DISP=(NEW,CATLG),
 //            SPACE=(TRK,(10,2),RLSE)
 //*

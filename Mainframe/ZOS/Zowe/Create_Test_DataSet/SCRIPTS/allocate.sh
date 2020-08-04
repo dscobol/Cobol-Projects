@@ -2,14 +2,15 @@
 ################################################################
 # Allocate and upload the test dataset.
 ################################################################
-DATANAME='c10-2testdata.dat.txt'
+DATANAME='c10-4trans.dat.txt'
 
 PROJECT='C10'
-MEMBNAME='CENSFILE'
+MEMBNAME='TRANS4'
 
 HLC="Z81187"
-#DATADIR='C:\Users\dastagg\dev\cobol\Cobol-Projects\common\data'
-DATADIR='/home/dastagg/dev/cobol/Cobol-Projects/common/data'
+DATADIR='C:\Users\dastagg\dev\cobol\Cobol-Projects\common\data'
+#DATADIR='/home/dastagg/dev/cobol/Cobol-Projects/common/data'
+
 FILES_CMD="zos-files" # files
 JOBS_CMD="zos-jobs" # zos-jobs
 
