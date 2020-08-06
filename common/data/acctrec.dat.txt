@@ -1,0 +1,45 @@
+17891797000010000000000188WASHINGTON          George         1 General Dr.            Westmoreland County Virginia              longed to retire to his fields at Mount Vernon
+17971801000010000000003188ADAMS               John           2 Harvard Lawyer         Braintree           Massachusetts         retired to his farm in Quincy
+18011809000010000000007008JEFFERSON           Thomas         3 Planter St.            Albemarle County    Virginia              retired to Monticello
+18091817000010000000000503MADISON             James          4 Good Wife St.          Port Conway         Virginia              retirement at Montpelier
+18171825000010000000031313MONROE              James          5 Honest Ln.             Westmoreland County Virginia              Russia must not encroach southward
+18251829000010000000031250ADAMS II            John Quincy    6 Harvard Lawyer         Braintree           Massachusetts         collapsed on the floor of the House from a stroke
+18291837000010000000003318JACKSON             Andrew         7 Brawler St.            Waxhaw              South Carolina        that to the victors belong the spoils
+18371841000010000000000325VAN BUREN           Martin         8 Dutch Rd.              Columbia            New York              independent treasury system
+18411841000010000000000313HARRISON            William Henry  9 Medicine St.           Charles City County Virginia              ornate with classical allusions
+18411845000010000000000121TYLER               John           10 Accidency Ln.         Charles City County Virginia              opposed the Missouri Compromise
+18451849000010000000000314POLK                James          11 Strong Way            Mecklenburg County  North Carolina        health undermined from hard work
+18491850000010000000000828TAYLOR              Zachary        12 Army Rd.              Orange County       Virginia              acted at times as though he were above parties
+18501853000010000000000373FILLMORE            Millard        13 American Dream St.    Cayuga County       New York              signed the Fugitive Slave Act
+18531857000010000000000315PIERCE              Franklin       14 Lost Son              Hillsboro           New Hampshire         he tried to persuade Spain to sell Cuba
+18571861000010000000000007BUCHANAN            James          15 Debater Rd.           Mercersburg         Pennslyvania          widening rift over slavery
+18611865000100000000000313LINCOLN             Abraham        16 Civil War Ln.         Hodgenville         Kentucky              new birth of freedom
+18651869000100000000000603JOHNSON             Andrew         17 Ruthless Rd.          Raleigh             North Carolina        freedmen were beginning to appear
+18691877000100000000032318GRANT               Ulysses S.     18 Bewildered St.        Point Pleasant      Ohio                  he brought part of his Army staff to White House
+18771881000100000000005860HAYES               Rutherford B.  19 No Booze St.          Delaware            Ohio                  appointments must be made on merit
+18811881000100000000005600GARFIELD            James          20 Professor Ln.         Orange              Ohio                  dark horse nominee
+18811885000100000000031070ARTHUR              Chester        21 Teacher Ln.           Fairfield           Vermont               suffering from a fatal kidney disease
+18851889000100000000099313CLEVELAND           Grover         22 Focused St.           Caldwell            New Jersey            blunt treatment of the railroad strikers
+18891893000100000000005003HARRISON            Benjamin       23 Little Ben Ln.        North Bend          Ohio                  tariff was removed from imported raw sugar
+18931897000100000000040050CLEVELAND II        Grover         24 Imback Rd.            Caldwell            New Jersey            faced an acute depression
+18971901000100000000031950MCKINLEY            William        25 Tariff Expert St.     Niles               Ohio                  quietly stood for "the full dinner pail."
+19011909001000000000781319ROOSEVELT           Theodore       26 Young St.             New York            New York              high-pitched voice, jutting jaw, and pounding fist
+19091913001000000000040199TAFT                William H.     27 Middle Way            Cincinnati          Ohio                  his administration initiated 80 antitrust suits
+19131921001000000000084033WILSON              Woodrow        28 World War I St.       Staunton            Virginia              asked Congress for declaration of war on Germnany
+19211923001000000000011829HARDING             Warren         29 Phrases Rd.           Corsica             Ohio                  less government in business
+19231929001000000000010619COOLIDGE            Calvin         30 Practical Ln.         Plymouth            Vermont               government has become dangerously complicated
+19291933001000000000031318HOOVER              Herbert        31 Engineer St.          West Branch         Iowa                  he became a powerful critic of the New Deal
+19331945005000000000031310ROOSEVELT II        Franklin D.    32 Great Depression St.  Hyde Park           New York              planning of a United Nations
+19451953005000000000060992TRUMAN              Harry          33 Soldier Way           Lamar               Missouri              he was negotiating a military alliance
+19531961005000000000032502EISENHOWER          Dwight         34 Cold War St.          Denison             Texas                 development of his "atoms for peace"
+19611963001700000005084035KENNEDY             John F.        35 Youngest Rd.          Brookline           Massachusetts         stopping the spread of nuclear weapons
+19631969001700000000000833JOHNSON II          Lyndon         36 Turbulent St.         Stonewall           Texas                 new antipoverty and anti-discrimination
+19691974001700000000000600NIXON               Richard        37 Watergate Rd.         Yorba Linda         California            number of administration officials resigned
+19741977001700000005051318FORD                Gerald         38 Coors Ln.             Omaha               Nebraska              help business operate more freely by reducing tax
+19771981000100000003118826CARTER              Jimmy          39 Peanut Rd.            Plains              Georgia               Iran held Americans captive
+19811989000100000000050278REAGAN              Ronald         40 Actor St.             Tampico             Illinois              peace through strength
+19891993000100000000040793BUSH                George H.W.    41 Pilot St.             Milton              Massachusetts         Desert Storm routed Iraq's million-man army
+19932001000100000008118313CLINTON             William J.     42 Hillary Rd.           Hope                Arkansas              issues surrounding personal indiscretions
+20012009000100000000031313BUSH II             George W.      43 Tex St.               New Haven           Connecticut           terrorists attacked our Nation
+20092017009950000000092311OBAMA               Barak H.       44 Organizer St.         Honolulu            Hawaii                first African American president
+20172020008100000000000010TRUMP               Donald J.      45 Business Rd.          New York            New York              no previous political office held
