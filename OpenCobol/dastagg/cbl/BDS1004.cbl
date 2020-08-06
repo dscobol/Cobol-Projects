@@ -97,52 +97,60 @@
        01 CurrentKey             PIC 9(6).
 
        PROCEDURE DIVISION.
-       Begin.
+       0000-Mainline.
+           PERFORM 1000-BOJ.
+           PERFORM 2000-Process.
+           PERFORM 3000-EOJ.
+           GOBACK.
+           
+       1000-BOJ.
            OPEN INPUT  MasterStockFile
-           OPEN INPUT  TransactionFile
-           OPEN OUTPUT NewStockFile
-           PERFORM ReadMasterFile
-           PERFORM ReadTransFile
-           PERFORM ChooseNextKey
+                       TransactionFile.
+           OPEN OUTPUT NewStockFile.
+           PERFORM 5100-ReadMasterFile.
+           PERFORM 5000-ReadTransFile.
+           PERFORM 2010-ChooseNextKey.
+              
+       2000-Process.
            PERFORM UNTIL EndOfMasterFile AND EndOfTransFile
-             PERFORM SetInitialStatus
-             PERFORM ProcessOneTransaction
+             PERFORM 2020-SetInitialStatus
+             PERFORM 2100-ProcessOneTransaction
                      UNTIL GadgetID-TF NOT = CurrentKey
       *     CheckFinalStatus
              IF RecordInMaster
-                WRITE NewStockRec
+                PERFORM 6000-Write-NewStockRec
              END-IF
-             PERFORM ChooseNextKey
-           END-PERFORM
+             PERFORM 2010-ChooseNextKey
+           END-PERFORM.
 
-           CLOSE MasterStockFile, TransactionFile, NewStockFile
-           STOP RUN.
-
-       ChooseNextKey.
+       2010-ChooseNextKey.
            IF GadgetID-TF < GadgetID-MF
              MOVE GadgetID-TF TO CurrentKey
            ELSE
              MOVE GadgetID-MF TO CurrentKey
            END-IF.
 
-       SetInitialStatus.
+       2020-SetInitialStatus.
            IF GadgetID-MF =  CurrentKey
              MOVE MasterStockRec TO NewStockRec
              SET RecordInMaster TO TRUE
-             PERFORM ReadMasterFile
+             PERFORM 5100-ReadMasterFile
            ELSE SET RecordNotInMaster TO TRUE
            END-IF.
 
-       ProcessOneTransaction.
+       2100-ProcessOneTransaction.
       *  ApplyTransToMaster
            EVALUATE TRUE
-              WHEN Insertion   PERFORM ApplyInsertion
-              WHEN UpdatePrice PERFORM ApplyPriceChange
-              WHEN Deletion    PERFORM ApplyDeletion
+              WHEN Insertion
+                 PERFORM 2110-ApplyInsertion
+              WHEN UpdatePrice
+                 PERFORM 2120-ApplyPriceChange
+              WHEN Deletion
+                 PERFORM 2130-ApplyDeletion
            END-EVALUATE.
-           PERFORM ReadTransFile.
+           PERFORM 5000-ReadTransFile.
 
-       ApplyInsertion.
+       2110-ApplyInsertion.
            IF RecordInMaster
              SET InsertError TO TRUE
              DISPLAY ErrorMessage
@@ -151,14 +159,7 @@
              MOVE RecordBody-IR TO NewStockRec
            END-IF.
 
-       ApplyDeletion.
-           IF RecordNotInMaster
-             SET DeleteError TO TRUE
-             DISPLAY ErrorMessage
-           ELSE SET RecordNotInMaster TO TRUE
-           END-IF.
-
-       ApplyPriceChange.
+       2120-ApplyPriceChange.
            IF RecordNotInMaster
              SET PriceUpdateError TO TRUE
              DISPLAY ErrorMessage
@@ -166,13 +167,29 @@
              MOVE Price-PCR TO Price-NSF
            END-IF.
 
-       ReadTransFile.
+       2130-ApplyDeletion.
+           IF RecordNotInMaster
+             SET DeleteError TO TRUE
+             DISPLAY ErrorMessage
+           ELSE
+             SET RecordNotInMaster TO TRUE
+           END-IF.
+              
+       3000-EOJ.
+           CLOSE MasterStockFile, 
+                 TransactionFile, 
+                 NewStockFile.
+
+       5000-ReadTransFile.
            READ TransactionFile
                 AT END SET EndOfTransFile TO TRUE
            END-READ
            MOVE GadgetID-TF TO PrnGadgetId.
 
-       ReadMasterFile.
+       5100-ReadMasterFile.
            READ MasterStockFile
                 AT END SET EndOfMasterFile TO TRUE
            END-READ.
+
+       6000-Write-NewStockRec.
+           WRITE NewStockRec.
