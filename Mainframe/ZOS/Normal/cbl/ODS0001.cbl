@@ -15,17 +15,17 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT ACCT-REC
-           ASSIGN TO "../../../common/data/acctrec.dat.txt"
-           ORGANIZATION IS LINE SEQUENTIAL
-      *     ASSIGN TO DA-S-ACCTREC
-      *     ORGANIZATION IS SEQUENTIAL
+      *     ASSIGN TO "../../../common/data/acctrec.dat.txt"
+      *     ORGANIZATION IS LINE SEQUENTIAL
+           ASSIGN TO DA-S-ACCTREC
+           ORGANIZATION IS SEQUENTIAL
            FILE STATUS IS WS-AcctRec-Status.
 
            SELECT PRINT-LINE
-           ASSIGN TO "../spool/ODS0001-AccRpt.rpt"
-           ORGANIZATION IS LINE SEQUENTIAL
-      *     ASSIGN TO DA-S-PRTLINE
-      *     ORGANIZATION IS SEQUENTIAL
+      *     ASSIGN TO "../spool/ODS0001-AccRpt.rpt"
+      *     ORGANIZATION IS LINE SEQUENTIAL
+           ASSIGN TO DA-S-PRTLINE
+           ORGANIZATION IS SEQUENTIAL
            FILE STATUS IS WS-AcctRpt-Status.
 
        DATA DIVISION.
@@ -35,9 +35,12 @@
            RECORDING MODE F.
        01  ACCT-FIELDS.
            05  ACCT-NO            PIC X(8).
-           05  ACCT-LIMIT         PIC 9(7)V99.
-           05  ACCT-BALANCE       PIC 9(7)V99.
+      *     05  ACCT-LIMIT         PIC 9(7)V99.
+      *     05  ACCT-BALANCE       PIC 9(7)V99.
+           05  ACCT-LIMIT         PIC S9(7)V99 COMP-3.
+           05  ACCT-BALANCE       PIC S9(7)V99 COMP-3.
            05  LAST-NAME          PIC X(20).
+
            05  FIRST-NAME         PIC X(15).
            05  CLIENT-ADDR.
                10  STREET-ADDR    PIC X(25).

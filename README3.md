@@ -26,24 +26,20 @@ Status of Programs:
 
 [The Open Mainframe Project](https://www.openmainframeproject.org/projects/coboltrainingcourse) :
 
+NOTE: Change in plan.
+    Most of the CBLXXXX programs are fairly straight forward.
+
+    I think my time would be better spent on more "advanced" topics like Tables, VSAM and DB2.
+
+    I did convert CBL0001 to my "style" and by creating ODS000C, learned a few things.
+        * Converting COMP numbers to normal to be usable by gnuCobol.
+        * Using MOVE CORRESPONDING - Not something I normally do but it worked well for this.
+
 | Program | Description   | gnuCobol |  ZOS  |  MVS  |
 | :------ | :------------ | :------: | :---: | :---: |
 |         |               |          |       |       |
 | HELLO   | First Program |    X     |   X   |   X   |
-| ODS0001 | CBL0001       |          |       |       |
-| ODS0002 | CBL0002       |          |       |       |
-| ODS0004 | CBL0004       |          |       |       |
-| ODS0005 | CBL0005       |          |       |       |
-| ODS0006 | CBL0006       |          |       |       |
-| ODS0007 | CBL0007       |          |       |       |
-| ODS0008 | CBL0008       |          |       |       |
-| ODS0009 | CBL0009       |          |       |       |
-| ODS0010 | CBL0010       |          |       |       |
-| ODS0011 | CBL0011       |          |       |       |
-| ODS0012 | CBL0012       |          |       |       |
-| ODS0013 | PAYROL00      |          |       |       |
-| ODS0014 | PAYROL0X      |          |       |       |
-| ODS0015 | ADDAMT        |          |       |       |
+| ODS0001 | CBL0001       |    X     |   X   |       |
 | ODS0106 | CBL0106       |          |   X   |       |
 
 
