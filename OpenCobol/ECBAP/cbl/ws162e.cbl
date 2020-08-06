@@ -523,7 +523,7 @@
 
        2183-Validate-Network.
            IF FD-INFile-Patient-In-Net OR
-              FD-INFile-Patient-Out-Of-Net
+              FD-INFile-Patient-Out-Net
               NEXT SENTENCE
            ELSE
               SET WS-INFile-InValid TO TRUE
