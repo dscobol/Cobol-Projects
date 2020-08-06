@@ -27,13 +27,14 @@ Status of Programs:
 [The Open Mainframe Project](https://www.openmainframeproject.org/projects/coboltrainingcourse) :
 
 NOTE: Change in plan.
-    Most of the CBLXXXX programs are fairly straight forward.
 
-    I think my time would be better spent on more "advanced" topics like Tables, VSAM and DB2.
+Most of the CBLXXXX programs are fairly straight forward.
 
-    I did convert CBL0001 to my "style" and by creating ODS000C, learned a few things.
-        * Converting COMP numbers to normal to be usable by gnuCobol.
-        * Using MOVE CORRESPONDING - Not something I normally do but it worked well for this.
+I think my time would be better spent on more "advanced" topics like Tables, VSAM and DB2.
+
+I did convert CBL0001 to my "style" and by creating ODS000C, learned a few things.
+  * Converting COMP numbers to normal to be usable by gnuCobol.
+  * Using MOVE CORRESPONDING - Not something I normally do but it worked well for this.
 
 | Program | Description   | gnuCobol |  ZOS  |  MVS  |
 | :------ | :------------ | :------: | :---: | :---: |
