@@ -32,7 +32,6 @@ Status of Programs:
 | HELLO   | First Program |    X     |   X   |   X   |
 | ODS0001 | CBL0001       |          |       |       |
 | ODS0002 | CBL0002       |          |       |       |
-| ODS0003 | CBL0003       |          |       |       |
 | ODS0004 | CBL0004       |          |       |       |
 | ODS0005 | CBL0005       |          |       |       |
 | ODS0006 | CBL0006       |          |       |       |
