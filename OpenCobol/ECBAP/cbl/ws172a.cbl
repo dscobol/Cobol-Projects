@@ -25,6 +25,14 @@
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-STCOURS-Status.
 
+           SELECT ERRFILE 
+      *     ASSIGN TO ERRFILE 
+      *     ORGANIZATION IS SEQUENTIAL
+           ASSIGN TO 
+              "../../../common/data/ECBAP/student-ERRFILE.dat.txt"
+           ORGANIZATION IS LINE SEQUENTIAL
+           FILE STATUS IS WS-ERRFILE-Status.
+
            SELECT RPTFILE
       *     ASSIGN TO RPTFILE
       *     ORGANIZATION IS SEQUENTIAL
@@ -46,6 +54,12 @@
                  18  FD-Course-Grade      PIC X(1).
            12  FILLER                     PIC X(20).
 
+       FD  ERRFILE
+           LABEL RECORDS ARE STANDARD
+           RECORDING MODE IS F
+           BLOCK CONTAINS 0 RECORDS.
+       01  FD-ERRFILE-Record PIC X(080).
+
        FD  RPTFILE
            LABEL RECORDS ARE STANDARD
            RECORDING MODE IS F
@@ -56,11 +70,13 @@
        WORKING-STORAGE SECTION.
        01  WS-FILE-STATUS.
            COPY WSFST REPLACING ==:tag:== BY ==STCOURS==.
+           COPY WSFST REPLACING ==:tag:== BY ==ERRFILE==.
            COPY WSFST REPLACING ==:tag:== BY ==Report==.
 
        01  WS-File-Counters.
            12 FD-STCOURS-Record-Cnt     PIC S9(4) COMP VALUE ZERO.
-           12 FD-Report-Record-Cnt       PIC S9(4) COMP VALUE ZERO.
+           12 FD-ERRFILE-Record-Cnt     PIC S9(4) COMP VALUE ZERO.
+           12 FD-Report-Record-Cnt      PIC S9(4) COMP VALUE ZERO.
 
 
        01  WS-Program-Storage.
@@ -75,6 +91,8 @@
                  18 WS-Student-Course-Table OCCURS 5 TIMES.
                     21  WS-Course-Nbr      PIC X(7).
                     21  WS-Course-Grade    PIC X(1).
+                       88 WS-Valid-Grade   
+                          VALUES "A", "B", "C", "D", "F".
 
        01  CURRENT-DATE-AND-TIME.
            COPY WSDT REPLACING ==:tag:== BY ==CDT==.
@@ -123,6 +141,7 @@
                  VALUE 'Grade:'.
            12 FILLER                      PIC X(001) VALUE SPACES.
            12 R1-Grade                    PIC X.
+           12 R1-Grade-Valid              PIC X.
 
        01  R1-Footer1.
            12 FILLER             PIC X(031)
@@ -154,7 +173,9 @@
 
        1000-Begin-Job.
            OPEN INPUT  STCOURS.
-           OPEN OUTPUT RPTFILE.
+           OPEN OUTPUT ERRFILE
+                       RPTFILE.
+                       
                        
            PERFORM 6101-Setup-R1.
            PERFORM 6110-Write-R1-Page-Header.
@@ -184,6 +205,13 @@
                  R1-Course-Name
               MOVE WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub) TO
                  R1-Grade
+              IF WS-Valid-Grade(WS-Student-Sub, WS-Courses-Sub)
+                 MOVE SPACES TO R1-Grade-Valid
+              ELSE
+                 MOVE "*" TO R1-Grade-Valid
+                 MOVE FD-Student-Record TO FD-ERRFILE-Record
+                 PERFORM 6200-Write-ERRFILE
+              END-IF
               MOVE R1-Detail-Line2 TO R1-Print-Line
               PERFORM 6100-Write-R1
            END-PERFORM.
@@ -215,6 +243,7 @@
            PERFORM 6130-Write-R1-Footer.
 
            CLOSE STCOURS
+                 ERRFILE
                  RPTFILE.
 
        5000-Read-STCOURS.
@@ -281,3 +310,14 @@
        6140-Display-EOJ-Messages.
            DISPLAY EOJ-End-Message.
 
+       6200-Write-ERRFILE.
+           WRITE FD-ERRFILE-Record.
+
+           IF WS-ERRFILE-Good
+              ADD +1 TO FD-ERRFILE-Record-Cnt
+           ELSE
+              DISPLAY "** ERROR **"
+              DISPLAY "WRITE ERRFILE Failed."
+              DISPLAY "File Status: " WS-ERRFILE-Status
+              GOBACK
+           END-IF.
