@@ -80,15 +80,24 @@
 
 
        01  WS-Program-Storage.
-           12 WS-Student-Counter                  PIC 99 VALUE 0 COMP.
+           12 WS-Total-Courses-Cnt  PIC S9(4) COMP VALUE 0.
+           12 WS-Total-Grades-Cnt   PIC S9(4) COMP VALUE 0.
+           12 WS-Hold-QPA           PIC S9V99 COMP-3 VALUE 0. 
+           12 WS-Highest-QPA        PIC S9V99 COMP-3 VALUE LOW-VALUES. 
+           12 WS-High-Name          PIC X(20) VALUE SPACES.
+           12 WS-Lowest-QPA         PIC S9V99 COMP-3 VALUE HIGH-VALUES. 
+           12 WS-Low-Name           PIC X(20) VALUE SPACES.
 
        01  WS-Stdt-Course-Table-Storage.
-           12 WS-Student-Sub                  PIC 99 VALUE 0 COMP.
-           12 WS-Courses-Sub                  PIC 99 VALUE 0 COMP.
-           12 WS-Stdt-Course-Table OCCURS 5 TIMES.
+           12 WS-Student-Sub                  PIC 99 COMP VALUE 0.
+           12 WS-Courses-Sub                  PIC 99 COMP VALUE 0.
+           12 WS-Stdt-Course-Counters OCCURS 5 TIMES.
+              15 WS-Stdt-Course-Cnt           PIC S9(4) COMP VALUE 0.
+              15 WS-Stdt-Grade-Tot            PIC S9(4) COMP VALUE 0.
+           12 WS-Stdt-Course-Table    OCCURS 5 TIMES.
               15 WS-Student-Name           PIC X(20).
               15 WS-Student-Courses.
-                 18 WS-Student-Course-Table OCCURS 5 TIMES.
+                 18 WS-Student-Course-Table OCCURS 6 TIMES.
                     21  WS-Course-Nbr      PIC X(7).
                     21  WS-Course-Grade    PIC X(1).
                        88 WS-Valid-Grade   
@@ -143,11 +152,35 @@
            12 R1-Grade                    PIC X.
            12 R1-Grade-Valid              PIC X.
 
+       01  R1-Detail-Line3.
+           12 FILLER             PIC X(031)
+              VALUE "                Student's QPA: ".
+           12 FILLER             PIC X VALUE SPACE.
+           12 R1-Stdt-Avg-QPA         PIC 9.99.
+
        01  R1-Footer1.
            12 FILLER             PIC X(031)
               VALUE " Number of Input Records Read: ".
            12 FILLER             PIC X VALUE SPACE.
            12 R1-Total-Recs-Read PIC ZZ9.
+
+       01  R1-Footer2.
+           12 FILLER             PIC X(031)
+              VALUE "     Student with highest QPA: ".
+           12 FILLER             PIC X VALUE SPACE.
+           12 R1-Stdt-High-QPA   PIC X(20).
+
+       01  R1-Footer3.
+           12 FILLER             PIC X(031)
+              VALUE "      Student with lowest QPA: ".
+           12 FILLER             PIC X VALUE SPACE.
+           12 R1-Stdt-Low-QPA    PIC X(20).
+
+       01  R1-Footer4.
+           12 FILLER             PIC X(031)
+              VALUE " Average QPA for all students: ".
+           12 FILLER             PIC X VALUE SPACE.
+           12 R1-Avg-QPA         PIC 9.99.
 
        01  R1-Footer-Type-Print-Line.
            12 R1-Footer-Print-Message.
@@ -176,7 +209,6 @@
            OPEN OUTPUT ERRFILE
                        RPTFILE.
                        
-                       
            PERFORM 6101-Setup-R1.
            PERFORM 6110-Write-R1-Page-Header.
            PERFORM 5000-Read-STCOURS.
@@ -184,62 +216,113 @@
        2000-Process.
            PERFORM 2100-Process-STCOURS-Records 
               VARYING WS-Student-Sub FROM 1 BY 1
-                 UNTIL WS-STCOURS-EOF OR WS-Student-Sub  > 5.
+                 UNTIL WS-STCOURS-EOF OR WS-Student-Sub > 5.
 
        2100-Process-STCOURS-Records.
+           INITIALIZE WS-Stdt-Course-Table(WS-Student-Sub).
            MOVE FD-Student-Record TO 
               WS-Stdt-Course-Table(WS-Student-Sub).
 
-           PERFORM 2110-Print-Student-Report.
-           PERFORM 2120-Calculate-Grades.
+           PERFORM 2110-Print-Stdt-Detail-Report.
+           PERFORM 2110-Print-Stdt-Total-Report.
+           
 
-       2110-Print-Student-Report.
+       2110-Print-Stdt-Detail-Report.
            MOVE WS-Student-Name(WS-Student-Sub) TO
               R1-Student-Name.
            MOVE R1-Detail-Line1 TO R1-Print-Line.
            PERFORM 6100-Write-R1.
 
            PERFORM VARYING WS-Courses-Sub FROM 1 BY 1
-                UNTIL WS-Courses-Sub > 5
-              MOVE WS-Course-Nbr(WS-Student-Sub, WS-Courses-Sub) TO
-                 R1-Course-Name
-              MOVE WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub) TO
-                 R1-Grade
-              IF WS-Valid-Grade(WS-Student-Sub, WS-Courses-Sub)
-                 MOVE SPACES TO R1-Grade-Valid
-              ELSE
-                 MOVE "*" TO R1-Grade-Valid
-                 MOVE FD-Student-Record TO FD-ERRFILE-Record
-                 PERFORM 6200-Write-ERRFILE
-              END-IF
-              MOVE R1-Detail-Line2 TO R1-Print-Line
-              PERFORM 6100-Write-R1
+                UNTIL WS-Courses-Sub > 6
+              IF WS-Course-Nbr
+                 (WS-Student-Sub, WS-Courses-Sub) > SPACES
+                 MOVE WS-Course-Nbr
+                    (WS-Student-Sub, WS-Courses-Sub) TO
+                    R1-Course-Name
+                 MOVE WS-Course-Grade
+                    (WS-Student-Sub, WS-Courses-Sub) TO
+                    R1-Grade
+                 IF WS-Valid-Grade
+                    (WS-Student-Sub, WS-Courses-Sub)
+                    MOVE SPACES TO R1-Grade-Valid
+                    PERFORM 2120-Calculate-Grades
+                 ELSE
+                    MOVE "*" TO R1-Grade-Valid
+                    DISPLAY "There was an incorrect grade assigned."
+                    DISPLAY "Please check the report for the *."
+                    DISPLAY "And the ERRFILE for the actual record."
+                    MOVE "INVALID GRADE" TO FD-ERRFILE-Record
+                    PERFORM 6200-Write-ERRFILE
+                    MOVE FD-Student-Record TO FD-ERRFILE-Record
+                    PERFORM 6200-Write-ERRFILE
+                 END-IF
+                 MOVE R1-Detail-Line2 TO R1-Print-Line
+                 PERFORM 6100-Write-R1
+               ELSE
+                 MOVE 7 TO WS-Courses-Sub
+               END-IF
            END-PERFORM.
-
-           MOVE R1-Column-Header1 TO R1-Print-Line.
-           PERFORM 6100-Write-R1.
-
-       2120-Calculate-Grades.
-           PERFORM VARYING WS-Courses-Sub FROM 1 BY 1
-                UNTIL WS-Courses-Sub > 5
-              EVALUATE WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
-                  WHEN 'A' MOVE '4' TO
-                    WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
-                  WHEN 'B' MOVE '3' TO
-                    WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
-                  WHEN 'C' MOVE '2' TO
-                    WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
-                  WHEN 'D' MOVE '1' TO
-                    WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
-                  WHEN 'F' MOVE '0' TO
-                    WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
-              END-EVALUATE
-           END-PERFORM.
-
+      
            PERFORM 5000-Read-STCOURS.
 
+       2120-Calculate-Grades.
+           EVALUATE WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
+              WHEN 'A' 
+                 ADD +4 TO WS-Total-Grades-Cnt
+                           WS-Stdt-Grade-Tot(WS-Student-Sub)
+                 ADD +1 TO WS-Total-Courses-Cnt
+                           WS-Stdt-Course-Cnt(WS-Student-Sub)
+              WHEN 'B'
+                 ADD +3 TO WS-Total-Grades-Cnt
+                           WS-Stdt-Grade-Tot(WS-Student-Sub)
+                 ADD +1 TO WS-Total-Courses-Cnt
+                           WS-Stdt-Course-Cnt(WS-Student-Sub)
+              WHEN 'C'
+                 ADD +2 TO WS-Total-Grades-Cnt
+                           WS-Stdt-Grade-Tot(WS-Student-Sub)
+                 ADD +1 TO WS-Total-Courses-Cnt
+                           WS-Stdt-Course-Cnt(WS-Student-Sub)
+              WHEN 'D'
+                 ADD +1 TO WS-Total-Grades-Cnt
+                           WS-Stdt-Grade-Tot(WS-Student-Sub)
+                 ADD +1 TO WS-Total-Courses-Cnt
+                           WS-Stdt-Course-Cnt(WS-Student-Sub)
+              WHEN 'F'
+                 ADD +1 TO WS-Total-Courses-Cnt
+                           WS-Stdt-Course-Cnt(WS-Student-Sub)
+              WHEN OTHER
+                 CONTINUE 
+           END-EVALUATE.
 
+       2110-Print-Stdt-Total-Report.
+           
+           COMPUTE WS-Hold-QPA ROUNDED = 
+              WS-Stdt-Grade-Tot(WS-Student-Sub) / 
+                 WS-Stdt-Course-Cnt(WS-Student-Sub)
+           END-COMPUTE.
+           MOVE WS-Hold-QPA TO R1-Stdt-Avg-QPA.
+           MOVE R1-Detail-Line3 TO R1-Print-Line.
+           PERFORM 6100-Write-R1.
+           MOVE SPACES TO R1-Print-Line.
+           PERFORM 6100-Write-R1.
+
+           IF WS-Hold-QPA > WS-Highest-QPA
+              MOVE WS-Hold-QPA TO WS-Highest-QPA
+              MOVE WS-Student-Name(WS-Student-Sub) TO WS-High-Name
+           END-IF.
+
+           IF WS-Hold-QPA < WS-Lowest-QPA
+              MOVE WS-Hold-QPA TO WS-Lowest-QPA
+              MOVE WS-Student-Name(WS-Student-Sub) TO WS-Low-Name
+           END-IF.
+           
        3000-End-Job.
+
+           MOVE WS-High-Name TO R1-Stdt-High-QPA. 
+           MOVE WS-Low-Name TO R1-Stdt-Low-QPA. 
+           COMPUTE R1-Avg-QPA ROUNDED = 
+              WS-Total-Grades-Cnt / WS-Total-Courses-Cnt.
            PERFORM 6130-Write-R1-Footer.
 
            CLOSE STCOURS
@@ -297,12 +380,21 @@
        6130-Write-R1-Footer.
            MOVE FD-STCOURS-Record-Cnt    TO R1-Total-Recs-Read.
       *    Remember to double-check this number.
-           IF R1-Line-Count + 2 > R1-Max-Lines
+           IF R1-Line-Count + 5 > R1-Max-Lines
               PERFORM 6110-Write-R1-Page-Header
            END-IF.
            MOVE R1-Footer1 TO R1-Print-Line.
            WRITE R1-Print-Line
               AFTER ADVANCING 2 LINES.
+           MOVE R1-Footer2 TO R1-Print-Line.
+           WRITE R1-Print-Line
+              AFTER ADVANCING 1 LINES.
+           MOVE R1-Footer3 TO R1-Print-Line.
+           WRITE R1-Print-Line
+              AFTER ADVANCING 1 LINES.
+           MOVE R1-Footer4 TO R1-Print-Line.
+           WRITE R1-Print-Line
+              AFTER ADVANCING 1 LINES.
 
 
            PERFORM 6140-Display-EOJ-Messages.
