@@ -94,29 +94,35 @@
               15 R1-HDR-MM             PIC 9(2).
               15 FILLER                PIC X(1) VALUE "-".
               15 R1-HDR-DD             PIC 9(2).
-           12 FILLER                   PIC X(001) VALUE SPACE.
-           12 FILLER                   PIC X(034)
-                 VALUE "    Student Courses Breakout     ".
-           12 FILLER                   PIC X(001) VALUE SPACE.
+           12 FILLER                   PIC X(014) VALUE SPACE.
+           12 FILLER                   PIC X(024)
+                 VALUE "Student Courses Breakout".
+           12 FILLER                   PIC X(016) VALUE SPACE.
            12 FILLER                   PIC X(005) VALUE "Page:".
            12 FILLER                   PIC X(001) VALUE SPACE.
            12 R1-HDR-Page-Count        PIC ZZ9.
 
        01  R1-Column-Header1.
-           12 FILLER   PIC X(007) VALUE "Account".
-           12 FILLER   PIC X(037) VALUE SPACES.
-
-       01  R1-Column-Header2.
-           12 FILLER   PIC X(006) VALUE "Number".
-           12 FILLER   PIC X(002) VALUE SPACES.
-
-       01  R1-Column-Header3.
-           12 FILLER   PIC X(006) VALUE "Number".
-           12 FILLER   PIC X(002) VALUE SPACES.
-
-       01  R1-Detail-Line.
-      *     12 R1-Patient-Num              PIC X(005).
            12 FILLER                      PIC X(080) VALUE SPACES.
+
+       01  R1-Detail-Line1.
+           12 FILLER                      PIC X(013)
+                 VALUE 'Student Name:'.
+           12 FILLER                      PIC X(001) VALUE SPACES.
+           12 R1-Student-Name             PIC X(020).
+           12 FILLER                      PIC X(046) VALUE SPACES.
+
+       01  R1-Detail-Line2.
+           12 FILLER                      PIC X(006) VALUE SPACES.
+           12 FILLER                      PIC X(007)
+                 VALUE 'Course:'.
+           12 FILLER                      PIC X(001) VALUE SPACES.
+           12 R1-Course-Name              PIC X(007).
+           12 FILLER                      PIC X(005) VALUE SPACES.
+           12 FILLER                      PIC X(006)
+                 VALUE 'Grade:'.
+           12 FILLER                      PIC X(001) VALUE SPACES.
+           12 R1-Grade                    PIC X.
 
        01  R1-Footer1.
            12 FILLER             PIC X(031)
@@ -162,6 +168,30 @@
        2100-Process-STCOURS-Records.
            MOVE FD-Student-Record TO 
               WS-Stdt-Course-Table(WS-Student-Sub).
+
+           PERFORM 2110-Print-Student-Report.
+           PERFORM 2120-Calculate-Grades.
+
+       2110-Print-Student-Report.
+           MOVE WS-Student-Name(WS-Student-Sub) TO
+              R1-Student-Name.
+           MOVE R1-Detail-Line1 TO R1-Print-Line.
+           PERFORM 6100-Write-R1.
+
+           PERFORM VARYING WS-Courses-Sub FROM 1 BY 1
+                UNTIL WS-Courses-Sub > 5
+              MOVE WS-Course-Nbr(WS-Student-Sub, WS-Courses-Sub) TO
+                 R1-Course-Name
+              MOVE WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub) TO
+                 R1-Grade
+              MOVE R1-Detail-Line2 TO R1-Print-Line
+              PERFORM 6100-Write-R1
+           END-PERFORM.
+
+           MOVE R1-Column-Header1 TO R1-Print-Line.
+           PERFORM 6100-Write-R1.
+
+       2120-Calculate-Grades.
            PERFORM VARYING WS-Courses-Sub FROM 1 BY 1
                 UNTIL WS-Courses-Sub > 5
               EVALUATE WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
@@ -178,8 +208,6 @@
               END-EVALUATE
            END-PERFORM.
 
-           MOVE WS-Stdt-Course-Table(WS-Student-Sub) TO R1-Detail-Line.
-           PERFORM 6100-Write-R1.
            PERFORM 5000-Read-STCOURS.
 
 
@@ -227,16 +255,11 @@
            WRITE R1-Print-Line FROM R1-Page-Header
               AFTER ADVANCING PAGE.
            WRITE R1-Print-Line FROM R1-Column-Header1
-              AFTER ADVANCING 2.
-           WRITE R1-Print-Line FROM R1-Column-Header2
-              AFTER ADVANCING 1.
-           WRITE R1-Print-Line FROM R1-Column-Header3
               AFTER ADVANCING 1.
       *    Remember to double-check this number.
-           MOVE 5 TO R1-Line-Count.
+           MOVE 2 TO R1-Line-Count.
 
        6120-Write-R1-Detail.
-           MOVE R1-Detail-Line TO R1-Print-Line.
            WRITE R1-Print-Line
               AFTER ADVANCING R1-Line-Advance LINES.
            ADD R1-Line-Advance TO R1-Line-Count.
