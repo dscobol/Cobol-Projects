@@ -49,10 +49,10 @@
        01  FD-Student-Record.
            12 FD-Student-Name             PIC X(20).
            12 FD-Student-Courses.
-              15 FD-Student-Course-Table OCCURS 5 TIMES.
+              15 FD-Student-Course-Table OCCURS 6 TIMES.
                  18  FD-Course-Nbr        PIC X(7).
                  18  FD-Course-Grade      PIC X(1).
-           12  FILLER                     PIC X(20).
+           12  FILLER                     PIC X(12).
 
        FD  ERRFILE
            LABEL RECORDS ARE STANDARD

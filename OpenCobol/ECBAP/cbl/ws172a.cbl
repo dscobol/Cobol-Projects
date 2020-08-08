@@ -25,10 +25,10 @@
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-STCOURS-Status.
 
-           SELECT ERRFILE 
-      *     ASSIGN TO ERRFILE 
+           SELECT ERRFILE
+      *     ASSIGN TO ERRFILE
       *     ORGANIZATION IS SEQUENTIAL
-           ASSIGN TO 
+           ASSIGN TO
               "../../../common/data/ECBAP/student-ERRFILE.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-ERRFILE-Status.
@@ -49,10 +49,10 @@
        01  FD-Student-Record.
            12 FD-Student-Name             PIC X(20).
            12 FD-Student-Courses.
-              15 FD-Student-Course-Table OCCURS 5 TIMES.
+              15 FD-Student-Course-Table OCCURS 6 TIMES.
                  18  FD-Course-Nbr        PIC X(7).
                  18  FD-Course-Grade      PIC X(1).
-           12  FILLER                     PIC X(20).
+           12  FILLER                     PIC X(12).
 
        FD  ERRFILE
            LABEL RECORDS ARE STANDARD
@@ -82,10 +82,10 @@
        01  WS-Program-Storage.
            12 WS-Total-Courses-Cnt  PIC S9(4) COMP VALUE 0.
            12 WS-Total-Grades-Cnt   PIC S9(4) COMP VALUE 0.
-           12 WS-Hold-QPA           PIC S9V99 COMP-3 VALUE 0. 
-           12 WS-Highest-QPA        PIC S9V99 COMP-3 VALUE LOW-VALUES. 
+           12 WS-Hold-QPA           PIC S9V99 COMP-3 VALUE 0.
+           12 WS-Highest-QPA        PIC S9V99 COMP-3 VALUE LOW-VALUES.
            12 WS-High-Name          PIC X(20) VALUE SPACES.
-           12 WS-Lowest-QPA         PIC S9V99 COMP-3 VALUE HIGH-VALUES. 
+           12 WS-Lowest-QPA         PIC S9V99 COMP-3 VALUE HIGH-VALUES.
            12 WS-Low-Name           PIC X(20) VALUE SPACES.
 
        01  WS-Stdt-Course-Table-Storage.
@@ -100,7 +100,7 @@
                  18 WS-Student-Course-Table OCCURS 6 TIMES.
                     21  WS-Course-Nbr      PIC X(7).
                     21  WS-Course-Grade    PIC X(1).
-                       88 WS-Valid-Grade   
+                       88 WS-Valid-Grade
                           VALUES "A", "B", "C", "D", "F".
 
        01  CURRENT-DATE-AND-TIME.
@@ -208,24 +208,24 @@
            OPEN INPUT  STCOURS.
            OPEN OUTPUT ERRFILE
                        RPTFILE.
-                       
+
            PERFORM 6101-Setup-R1.
            PERFORM 6110-Write-R1-Page-Header.
            PERFORM 5000-Read-STCOURS.
 
        2000-Process.
-           PERFORM 2100-Process-STCOURS-Records 
+           PERFORM 2100-Process-STCOURS-Records
               VARYING WS-Student-Sub FROM 1 BY 1
                  UNTIL WS-STCOURS-EOF OR WS-Student-Sub > 5.
 
        2100-Process-STCOURS-Records.
            INITIALIZE WS-Stdt-Course-Table(WS-Student-Sub).
-           MOVE FD-Student-Record TO 
+           MOVE FD-Student-Record TO
               WS-Stdt-Course-Table(WS-Student-Sub).
 
            PERFORM 2110-Print-Stdt-Detail-Report.
            PERFORM 2110-Print-Stdt-Total-Report.
-           
+
 
        2110-Print-Stdt-Detail-Report.
            MOVE WS-Student-Name(WS-Student-Sub) TO
@@ -263,12 +263,12 @@
                  MOVE 7 TO WS-Courses-Sub
                END-IF
            END-PERFORM.
-      
+
            PERFORM 5000-Read-STCOURS.
 
        2120-Calculate-Grades.
            EVALUATE WS-Course-Grade(WS-Student-Sub, WS-Courses-Sub)
-              WHEN 'A' 
+              WHEN 'A'
                  ADD +4 TO WS-Total-Grades-Cnt
                            WS-Stdt-Grade-Tot(WS-Student-Sub)
                  ADD +1 TO WS-Total-Courses-Cnt
@@ -292,13 +292,13 @@
                  ADD +1 TO WS-Total-Courses-Cnt
                            WS-Stdt-Course-Cnt(WS-Student-Sub)
               WHEN OTHER
-                 CONTINUE 
+                 CONTINUE
            END-EVALUATE.
 
        2110-Print-Stdt-Total-Report.
-           
-           COMPUTE WS-Hold-QPA ROUNDED = 
-              WS-Stdt-Grade-Tot(WS-Student-Sub) / 
+
+           COMPUTE WS-Hold-QPA ROUNDED =
+              WS-Stdt-Grade-Tot(WS-Student-Sub) /
                  WS-Stdt-Course-Cnt(WS-Student-Sub)
            END-COMPUTE.
            MOVE WS-Hold-QPA TO R1-Stdt-Avg-QPA.
@@ -316,12 +316,12 @@
               MOVE WS-Hold-QPA TO WS-Lowest-QPA
               MOVE WS-Student-Name(WS-Student-Sub) TO WS-Low-Name
            END-IF.
-           
+
        3000-End-Job.
 
-           MOVE WS-High-Name TO R1-Stdt-High-QPA. 
-           MOVE WS-Low-Name TO R1-Stdt-Low-QPA. 
-           COMPUTE R1-Avg-QPA ROUNDED = 
+           MOVE WS-High-Name TO R1-Stdt-High-QPA.
+           MOVE WS-Low-Name TO R1-Stdt-Low-QPA.
+           COMPUTE R1-Avg-QPA ROUNDED =
               WS-Total-Grades-Cnt / WS-Total-Courses-Cnt.
            PERFORM 6130-Write-R1-Footer.
 
