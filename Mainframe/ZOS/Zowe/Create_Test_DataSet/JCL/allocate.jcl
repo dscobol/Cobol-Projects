@@ -5,10 +5,10 @@
 //* QUALIFIER UNDER WHICH THE &PROJECT. DATASETS MAY RESIDE.
 //*
 //    SET HLQ='Z81187'                        *TSO USER ID
-//    SET PROJECT='C10'
-//    SET FILENAME='TRANS4'
-//    SET LENGTH='51'
-//    SET FORMAT='VB'
+//    SET PROJECT='LEARN'
+//    SET FILENAME='INSTYPE'
+//    SET LENGTH='3'
+//    SET FORMAT='FB'
 //*************************
 //* CLEAN UP DATASETS
 //*************************
@@ -30,5 +30,5 @@
 //DD1      DD DSN=&HLQ..&PROJECT..&FILENAME.,
 //            DCB=(BLKSIZE=0,LRECL=&LENGTH.,RECFM=&FORMAT.,DSORG=PS),
 //            DISP=(NEW,CATLG),
-//            SPACE=(TRK,(10,2),RLSE)
+//            SPACE=(TRK,(5,1),RLSE)
 //*

@@ -26,8 +26,6 @@
            SELECT TABLOAD
            ASSIGN TO TABLOAD
            ORGANIZATION IS SEQUENTIAL
-      *     ASSIGN TO "../../../common/data/ECBAP/hinstype.dat.txt"
-      *     ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-TL-Status.
 
        DATA DIVISION.
@@ -75,6 +73,11 @@
            12 WS-STN-Table-Setup.
               15 WS-STN-Table OCCURS 5 TIMES.
                 18 WS-STN-A                    PIC 9(05).
+
+       01  WS-SNF-Table-Storage.
+           12 WS-STF-SUB                       PIC 9 VALUE 0.
+       01  WS-STF-A-TAB.
+           12 WS-STF-A OCCURS 5 TIMES          PIC 9(05).
 
 
        01 WS-DT-HOLD.
@@ -214,6 +217,15 @@
                     21 WS-TT-L3 OCCURS 5 TIMES.
                        24 WS-TT-L3-C             PIC X(05).
 
+       01  WS-3D-Index-Table-Storage.
+           12 WS-TI-Table-Setup.
+              15 WS-TI-Table OCCURS 5 TIMES INDEXED BY WS-TI1-IDX.
+                 18 WS-TI-A                      PIC X(05).
+                 18 WS-TI-L2 OCCURS 5 TIMES INDEXED BY WS-TI2-IDX.
+                    21 WS-TI-L2-B                PIC X(05).
+                    21 WS-TI-L3 OCCURS 5 TIMES INDEXED BY WS-TI3-IDX.
+                       24 WS-TI-L3-C             PIC X(05).
+
        01  WS-Type-Table-Storage.
            12 WS-Type-Max-Element-Counter     PIC S9(4) COMP VALUE 10.
            12 WS-Type-Occurs-Dep-Counter      PIC S99 COMP-3.
@@ -235,7 +247,7 @@
            GOBACK.
 
        1000-Begin-Job.
-      *     PERFORM 1010-Load-Type-Table.
+           PERFORM 1010-Load-Type-Table.
            PERFORM 1100-Load-Other-Tables.
 
        1010-Load-Type-Table.
@@ -243,6 +255,7 @@
            SET WS-Type-IDX TO +1.
            PERFORM 1015-Load-Type Until WS-TL-EOF.
            CLOSE TABLOAD.
+           MOVE WS-TL-Records-Read TO WS-Type-Occurs-Dep-Counter
            PERFORM 1099-Verify-Type-Table.
 
        1015-Load-Type.
@@ -250,11 +263,11 @@
               AT END SET WS-TL-EOF TO TRUE
            END-READ.
            IF WS-TL-Good
+              MOVE TL-REC TO WS-Type(WS-Type-IDX)
+              SET WS-Type-IDX UP BY +1
               ADD +1 TO
                  WS-TL-Records-Read
-                 WS-Type-Occurs-Dep-Counter
-             MOVE TL-REC TO WS-Type(WS-Type-IDX)
-             SET WS-Type-IDX UP BY +1
+              END-ADD
            ELSE
               IF WS-TL-EOF
                  NEXT SENTENCE
@@ -268,11 +281,12 @@
            END-IF.
 
        1099-Verify-Type-Table.
-           DISPLAY "WS-Type-Table: "
-           PERFORM VARYING WS-Type-IDX FROM 1 BY 1
-              UNTIL WS-Type-IDX > WS-Type-Occurs-Dep-Counter
-              DISPLAY WS-Type(WS-Type-IDX)
-           END-PERFORM.
+      D     DISPLAY "1099-Verify-Type-Table: Running".
+      D     DISPLAY "WS-Type-Table: "
+      D     PERFORM VARYING WS-Type-IDX FROM 1 BY 1
+      D        UNTIL WS-Type-IDX > WS-Type-Occurs-Dep-Counter
+      D        DISPLAY WS-Type(WS-Type-IDX)
+      D     END-PERFORM.
            IF WS-Type-Occurs-Dep-Counter >
               WS-Type-Max-Element-Counter
                  DISPLAY "** ERROR **: 1099-Verify-Type-Table"
@@ -287,7 +301,10 @@
            MOVE WS-ST-HOLD TO WS-ST-Table-Setup.
            MOVE WS-DT-HOLD TO WS-DT-Table-Setup.
            MOVE WS-TT-HOLD TO WS-TT-Table-Setup.
+           MOVE WS-TT-HOLD TO WS-TI-Table-Setup.
            MOVE WS-STN-HOLD TO WS-STN-Table-Setup.
+      *     MOVE WS-STN-HOLD TO WS-STF-A.
+           MOVE WS-STN-HOLD TO WS-STF-A-TAB.
            MOVE WS-DTN-HOLD TO WS-DTN-Table-Setup.
            MOVE WS-DTHN-HOLD TO WS-DTHN-Table-Setup.
 
@@ -453,6 +470,25 @@
            END-PERFORM.
            DISPLAY SPACES.
 
+           DISPLAY "This is the 3D Indexed Table:"
+           DISPLAY "Index-Varying:"
+           PERFORM VARYING WS-TI1-IDX FROM 1 BY 1
+              UNTIL WS-TI1-IDX > 5
+              DISPLAY "WS-TI-Table Entry: "
+                 WS-TI-A(WS-TI1-IDX)
+              PERFORM VARYING WS-TI2-IDX FROM 1 BY 1
+                 UNTIL WS-TI2-IDX > 5
+                 DISPLAY "      WS-TI-SUB Entry: "
+                    WS-TI-L2-B(WS-TI1-IDX, WS-TI2-IDX)
+                 PERFORM VARYING WS-TI3-IDX FROM 1 BY 1
+                    UNTIL WS-TI3-IDX > 5
+                    DISPLAY "           WS-TI3-SUB-SUB Entry: "
+                       WS-TI-L3-C(WS-TI1-IDX, WS-TI2-IDX, WS-TI3-IDX)
+                 END-PERFORM
+              END-PERFORM
+           END-PERFORM.
+           DISPLAY SPACES.
+
            DISPLAY "This is the Simple Number Table:"
            DISPLAY "Using numbers:"
            DISPLAY "WS-STN-Table - 1: " WS-STN-A(1).
@@ -476,6 +512,15 @@
            PERFORM VARYING WS-STN-SUB FROM 1 BY 1
               UNTIL WS-STN-SUB > 5
               DISPLAY "WS-STN-Table Entry: " WS-STN-A(WS-STN-SUB)
+           END-PERFORM.
+           DISPLAY SPACES.
+
+           DISPLAY "This is the Simple Flat Numbers Table:"
+           DISPLAY "Subscript Addition:"
+           MOVE 1 TO WS-STF-SUB.
+           PERFORM 5 TIMES
+              DISPLAY "WS-ST-Table Entry: " WS-STF-A(WS-STF-SUB)
+              ADD 1 TO WS-STF-SUB
            END-PERFORM.
            DISPLAY SPACES.
 
@@ -591,13 +636,3 @@
        3000-End-Job.
            DISPLAY "3000-EOJ: ".
            DISPLAY "Normally, I would have something to do here".
-
-
-
-
-
-
-
-
-
-

@@ -2,13 +2,13 @@
 ################################################################
 # Allocate and upload the test dataset.
 ################################################################
-DATANAME='c10-4trans.dat.txt'
+DATANAME='hinstype.dat.txt'
 
-PROJECT='C10'
-MEMBNAME='TRANS4'
+PROJECT='LEARN'
+MEMBNAME='INSTYPE'
 
 HLC="Z81187"
-DATADIR='C:\Users\dastagg\dev\cobol\Cobol-Projects\common\data'
+DATADIR='C:\Users\dastagg\dev\cobol\Cobol-Projects\common\data\ECBAP'
 #DATADIR='/home/dastagg/dev/cobol/Cobol-Projects/common/data'
 
 FILES_CMD="zos-files" # files
