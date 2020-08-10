@@ -320,7 +320,11 @@
 
       *    This table will load the values from WS-3DS-HOLD.
       *    This table will use subscripts to navigate.
+      *    MUST keep Element-Cnt in sync with OCCURS #.
        01  WS-3DS-Table-Storage.
+           12 WS-3DS-Element1-Cnt               PIC 9 VALUE 5.
+           12 WS-3DS-Element2-Cnt               PIC 9 VALUE 5.
+           12 WS-3DS-Element3-Cnt               PIC 9 VALUE 5.
            12 WS-3DS-SUB1                       PIC 9 VALUE 0.
            12 WS-3DS-SUB2                       PIC 9 VALUE 0.
            12 WS-3DS-SUB3                       PIC 9 VALUE 0.
@@ -335,6 +339,9 @@
       *    This table will load the values from WS-3DI-HOLD.
       *    This table will use indexes to navigate.
        01  WS-3DI-Table-Storage.
+           12 WS-3DI-Element1-Cnt               PIC 9 VALUE 5.
+           12 WS-3DI-Element2-Cnt               PIC 9 VALUE 5.
+           12 WS-3DI-Element3-Cnt               PIC 9 VALUE 4.
            12 WS-3DI-Table-Setup.
       *    Division
               15 WS-3DI-Table OCCURS 5 TIMES INDEXED BY WS-3DI1-IDX.
@@ -347,9 +354,13 @@
                        24 WS-3DI-L3-C             PIC 9(05).
 
        01  WS-Company-Storage.
-           12 WS-Region-Total                    PIC 9(8) VALUE 0.
-           12 WS-Division-Total                  PIC 9(8) VALUE 0.
-           12 WS-Company-Total                   PIC 9(8) VALUE 0.
+           12 WS-Region-Total              PIC S9(4) COMP VALUE ZERO.
+           12 WS-Division-Total            PIC S9(4) COMP VALUE ZERO.
+           12 WS-Company-Total             PIC S9(8) COMP VALUE ZERO.
+           12 WS-Region-Counter            PIC S9(4) COMP VALUE ZERO.
+           12 WS-Division-Counter          PIC S9(4) COMP VALUE ZERO.
+           12 WS-Company-Counter           PIC S9(4) COMP VALUE ZERO.
+           12 WS-Average-Display           PIC ZZZZZ9.99.
 
        01  WS-Function-Storage.
            12 WS-Show-Number         PIC 999999.99+.
@@ -467,6 +478,9 @@
            DISPLAY " Perform - Average of Values - 1D table is: " 
               WS-Show-Number.
 
+           DISPLAY SPACE.
+           DISPLAY "On to 2D tables!!!"
+           DISPLAY SPACE.
 
       *    Let's move on to a 2D table and do some reporting.
       *    This is the Student-Course-Grade table.
@@ -475,6 +489,7 @@
 
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
+              DISPLAY SPACE
               DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)       
               PERFORM VARYING WS-SC-Crs-IDX FROM 1 BY 1
                  UNTIL WS-SC-Crs-IDX > WS-SC-Element2-Cnt
@@ -487,6 +502,188 @@
               END-PERFORM
            END-PERFORM.
 
+           DISPLAY SPACE.
+           DISPLAY "On to 3D tables!!!"
+           DISPLAY SPACE.
+
+      *    On to 3D tables. This is "Company Data".
+      *    It breaks down into:
+      *    Division:
+      *      Region:
+      *        4 Quarterly numbers:
+      *    Calculate for  Region Total
+      *                   Division Total and
+      *                   Company Total.
+
+      *    Calculating for Company first:
+      *    ALL is not available for this so have to walk the table.
+
+           PERFORM VARYING WS-3DI1-IDX 
+              FROM 1 BY 1
+              UNTIL WS-3DI1-IDX > WS-3DI-Element1-Cnt
+              PERFORM VARYING WS-3DI2-IDX 
+                 FROM 1 BY 1
+                 UNTIL WS-3DI2-IDX > WS-3DI-Element2-Cnt
+                 PERFORM VARYING WS-3DI3-IDX 
+                    FROM 1 BY 1
+                    UNTIL WS-3DI3-IDX > WS-3DI-Element3-Cnt
+                    COMPUTE WS-Company-Total = WS-Company-Total +
+                     WS-3DI-L3-C(WS-3DI1-IDX, WS-3DI2-IDX, WS-3DI3-IDX)
+                    END-COMPUTE
+                 END-PERFORM
+              END-PERFORM
+           END-PERFORM.
+
+           DISPLAY SPACE.
+           DISPLAY "Company Total: " WS-Company-Total              
+           DISPLAY SPACE.
+
+      *    Okay, Calculating is fine.
+      *    Now, can we calculate and print subtotals in one go?
+           DISPLAY SPACE.
+           DISPLAY "Company Totals Report - By Region"              
+           DISPLAY SPACE.
+           INITIALIZE WS-Region-Total,
+                      WS-Division-Total,
+                      WS-Company-Total.
+           PERFORM VARYING WS-3DI1-IDX 
+              FROM 1 BY 1
+              UNTIL WS-3DI1-IDX > WS-3DI-Element1-Cnt
+              PERFORM VARYING WS-3DI2-IDX 
+                 FROM 1 BY 1
+                 UNTIL WS-3DI2-IDX > WS-3DI-Element2-Cnt
+                 PERFORM VARYING WS-3DI3-IDX 
+                    FROM 1 BY 1
+                    UNTIL WS-3DI3-IDX > WS-3DI-Element3-Cnt
+                    COMPUTE WS-Region-Total = WS-Region-Total +
+                     WS-3DI-L3-C(WS-3DI1-IDX, WS-3DI2-IDX, WS-3DI3-IDX)
+                    END-COMPUTE
+                 END-PERFORM
+                 DISPLAY "Total for Region: "
+                    WS-3DI-L2-B(WS-3DI1-IDX, WS-3DI2-IDX)
+                    " is "
+                    WS-Region-Total
+                 COMPUTE WS-Division-Total = 
+                    WS-Division-Total + WS-Region-Total
+                 INITIALIZE WS-Region-Total
+              END-PERFORM
+              DISPLAY "Total for Division: "
+                 WS-3DI-A(WS-3DI1-IDX)
+                 " is "
+                 WS-Division-Total
+              DISPLAY SPACE
+              COMPUTE WS-Company-Total = 
+                 WS-Company-Total + WS-Division-Total
+              INITIALIZE WS-Division-Total
+           END-PERFORM.
+           DISPLAY SPACE.
+           DISPLAY "Total for Company is: "
+              WS-Company-Total.
+
+
+
+      *    Show me the numbers for each region just for the 4th quarter.
+      *    The table is already loaded to I just need to get the right
+      *    location.
+
+           DISPLAY SPACE.
+           DISPLAY "Company Totals Report".
+           DISPLAY "By Region - 4th Quarter Only".              
+           DISPLAY SPACE.
+           INITIALIZE WS-Region-Total,
+                      WS-Division-Total,
+                      WS-Company-Total.
+           PERFORM VARYING WS-3DI1-IDX 
+              FROM 1 BY 1
+              UNTIL WS-3DI1-IDX > WS-3DI-Element1-Cnt
+              PERFORM VARYING WS-3DI2-IDX 
+                 FROM 1 BY 1
+                 UNTIL WS-3DI2-IDX > WS-3DI-Element2-Cnt
+                    COMPUTE WS-Region-Total = 
+                       WS-3DI-L3-C(WS-3DI1-IDX, WS-3DI2-IDX, 4)
+                    END-COMPUTE
+                    DISPLAY "Total for Region: "
+                       WS-3DI-L2-B(WS-3DI1-IDX, WS-3DI2-IDX)
+                       " is "
+                       WS-Region-Total
+                    COMPUTE WS-Division-Total = 
+                       WS-Division-Total + WS-Region-Total
+                    INITIALIZE WS-Region-Total
+              END-PERFORM
+              DISPLAY "Total for Division: "
+                 WS-3DI-A(WS-3DI1-IDX)
+                 " is "
+                 WS-Division-Total
+              DISPLAY SPACE
+              COMPUTE WS-Company-Total = 
+                 WS-Company-Total + WS-Division-Total
+              INITIALIZE WS-Division-Total
+           END-PERFORM.
+           DISPLAY SPACE.
+           DISPLAY "Total for Company is: "
+              WS-Company-Total.
+
+
+      *    Report the Average for each region and division.
+           DISPLAY SPACE.
+           DISPLAY "Company Totals Report - By Region"              
+           DISPLAY "Average per Region and Division".
+           DISPLAY SPACE.
+           INITIALIZE WS-Region-Total,
+                      WS-Division-Total,
+                      WS-Company-Total,
+                      WS-Region-Counter,
+                      WS-Division-Counter,
+                      WS-Company-Counter.
+           PERFORM VARYING WS-3DI1-IDX 
+              FROM 1 BY 1
+              UNTIL WS-3DI1-IDX > WS-3DI-Element1-Cnt
+              PERFORM VARYING WS-3DI2-IDX 
+                 FROM 1 BY 1
+                 UNTIL WS-3DI2-IDX > WS-3DI-Element2-Cnt
+                 PERFORM VARYING WS-3DI3-IDX 
+                    FROM 1 BY 1
+                    UNTIL WS-3DI3-IDX > WS-3DI-Element3-Cnt
+                    COMPUTE WS-Region-Total = WS-Region-Total +
+                     WS-3DI-L3-C(WS-3DI1-IDX, WS-3DI2-IDX, WS-3DI3-IDX)
+                    END-COMPUTE
+                    Add +1 TO WS-Region-Counter
+                 END-PERFORM
+                 DIVIDE WS-Region-Total BY WS-Region-Counter
+                    GIVING WS-Average-Display ROUNDED
+                    ON SIZE ERROR 
+                       DISPLAY "There was a problem with divide."
+                 END-DIVIDE 
+                 DISPLAY "Average for Region: "
+                    WS-3DI-L2-B(WS-3DI1-IDX, WS-3DI2-IDX)
+                    " is "
+                    WS-Average-Display 
+                 COMPUTE WS-Division-Total = 
+                    WS-Division-Total + WS-Region-Total
+                 ADD WS-Region-Counter TO WS-Division-Counter
+                 INITIALIZE WS-Region-Total, WS-Region-Counter
+              END-PERFORM
+              COMPUTE WS-Average-Display = 
+                    (WS-Division-Total / WS-Division-Counter)
+              DISPLAY "Total for Division: "
+                 WS-3DI-A(WS-3DI1-IDX)
+                 " is "
+                 WS-Average-Display
+              DISPLAY SPACE
+              COMPUTE WS-Company-Total = 
+                 WS-Company-Total + WS-Division-Total
+              ADD WS-Division-Counter TO WS-Company-Counter
+              INITIALIZE WS-Division-Total, WS-Division-Counter
+           END-PERFORM.
+           
+           DISPLAY SPACE.
+           DIVIDE WS-Company-Total BY WS-Company-Counter
+              GIVING WS-Average-Display ROUNDED
+              ON SIZE ERROR 
+                 DISPLAY "There was a problem with divide."
+           END-DIVIDE 
+           DISPLAY "Average for Region/Division/Company is: "
+              WS-Average-Display.
 
 
        2200-Do-Some-Searching.
@@ -510,7 +707,7 @@
       D    DISPLAY "WS-1D-Table - 3: " WS-1D-A(3). 
       D    DISPLAY "WS-1D-Table - 4: " WS-1D-A(4). 
       D    DISPLAY "WS-1D-Table - 5: " WS-1D-A(5).
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
       D    DISPLAY "This is the Simple 1D Table:"
       D    DISPLAY "Using subscript addition:"
@@ -519,7 +716,7 @@
       D       DISPLAY "WS-1D-Table Entry: " WS-1D-A(WS-1D-SUB)
       D       ADD 1 TO WS-1D-SUB 
       D    END-PERFORM.
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
       D    DISPLAY "This is the Simple 1D Table:"
       D    DISPLAY "Using subscript varying:"
@@ -527,7 +724,7 @@
       D       UNTIL WS-1D-SUB > 5 
       D       DISPLAY "WS-1D-Table Entry: " WS-1D-A(WS-1D-SUB) 
       D    END-PERFORM.
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
           
       *    Simple Table with Numbers.
       D    DISPLAY "This is the Simple 1D Number Table:"
@@ -537,7 +734,7 @@
       D    DISPLAY "WS-1DN-Table - 3: " WS-1DN-A(3). 
       D    DISPLAY "WS-1DN-Table - 4: " WS-1DN-A(4). 
       D    DISPLAY "WS-1DN-Table - 5: " WS-1DN-A(5).
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
       D    DISPLAY "This is the Simple 1D Number Table:"
       D    DISPLAY "Using subscript addition:"
@@ -546,7 +743,7 @@
       D       DISPLAY "WS-1DN-Table Entry: " WS-1DN-A(WS-1DN-SUB)
       D       ADD 1 TO WS-1DN-SUB 
       D    END-PERFORM.
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
       D    DISPLAY "This is the Simple 1D Number Table:"
       D    DISPLAY "Using subscript varying:"
@@ -554,7 +751,7 @@
       D       UNTIL WS-1DN-SUB > 5 
       D       DISPLAY "WS-1DN-Table Entry: " WS-1DN-A(WS-1DN-SUB) 
       D    END-PERFORM.
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
       D    DISPLAY "This is the 2D Table:"
       D    DISPLAY "Using numbers as subscripts:"
@@ -568,7 +765,7 @@
       D       WS-2D-A(1) "-" WS-2D-L2(1, 4). 
       D    DISPLAY "WS-2D-Table 1-Level 5: " 
       D       WS-2D-A(1) "-" WS-2D-L2(1, 5).
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
       D    DISPLAY "WS-2D-Table 2-Level 1: " 
       D       WS-2D-A(2) "-" WS-2D-L2(2, 1). 
       D    DISPLAY "WS-2D-Table 2-Level 2: " 
@@ -579,7 +776,7 @@
       D       WS-2D-A(2) "-" WS-2D-L2(2, 4). 
       D    DISPLAY "WS-2D-Table 2-Level 5: " 
       D       WS-2D-A(2) "-" WS-2D-L2(2, 5).
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
       D    DISPLAY "WS-2D-Table 3-Level 1: " 
       D       WS-2D-A(3) "-" WS-2D-L2(3, 1). 
       D    DISPLAY "WS-2D-Table 3-Level 2: " 
@@ -590,7 +787,7 @@
       D       WS-2D-A(3) "-" WS-2D-L2(3, 4). 
       D    DISPLAY "WS-2D-Table 3-Level 5: " 
       D       WS-2D-A(3) "-" WS-2D-L2(3, 5).
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
       D    DISPLAY "WS-2D-Table 4-Level 1: " 
       D       WS-2D-A(4) "-" WS-2D-L2(4, 1). 
       D    DISPLAY "WS-2D-Table 4-Level 2: " 
@@ -601,7 +798,7 @@
       D       WS-2D-A(4) "-" WS-2D-L2(4, 4). 
       D    DISPLAY "WS-2D-Table 4-Level 5: " 
       D       WS-2D-A(4) "-" WS-2D-L2(4, 5).
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
       D    DISPLAY "WS-2D-Table 5-Level 1: " 
       D       WS-2D-A(5) "-" WS-2D-L2(5, 1). 
       D    DISPLAY "WS-2D-Table 5-Level 2: " 
@@ -612,7 +809,7 @@
       D       WS-2D-A(5) "-" WS-2D-L2(5, 4). 
       D    DISPLAY "WS-2D-Table 5-Level 5: " 
       D       WS-2D-A(5) "-" WS-2D-L2(5, 5).
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
       D    DISPLAY "This is the Two Dim Table:"
       D    DISPLAY "Using subscript addition:"
@@ -628,7 +825,7 @@
       D       END-PERFORM
       D       ADD 1 TO WS-2D-SUB1
       D    END-PERFORM.
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
       D    DISPLAY "This is the Two Dim Table:"
       D    DISPLAY "Using subscript varying:"
@@ -642,7 +839,7 @@
       D             WS-2D-L2(WS-2D-SUB1, WS-2D-SUB2)
       D       END-PERFORM 
       D    END-PERFORM.
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
       D    DISPLAY "This is the 3DS Subscripted Table:"
       D    DISPLAY "Using subscript varying:"
@@ -661,7 +858,7 @@
       D          END-PERFORM
       D       END-PERFORM
       D    END-PERFORM.
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
 
       D    DISPLAY "This is the 3DI Indexed Table:"
@@ -681,7 +878,7 @@
       D          END-PERFORM
       D       END-PERFORM
       D    END-PERFORM.
-      D    DISPLAY SPACES.
+      D    DISPLAY SPACE.
 
        3000-End-Job.
            DISPLAY "3000-EOJ: ".
