@@ -510,13 +510,14 @@
       *    It breaks down into:
       *    Division:
       *      Region:
-      *        4 Quarterly numbers:
+      *        4 Quarterly numbers for each Region.
+      *
       *    Calculate for  Region Total
       *                   Division Total and
       *                   Company Total.
-
+      *
       *    Calculating for Company first:
-      *    ALL is not available for this so have to walk the table.
+      *    (ALL) is not available for this so have to walk the table.
 
            PERFORM VARYING WS-3DI1-IDX 
               FROM 1 BY 1
@@ -539,7 +540,7 @@
            DISPLAY SPACE.
 
       *    Okay, Calculating is fine.
-      *    Now, can we calculate and print subtotals in one go?
+      *    Calculate and print subtotals in one go.
            DISPLAY SPACE.
            DISPLAY "Company Totals Report - By Region"              
            DISPLAY SPACE.
@@ -567,7 +568,7 @@
                     WS-Division-Total + WS-Region-Total
                  INITIALIZE WS-Region-Total
               END-PERFORM
-              DISPLAY "Total for Division: "
+              DISPLAY "     Total for Division: "
                  WS-3DI-A(WS-3DI1-IDX)
                  " is "
                  WS-Division-Total
@@ -577,14 +578,10 @@
               INITIALIZE WS-Division-Total
            END-PERFORM.
            DISPLAY SPACE.
-           DISPLAY "Total for Company is: "
+           DISPLAY "          Total for Company is: "
               WS-Company-Total.
 
-
-
       *    Show me the numbers for each region just for the 4th quarter.
-      *    The table is already loaded to I just need to get the right
-      *    location.
 
            DISPLAY SPACE.
            DISPLAY "Company Totals Report".
@@ -610,7 +607,7 @@
                        WS-Division-Total + WS-Region-Total
                     INITIALIZE WS-Region-Total
               END-PERFORM
-              DISPLAY "Total for Division: "
+              DISPLAY "     Total for Division: "
                  WS-3DI-A(WS-3DI1-IDX)
                  " is "
                  WS-Division-Total
@@ -620,11 +617,11 @@
               INITIALIZE WS-Division-Total
            END-PERFORM.
            DISPLAY SPACE.
-           DISPLAY "Total for Company is: "
+           DISPLAY "          Total for Company is: "
               WS-Company-Total.
 
-
       *    Report the Average for each region and division.
+
            DISPLAY SPACE.
            DISPLAY "Company Totals Report - By Region"              
            DISPLAY "Average per Region and Division".
@@ -665,7 +662,7 @@
               END-PERFORM
               COMPUTE WS-Average-Display = 
                     (WS-Division-Total / WS-Division-Counter)
-              DISPLAY "Total for Division: "
+              DISPLAY "     Average for Division: "
                  WS-3DI-A(WS-3DI1-IDX)
                  " is "
                  WS-Average-Display
@@ -682,7 +679,7 @@
               ON SIZE ERROR 
                  DISPLAY "There was a problem with divide."
            END-DIVIDE 
-           DISPLAY "Average for Region/Division/Company is: "
+           DISPLAY "          Average for Region/Division/Company is: "
               WS-Average-Display.
 
 
