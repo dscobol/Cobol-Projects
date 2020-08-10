@@ -98,27 +98,27 @@
               'MEDC522CPIAN003BSPAN760AEART164BRUSS002BPIAN170A'.
 
        01 WS-2D-HOLD.
-           12 WS-HOLD-2D-1                        PIC X(30) VALUE
+           12 FILLER                        PIC X(30) VALUE
               'DT-A1DTL11DTL12DTL13DTL14DTL15'.
-           12 WS-HOLD-2D-2                        PIC X(30) VALUE
+           12 FILLER                        PIC X(30) VALUE
               'DT-A2DTL21DTL22DTL23DTL24DTL25'.
-           12 WS-HOLD-2D-3                        PIC X(30) VALUE
+           12 FILLER                        PIC X(30) VALUE
               'DT-A3DTL31DTL32DTL33DTL34DTL35'.
-           12 WS-HOLD-2D-4                        PIC X(30) VALUE
+           12 FILLER                        PIC X(30) VALUE
               'DT-A4DTL41DTL42DTL43DTL44DTL45'.
-           12 WS-HOLD-2D-5                        PIC X(30) VALUE
+           12 FILLER                        PIC X(30) VALUE
               'DT-A5DTL51DTL52DTL53DTL54DTL55'.
 
        01 WS-2DN-HOLD.
-           12 WS-HOLD-2DN-1                       PIC X(30) VALUE
+           12 FILLER                       PIC X(30) VALUE
               'DT-A10100004000000000000000000'.
-           12 WS-HOLD-2DN-2                       PIC X(30) VALUE
+           12 FILLER                       PIC X(30) VALUE
               'DT-A20120004000000000000000000'.
-           12 WS-HOLD-2DN-3                       PIC X(30) VALUE
+           12 FILLER                       PIC X(30) VALUE
               'DT-A30150003000000000000000000'.
-           12 WS-HOLD-2DN-4                       PIC X(30) VALUE
+           12 FILLER                       PIC X(30) VALUE
               'DT-A40100002000000000000000000'.
-           12 WS-HOLD-2DN-5                       PIC X(30) VALUE
+           12 FILLER                       PIC X(30) VALUE
               'DT-A50120002000000000000000000'.
 
       *    Both these tables have a subscript defined for them.
@@ -165,6 +165,8 @@
                     INDEXED BY WS-SC-Crs-IDX.
                     21 WS-SC-Course-Name          PIC X(07).
                     21 WS-SC-Course-Grade         PIC X(01).
+                       88 WS-SC-Valid-Grade
+                          VALUES "A", "B", "C", "D", "F".
 
        01 WS-3DS-HOLD.
            12 WS-HOLD-3DS-1.
@@ -353,6 +355,11 @@
                     21 WS-3DI-L3 OCCURS 4 TIMES INDEXED BY WS-3DI3-IDX.
                        24 WS-3DI-L3-C             PIC 9(05).
 
+       01  WS-Student-Course-Storage.
+           12 WS-Student-Found-Flag        PIC X.
+              88 WS-Student-Found          VALUE 'Y'.
+              88 WS-Student-Not-Found      VALUE 'N'.
+
        01  WS-Company-Storage.
            12 WS-Region-Total              PIC S9(4) COMP VALUE ZERO.
            12 WS-Division-Total            PIC S9(4) COMP VALUE ZERO.
@@ -377,9 +384,9 @@
            GOBACK.
 
        1000-Begin-Job.
-           PERFORM 1100-Load-Other-Tables.
+           PERFORM 1100-Load-WS-Tables.
 
-       1100-Load-Other-Tables.
+       1100-Load-WS-Tables.
            MOVE WS-1D-HOLD     TO WS-1D-Table-Setup.
            MOVE WS-1DN-HOLD    TO WS-1DN-Table-Setup.
            MOVE WS-2D-HOLD     TO WS-2D-Table-Setup.
@@ -388,6 +395,9 @@
            MOVE WS-3DI-HOLD    TO WS-3DI-Table-Setup.
 
        2000-Process.
+      *    To display the raw tables, in all their glory,
+      *       activate debugging mode.
+      *    otherwise 2900- doesn't do anything.
            PERFORM 2900-Display-The-Tables.
            PERFORM 2100-Do-Some-Calculating.
            PERFORM 2200-Do-Some-Searching.
@@ -685,14 +695,155 @@
 
        2200-Do-Some-Searching.
 
+           DISPLAY SPACE.
+           DISPLAY "Searching Tables!!!"
+           DISPLAY SPACE.
+
+           SET WS-Student-Not-Found TO TRUE       
+           PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+               OR WS-Student-Found
+           SET WS-SC-Crs-IDX TO 1
+           SEARCH WS-SC-Course-Table
+           WHEN (WS-SC-Course-Name 
+                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PIAN003' 
+                AND WS-SC-Course-Grade 
+                    (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'B')                 
+                DISPLAY '*** Musician Found ***'
+                DISPLAY FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
+                   " got an B in PIAN003."
+                SET WS-Student-Found TO TRUE
+           END-SEARCH
+           END-PERFORM.
+
+           DISPLAY SPACE.
+           DISPLAY "Searching Again!"
+           DISPLAY SPACE.
 
 
+           SET WS-Student-Not-Found TO TRUE       
+           PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+               OR WS-Student-Found
+           SET WS-SC-Crs-IDX TO 1
+           SEARCH WS-SC-Course-Table
+           WHEN (WS-SC-Course-Name 
+                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'TUBA567' 
+                AND WS-SC-Course-Grade 
+                    (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'A')                 
+                DISPLAY '*** Musician Found ***'
+                DISPLAY FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
+                   " got an A in TUBA567."
+                SET WS-Student-Found TO TRUE
+           END-SEARCH
+           END-PERFORM.
 
+           DISPLAY SPACE.
+           DISPLAY "Searching Again!"
+           DISPLAY SPACE.
 
+      *    Is SALLY HARRIS taking ear-training (EART164)?
+           SET WS-Student-Not-Found TO TRUE       
+           PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+               OR WS-Student-Found
+           SET WS-SC-Crs-IDX TO 1
+           SEARCH WS-SC-Course-Table
+           WHEN (WS-SC-Course-Name 
+                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'EART164' 
+                AND WS-SC-Student-Name 
+                    (WS-SC-St-IDX) = 'SALLY HARRIS')                 
+                DISPLAY '*** Student Found ***'
+                DISPLAY FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
+                   " has taken EART164."
+                SET WS-Student-Found TO TRUE
+           END-SEARCH
+           END-PERFORM.
 
+           DISPLAY SPACE.
+           DISPLAY "Searching Again!"
+           DISPLAY SPACE.
 
+      *    Find anyone who's studied TRIG551 or DRUM310
+           SET WS-Student-Not-Found TO TRUE       
+           PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+               OR WS-Student-Found
+           SET WS-SC-Crs-IDX TO 1
+           SEARCH WS-SC-Course-Table
+           WHEN (WS-SC-Course-Name 
+                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 
+                   'TRIG551' OR 'DRUM310')                 
+                DISPLAY '*** Student Found ***'
+                DISPLAY FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
+                   " has taken "
+                   WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                   "."
+                SET WS-Student-Found TO TRUE
+           END-SEARCH
+           END-PERFORM.
 
+           DISPLAY SPACE.
+           DISPLAY "Searching Again!"
+           DISPLAY SPACE.
 
+      *    What did LISA CRUDUP get in PSYCH23A?
+           SET WS-Student-Not-Found TO TRUE       
+           PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
+              UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+              OR WS-Student-Found
+              SET WS-SC-Crs-IDX TO 1
+              SEARCH WS-SC-Course-Table           
+                 WHEN (WS-SC-Course-Name
+                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PSYC23A'
+                 AND WS-SC-Student-Name                 
+                   (WS-SC-St-IDX) = 'LISA CRUDUP')                                                                                                                       
+                 DISPLAY '*** Student Found ***'
+                 DISPLAY
+                 FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
+                   " has taken "
+                   WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                   " and recieved a "
+                   WS-SC-Course-Grade(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                   "."
+                 SET WS-Student-Found TO TRUE        
+              END-SEARCH
+           END-PERFORM.
+           IF WS-Student-Not-Found 
+              DISPLAY "<<< PSYC23A Student Not Found >>>"
+           END-IF
+
+           DISPLAY SPACE.
+           DISPLAY "Searching Again!"
+           DISPLAY SPACE.
+
+      *    Are there any records with invalid grades?
+           SET WS-Student-Not-Found TO TRUE       
+           PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
+              UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+              OR WS-Student-Found
+              SET WS-SC-Crs-IDX TO 1
+              SEARCH WS-SC-Course-Table           
+                 WHEN NOT WS-SC-Valid-Grade
+                    (WS-SC-St-IDX, WS-SC-Crs-IDX) 
+                 DISPLAY '*** Bad Grade Found ***'
+                 DISPLAY
+                 FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
+                   " has taken "
+                   WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                   " and recieved a "
+                   WS-SC-Course-Grade(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                   "."
+                 SET WS-Student-Found TO TRUE        
+              END-SEARCH
+           END-PERFORM.
+           IF WS-Student-Not-Found 
+              DISPLAY "<<< No Bad Grades were found. >>>"
+           END-IF
+
+           DISPLAY SPACE.
+           DISPLAY "Done Searching Tables!!!"
+           DISPLAY SPACE.
 
        2900-Display-The-Tables.
            DISPLAY "If DEBUG MODE is on, A bunch of tables will show.".   
