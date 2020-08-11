@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PGM=TABLEWA
+PGM=tablewa
 SYSLIB="$DHOME/dev/cobol/Cobol-Projects/common/cpy"
 
 cobc -x ../cbl/$PGM.cbl -I $SYSLIB -o ../bin/$PGM

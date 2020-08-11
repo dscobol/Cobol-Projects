@@ -1,9 +1,21 @@
       ***********************************************************
-      * Program name:    TABLOAD3
+      * Program name:    TABLDNA
       * Original author: dastagg
       *
-      * Description: This will load 2 files into WS.
-      *    A 1D and a 2D table. Then do searches on them both.
+      * Description: This will load files into WS.
+      *    Then do stuff with them.
+      *
+      *    This is the "No ALL" version of table processing.
+      *    Z COBOL functions have an ALL subscript property.
+      *    gnuCobol functions do not, yet.
+      *
+      *    TABLDWA will be Z COBOL only (for now). It will use the ALL
+      *    index in FUNCTIONS to process the table data.
+      *
+      *    This program will process tables "the old-fashioned way".
+      *    These methods will work on both gnuCobol and Z COBOL systems.
+      *
+      *
       *
       * WARNINGS:
       * RETURN-CODE = 0009
@@ -18,18 +30,18 @@
       *
       **********************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.  TABLOAD3.
+       PROGRAM-ID.  TABLDNA.
 
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.
-       SOURCE-COMPUTER.   IBM WITH DEBUGGING MODE.
+      * SOURCE-COMPUTER.   IBM WITH DEBUGGING MODE.
 
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT EMPLOYEE
       *     ASSIGN TO EMPLOYEE
       *     ORGANIZATION IS SEQUENTIAL
-           ASSIGN TO "../../../common/data/ECBAP/becsv.dat.txt"
+           ASSIGN TO "../../../common/data/ECBAP/employee.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS WS-EMPLOYEE-Status.
 
@@ -238,12 +250,6 @@
                  GOBACK
            END-IF.
 
-
-
-      * ***************************************************************
-
-
-
        1110-Load-Student-Table.
            OPEN INPUT STCOURS.
            SET WS-Student-IDX TO +1.
@@ -293,6 +299,21 @@
 
        2000-Process.
            DISPLAY "2000-Process: ".
+      *    To display the raw tables, in all their glory,
+      *       activate debugging mode.
+      *    otherwise 2900- doesn't do anything.
+           PERFORM 2900-Display-The-Tables.
+           PERFORM 2100-Do-Some-Calculating.
+           PERFORM 2200-Do-Some-Searching.
+           PERFORM 2300-Do-Some-Searching-All.
+
+
+       2100-Do-Some-Calculating.
+       2300-Do-Some-Searching-All.
+
+
+       2200-Do-Some-Searching.
+
       *    This will find one entry and get out.
       *    Find the phone # of MONTEVERDE, ROBERT.
            SET WS-Phone-Not-Found TO TRUE.
@@ -315,11 +336,12 @@
                UNTIL 
                   WS-Emp-IDX > WS-Emp-Occurs-Dep-Counter 
               SEARCH WS-Emp-Table
-              WHEN WS-Emp-BD-Year(WS-Emp-IDX) = '1948'
-              DISPLAY WS-Emp-FIRSTNME(WS-Emp-IDX) " " 
-                 WS-Emp-LASTNAME(WS-Emp-IDX) " birthdate is "
-                 WS-Emp-BIRTHDATE(WS-Emp-IDX)
-           END-SEARCH
+                 WHEN WS-Emp-BD-Year(WS-Emp-IDX) = '1948'
+                    DISPLAY 
+                       WS-Emp-FIRSTNME(WS-Emp-IDX) " " 
+                       WS-Emp-LASTNAME(WS-Emp-IDX) " birthdate is "
+                       WS-Emp-BIRTHDATE(WS-Emp-IDX)
+              END-SEARCH
            END-PERFORM.
 
       *    Find all Managers
@@ -328,12 +350,14 @@
                UNTIL 
                   WS-Emp-IDX > WS-Emp-Occurs-Dep-Counter 
               SEARCH WS-Emp-Table
-              WHEN WS-Emp-JOB(WS-Emp-IDX) = 'MANAGER'
-              DISPLAY WS-Emp-FIRSTNME(WS-Emp-IDX) " " 
-                 WS-Emp-LASTNAME(WS-Emp-IDX) " is a Manger."
-           END-SEARCH
+                 WHEN WS-Emp-JOB(WS-Emp-IDX) = 'MANAGER'
+                    DISPLAY 
+                       WS-Emp-FIRSTNME(WS-Emp-IDX) " " 
+                       WS-Emp-LASTNAME(WS-Emp-IDX) " is a Manger."
+              END-SEARCH
            END-PERFORM.
 
+       2900-Display-The-Tables.
 
 
        3000-End-Job.

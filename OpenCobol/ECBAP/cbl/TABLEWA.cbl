@@ -825,19 +825,20 @@
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
                UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
                OR WS-Student-Found
-           SET WS-SC-Crs-IDX TO 1
+              SET WS-SC-Crs-IDX TO 1
       *    Note to self: Make sure it is searching the 2nd level table
       *       not the first level table.
-           SEARCH WS-SC-Course-Table
-           WHEN (WS-SC-Course-Name 
+              SEARCH WS-SC-Course-Table
+              WHEN (WS-SC-Course-Name 
                    (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PIAN003' 
-                AND WS-SC-Course-Grade 
-                    (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'B')                 
-                DISPLAY '*** Musician Found ***'
-                DISPLAY FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
-                   " got an B in PIAN003."
-                SET WS-Student-Found TO TRUE
-           END-SEARCH
+               AND WS-SC-Course-Grade 
+                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'B')                 
+                 DISPLAY '*** Musician Found ***'
+                 DISPLAY FUNCTION TRIM(
+                    WS-SC-Student-Name(WS-SC-St-IDX)) 
+                    " got an B in PIAN003."
+                 SET WS-Student-Found TO TRUE
+              END-SEARCH
            END-PERFORM.
 
            DISPLAY SPACE.
@@ -849,17 +850,18 @@
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
                UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
                OR WS-Student-Found
-           SET WS-SC-Crs-IDX TO 1
-           SEARCH WS-SC-Course-Table
-           WHEN (WS-SC-Course-Name 
-                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'TUBA567' 
-                AND WS-SC-Course-Grade 
-                    (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'A')                 
-                DISPLAY '*** Musician Found ***'
-                DISPLAY FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
-                   " got an A in TUBA567."
-                SET WS-Student-Found TO TRUE
-           END-SEARCH
+              SET WS-SC-Crs-IDX TO 1
+              SEARCH WS-SC-Course-Table
+                 WHEN (WS-SC-Course-Name 
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'TUBA567' 
+                 AND WS-SC-Course-Grade 
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'A')                 
+                 DISPLAY '*** Musician Found ***'
+                 DISPLAY FUNCTION TRIM(
+                    WS-SC-Student-Name(WS-SC-St-IDX)) 
+                    " got an A in TUBA567."
+                 SET WS-Student-Found TO TRUE
+              END-SEARCH
            END-PERFORM.
 
            DISPLAY SPACE.
@@ -871,40 +873,91 @@
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
                UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
                OR WS-Student-Found
-           SET WS-SC-Crs-IDX TO 1
-           SEARCH WS-SC-Course-Table
-           WHEN (WS-SC-Course-Name 
-                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'EART164' 
-                AND WS-SC-Student-Name 
-                    (WS-SC-St-IDX) = 'SALLY HARRIS')                 
-                DISPLAY '*** Student Found ***'
-                DISPLAY FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
-                   " has taken EART164."
-                SET WS-Student-Found TO TRUE
-           END-SEARCH
+              SET WS-SC-Crs-IDX TO 1
+              SEARCH WS-SC-Course-Table
+                 WHEN (WS-SC-Course-Name 
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'EART164' 
+                  AND WS-SC-Student-Name 
+                      (WS-SC-St-IDX) = 'SALLY HARRIS')                 
+                    DISPLAY '*** Student Found ***'
+                    DISPLAY FUNCTION TRIM(
+                       WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       " has taken EART164."
+                  SET WS-Student-Found TO TRUE
+              END-SEARCH
            END-PERFORM.
 
            DISPLAY SPACE.
            DISPLAY "Searching Again!"
            DISPLAY SPACE.
 
-      *    Find anyone who's studied TRIG551 or DRUM310
+      *    Find ANYONE who's studied TRIG551 or DRUM310
            SET WS-Student-Not-Found TO TRUE       
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
                UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
                OR WS-Student-Found
-           SET WS-SC-Crs-IDX TO 1
-           SEARCH WS-SC-Course-Table
-           WHEN (WS-SC-Course-Name 
-                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 
-                   'TRIG551' OR 'DRUM310')                 
-                DISPLAY '*** Student Found ***'
-                DISPLAY FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
-                   " has taken "
-                   WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
-                   "."
-                SET WS-Student-Found TO TRUE
-           END-SEARCH
+              SET WS-SC-Crs-IDX TO 1
+              SEARCH WS-SC-Course-Table
+                 WHEN (WS-SC-Course-Name 
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 
+                      'TRIG551' OR 'DRUM310')                 
+                    DISPLAY '*** Student Found ***'
+                    DISPLAY FUNCTION TRIM(
+                       WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       " has taken "
+                       WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                       "."
+                  SET WS-Student-Found TO TRUE
+              END-SEARCH
+           END-PERFORM.
+
+           DISPLAY SPACE.
+           DISPLAY "Searching Again!"
+           DISPLAY SPACE.
+
+      *    Find EVERYBODY who's studied BIOL ogy
+      *    Use a REF-MOD to filter out all the classes.
+      *    Note the difference between this search and the next.
+      *    This one will only show LISA one time even though she
+      *    has taken two BIOL classes.
+           PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
+              SET WS-SC-Crs-IDX TO 1
+              SEARCH WS-SC-Course-Table
+                 WHEN (WS-SC-Course-Name 
+                    (WS-SC-St-IDX, WS-SC-Crs-IDX)(1:4) = 'BIOL')                                       
+                    DISPLAY '*** Student Found ***'
+                    DISPLAY FUNCTION TRIM(
+                       WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       " has taken "
+                       WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                       "."
+              END-SEARCH
+           END-PERFORM.
+
+           DISPLAY SPACE.
+           DISPLAY "Searching Again!"
+           DISPLAY SPACE.
+
+      *    Find EVERYBODY who's studied BIOL ogy
+      *    Use a REF-MOD to filter out all the classes.
+      *    This one will show LISA twice because she has 
+      *    taken two BIOL classes.
+           PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
+               PERFORM VARYING WS-SC-Crs-IDX FROM 1 BY 1
+                  UNTIL WS-SC-Crs-IDX > WS-SC-Element2-Cnt 
+                  SEARCH WS-SC-Course-Table
+                  WHEN (WS-SC-Course-Name 
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX)(1:4) = 'BIOL')                                       
+                    DISPLAY '*** Student Found ***'
+                    DISPLAY FUNCTION TRIM(
+                       WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       " has taken "
+                       WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                       "."
+                  END-SEARCH
+               END-PERFORM
            END-PERFORM.
 
            DISPLAY SPACE.
@@ -919,22 +972,23 @@
               SET WS-SC-Crs-IDX TO 1
               SEARCH WS-SC-Course-Table           
                  WHEN (WS-SC-Course-Name
-                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PSYC23A'
-                 AND WS-SC-Student-Name                 
-                   (WS-SC-St-IDX) = 'LISA CRUDUP')                                                                                                                       
-                 DISPLAY '*** Student Found ***'
-                 DISPLAY
-                 FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
-                   " has taken "
-                   WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
-                   " and recieved a "
-                   WS-SC-Course-Grade(WS-SC-St-IDX, WS-SC-Crs-IDX)
-                   "."
-                 SET WS-Student-Found TO TRUE        
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PSYC23A'
+                  AND WS-SC-Student-Name                 
+                      (WS-SC-St-IDX) = 'LISA CRUDUP')                                                                                                                       
+                    DISPLAY '*** Student Found ***'
+                    DISPLAY
+                       FUNCTION TRIM(
+                          WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       " has taken "
+                       WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                       " and recieved a "
+                       WS-SC-Course-Grade(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                       "."
+                    SET WS-Student-Found TO TRUE        
               END-SEARCH
            END-PERFORM.
            IF WS-Student-Not-Found 
-              DISPLAY "<<< PSYC23A Student Not Found >>>"
+              DISPLAY "<<< Student Not Found >>>"
            END-IF
 
            DISPLAY SPACE.
@@ -942,23 +996,20 @@
            DISPLAY SPACE.
 
       *    Are there any records with invalid grades?
-           SET WS-Student-Not-Found TO TRUE       
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
-              OR WS-Student-Found
               SET WS-SC-Crs-IDX TO 1
               SEARCH WS-SC-Course-Table           
                  WHEN NOT WS-SC-Valid-Grade
                     (WS-SC-St-IDX, WS-SC-Crs-IDX) 
-                 DISPLAY '*** Bad Grade Found ***'
-                 DISPLAY
-                 FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
-                   " has taken "
-                   WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
-                   " and recieved a "
-                   WS-SC-Course-Grade(WS-SC-St-IDX, WS-SC-Crs-IDX)
-                   "."
-                 SET WS-Student-Found TO TRUE        
+                    DISPLAY '*** Bad Grade Found ***'
+                    DISPLAY
+                       FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       " has taken "
+                       WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                       " and recieved a "
+                       WS-SC-Course-Grade(WS-SC-St-IDX, WS-SC-Crs-IDX)
+                       "."
               END-SEARCH
            END-PERFORM.
            IF WS-Student-Not-Found 
@@ -968,7 +1019,6 @@
            DISPLAY SPACE.
            DISPLAY "Done Searching Tables!!!"
            DISPLAY SPACE.
-
 
        2300-Do-Some-Searching-All.
            DISPLAY SPACE.
