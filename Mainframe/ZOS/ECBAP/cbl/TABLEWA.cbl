@@ -792,8 +792,7 @@
                AND WS-SC-Course-Grade
                    (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'B')
                  DISPLAY '*** Musician Found ***'
-                 DISPLAY FUNCTION TRIM(
-                    WS-SC-Student-Name(WS-SC-St-IDX))
+                 DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)
                     " got an B in PIAN003."
                  SET WS-Student-Found TO TRUE
               END-SEARCH
@@ -815,8 +814,7 @@
                  AND WS-SC-Course-Grade
                       (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'A')
                  DISPLAY '*** Musician Found ***'
-                 DISPLAY FUNCTION TRIM(
-                    WS-SC-Student-Name(WS-SC-St-IDX))
+                 DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)
                     " got an A in TUBA567."
                  SET WS-Student-Found TO TRUE
               END-SEARCH
@@ -838,8 +836,7 @@
                   AND WS-SC-Student-Name
                       (WS-SC-St-IDX) = 'SALLY HARRIS')
                     DISPLAY '*** Student Found ***'
-                    DISPLAY FUNCTION TRIM(
-                       WS-SC-Student-Name(WS-SC-St-IDX))
+                    DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)
                        " has taken EART164."
                   SET WS-Student-Found TO TRUE
               END-SEARCH
@@ -860,8 +857,7 @@
                       (WS-SC-St-IDX, WS-SC-Crs-IDX) =
                       'TRIG551' OR 'DRUM310')
                     DISPLAY '*** Student Found ***'
-                    DISPLAY FUNCTION TRIM(
-                       WS-SC-Student-Name(WS-SC-St-IDX))
+                    DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        "."
@@ -885,8 +881,7 @@
                  WHEN (WS-SC-Course-Name
                     (WS-SC-St-IDX, WS-SC-Crs-IDX)(1:4) = 'BIOL')
                     DISPLAY '*** Student Found ***'
-                    DISPLAY FUNCTION TRIM(
-                       WS-SC-Student-Name(WS-SC-St-IDX))
+                    DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        "."
@@ -909,8 +904,7 @@
                   WHEN (WS-SC-Course-Name
                       (WS-SC-St-IDX, WS-SC-Crs-IDX)(1:4) = 'BIOL')
                     DISPLAY '*** Student Found ***'
-                    DISPLAY FUNCTION TRIM(
-                       WS-SC-Student-Name(WS-SC-St-IDX))
+                    DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        "."
@@ -935,8 +929,7 @@
                       (WS-SC-St-IDX) = 'LISA CRUDUP')
                     DISPLAY '*** Student Found ***'
                     DISPLAY
-                       FUNCTION TRIM(
-                          WS-SC-Student-Name(WS-SC-St-IDX))
+                       WS-SC-Student-Name(WS-SC-St-IDX)
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        " and recieved a "
@@ -962,7 +955,7 @@
                     (WS-SC-St-IDX, WS-SC-Crs-IDX)
                     DISPLAY '*** Bad Grade Found ***'
                     DISPLAY
-                       FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX))
+                       WS-SC-Student-Name(WS-SC-St-IDX)
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        " and recieved a "
@@ -988,11 +981,9 @@
               WHEN WS-State-Abbrev(WS-State-IDX) = 'TN'
                  DISPLAY WS-State-Abbrev (WS-State-IDX)
                     " is also known as "
-                    FUNCTION TRIM(
-                    WS-State-Abbrev-Name(WS-State-IDX))
+                    WS-State-Abbrev-Name(WS-State-IDX)
                     " and it's full name is "
-                    FUNCTION TRIM(
-                       WS-State-Full-Name (WS-State-IDX))
+                    WS-State-Full-Name (WS-State-IDX)
                     "."
            END-SEARCH.
            DISPLAY SPACE.
