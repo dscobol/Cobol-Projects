@@ -1,18 +1,18 @@
       ***********************************************************
-      * Program name:    TABLENA
+      * Program name:    TABLEWA
       * Original author: dastagg
       *
       * Description: Program to test loading and processing tables.
       *
-      *    This is the "No ALL" version of table processing.
+      *    This is the "ALL" version of table processing.
       *    Z COBOL functions have an ALL subscript property.
       *    gnuCobol functions do not, yet.
       *
-      *    TABLEWA will be Z COBOL only (for now). It will use the ALL
+      *    TABLENA will be for both. It does not use the ALL
       *    index in FUNCTIONS to process the table data.
       *
-      *    This program will process tables "the old-fashioned way".
-      *    These methods will work on both gnuCobol and Z COBOL systems.
+      *    This program will process tables "new way".
+      *    These methods will only work on Z COBOL systems(for now).
       *
       *    I've set up 1, 2 and 3 dimensional tables, with two types
       *    of each:
@@ -37,7 +37,7 @@
       *
       **********************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.  TABLENA.
+       PROGRAM-ID.  TABLEWA.
 
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.
