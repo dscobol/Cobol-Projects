@@ -36,7 +36,7 @@
 
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.
-      * SOURCE-COMPUTER.   IBM WITH DEBUGGING MODE.
+      D SOURCE-COMPUTER.   IBM WITH DEBUGGING MODE.
 
        DATA DIVISION.
        WORKING-STORAGE SECTION.
@@ -355,6 +355,118 @@
                     21 WS-3DI-L3 OCCURS 4 TIMES INDEXED BY WS-3DI3-IDX.
                        24 WS-3DI-L3-C             PIC 9(05).
 
+       01  WS-State-HOLD.
+           12 FILLER          PIC X(30) VALUE
+           'Alaska               Alaska AK'.
+           12 FILLER          PIC X(30) VALUE
+           'Alabama              Ala.   AL'.
+           12 FILLER          PIC X(30) VALUE
+           'Arkansas             Ark.   AR'.
+           12 FILLER          PIC X(30) VALUE
+           'Arizona              Ariz.  AZ'.
+           12 FILLER          PIC X(30) VALUE
+           'California           Calif. CA'.
+           12 FILLER          PIC X(30) VALUE
+           'Colorado             Colo.  CO'.
+           12 FILLER          PIC X(30) VALUE
+           'Connecticut          Conn.  CT'.
+           12 FILLER          PIC X(30) VALUE
+           'District of Columbia D.C.   DC'.
+           12 FILLER          PIC X(30) VALUE
+           'Delaware             Del.   DE'.
+           12 FILLER          PIC X(30) VALUE
+           'Florida              Fla.   FL'.
+           12 FILLER          PIC X(30) VALUE
+           'Georgia              Ga.    GA'.
+           12 FILLER          PIC X(30) VALUE
+           'Hawaii               Hawaii HI'.
+           12 FILLER          PIC X(30) VALUE
+           'Iowa                 Iowa   IA'.
+           12 FILLER          PIC X(30) VALUE
+           'Idaho                Idaho  ID'.
+           12 FILLER          PIC X(30) VALUE
+           'Illinois             Ill.   IL'.
+           12 FILLER          PIC X(30) VALUE
+           'Indiana              Ind.   IN'.
+           12 FILLER          PIC X(30) VALUE
+           'Kansas               Kans.  KS'.
+           12 FILLER          PIC X(30) VALUE
+           'Kentucky             Ky.    KY'.
+           12 FILLER          PIC X(30) VALUE
+           'Louisiana            La.    LA'.
+           12 FILLER          PIC X(30) VALUE
+           'Massachusetts        Mass.  MA'.
+           12 FILLER          PIC X(30) VALUE
+           'Maryland             Md.    MD'.
+           12 FILLER          PIC X(30) VALUE
+           'Maine                Maine  ME'.
+           12 FILLER          PIC X(30) VALUE
+           'Michigan             Mich.  MI'.
+           12 FILLER          PIC X(30) VALUE
+           'Minnesota            Minn.  MN'.
+           12 FILLER          PIC X(30) VALUE
+           'Missouri             Mo.    MO'.
+           12 FILLER          PIC X(30) VALUE
+           'Mississippi          Miss.  MS'.
+           12 FILLER          PIC X(30) VALUE
+           'Montana              Mont.  MT'.
+           12 FILLER          PIC X(30) VALUE
+           'North Carolina       N.C.   NC'.
+           12 FILLER          PIC X(30) VALUE
+           'North Dakota         N.D.   ND'.
+           12 FILLER          PIC X(30) VALUE
+           'Nebraska             Nebr.  NE'.
+           12 FILLER          PIC X(30) VALUE
+           'New Hampshire        N.H.   NH'.
+           12 FILLER          PIC X(30) VALUE
+           'New Jersey           N.J.   NJ'.
+           12 FILLER          PIC X(30) VALUE
+           'New Mexico           N.M.   NM'.
+           12 FILLER          PIC X(30) VALUE
+           'Nevada               Nev.   NV'.
+           12 FILLER          PIC X(30) VALUE
+           'New York             N.Y.   NY'.
+           12 FILLER          PIC X(30) VALUE
+           'Ohio                 Ohio   OH'.
+           12 FILLER          PIC X(30) VALUE
+           'Oklahoma             Okla.  OK'.
+           12 FILLER          PIC X(30) VALUE
+           'Oregon               Ore.   OR'.
+           12 FILLER          PIC X(30) VALUE
+           'Pennsylvania         Pa.    PA'.
+           12 FILLER          PIC X(30) VALUE
+           'Rhode Island         R.I.   RI'.
+           12 FILLER          PIC X(30) VALUE
+           'South Carolina       S.C.   SC'.
+           12 FILLER          PIC X(30) VALUE
+           'South Dakota         S.D.   SD'.
+           12 FILLER          PIC X(30) VALUE
+           'Tennessee            Tenn.  TN'.
+           12 FILLER          PIC X(30) VALUE
+           'Texas                Tex.   TX'.
+           12 FILLER          PIC X(30) VALUE
+           'Utah                 Utah   UT'.
+           12 FILLER          PIC X(30) VALUE
+           'Virginia             Va.    VA'.
+           12 FILLER          PIC X(30) VALUE
+           'Vermont              Vt.    VT'.
+           12 FILLER          PIC X(30) VALUE
+           'Washington           Wash.  WA'.
+           12 FILLER          PIC X(30) VALUE
+           'Wisconsin            Wis.   WI'.
+           12 FILLER          PIC X(30) VALUE
+           'West Virginia        W.Va.  WV'.
+           12 FILLER          PIC X(30) VALUE
+           'Wyoming              Wyo.   WY'.
+       01  WS-State-Table-Storage.
+           12 WS-State-Table-Setup.
+              15 WS-State-Table OCCURS 51 TIMES
+                 ASCENDING KEY WS-State-Abbrev 
+                 INDEXED BY WS-State-IDX.
+                18 WS-State-Full-Name            PIC X(21).
+                18 WS-State-Abbrev-Name          PIC X(7).
+                18 WS-State-Abbrev               PIC X(2).
+
        01  WS-Student-Course-Storage.
            12 WS-Student-Found-Flag        PIC X.
               88 WS-Student-Found          VALUE 'Y'.
@@ -393,6 +505,7 @@
            MOVE WS-St-Crs-HOLD TO WS-SC-Table-Setup.
            MOVE WS-3DS-HOLD    TO WS-3DS-Table-Setup.
            MOVE WS-3DI-HOLD    TO WS-3DI-Table-Setup.
+           MOVE WS-State-HOLD  TO WS-State-Table-Setup.
 
        2000-Process.
       *    To display the raw tables, in all their glory,
@@ -401,6 +514,7 @@
            PERFORM 2900-Display-The-Tables.
            PERFORM 2100-Do-Some-Calculating.
            PERFORM 2200-Do-Some-Searching.
+           PERFORM 2300-Do-Some-Searching-All.
 
 
        2100-Do-Some-Calculating.
@@ -699,11 +813,16 @@
            DISPLAY "Searching Tables!!!"
            DISPLAY SPACE.
 
+      *    Note to self: When doing multiple searches using the same
+      *       status flag, make sure to set it to FALSE before
+      *       searching the next time else ... no searching. 
            SET WS-Student-Not-Found TO TRUE       
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
                UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
                OR WS-Student-Found
            SET WS-SC-Crs-IDX TO 1
+      *    Note to self: Make sure it is searching the 2nd level table
+      *       not the first level table.
            SEARCH WS-SC-Course-Table
            WHEN (WS-SC-Course-Name 
                    (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PIAN003' 
@@ -843,6 +962,28 @@
 
            DISPLAY SPACE.
            DISPLAY "Done Searching Tables!!!"
+           DISPLAY SPACE.
+
+
+       2300-Do-Some-Searching-All.
+           DISPLAY SPACE.
+           DISPLAY "Searching Tables using ALL"
+           DISPLAY SPACE.
+
+           SEARCH ALL WS-State-Table
+              AT END DISPLAY 'RECORD NOT FOUND' 
+              WHEN WS-State-Abbrev(WS-State-IDX) = 'TN'                 
+                 DISPLAY WS-State-Abbrev (WS-State-IDX)
+                    " is also known as "
+                    FUNCTION TRIM(                    
+                    WS-State-Abbrev-Name(WS-State-IDX))
+                    " and it's full name is "
+                    FUNCTION TRIM(
+                       WS-State-Full-Name (WS-State-IDX))                          
+                    "."
+           END-SEARCH.
+           DISPLAY SPACE.
+           DISPLAY "Done Searching Tables with ALL!!!"
            DISPLAY SPACE.
 
        2900-Display-The-Tables.
@@ -1009,7 +1150,7 @@
       D    DISPLAY SPACE.
 
 
-      D    DISPLAY "This is the 3DI Indexed Table:"
+      D    DISPLAY "This is the Indexed Table:"
       D    DISPLAY "Using index varying:"
       D    PERFORM VARYING WS-3DI1-IDX FROM 1 BY 1
       D       UNTIL WS-3DI1-IDX > 5
@@ -1025,6 +1166,18 @@
       D              WS-3DI-L3-C(WS-3DI1-IDX, WS-3DI2-IDX, WS-3DI3-IDX)
       D          END-PERFORM
       D       END-PERFORM
+      D    END-PERFORM.
+      D    DISPLAY SPACE.
+
+      D    DISPLAY "This is the State 1D Table:"
+      D    DISPLAY "Using index varying:"
+      D    PERFORM VARYING WS-State-IDX FROM 1 BY 1
+      D       UNTIL WS-State-IDX > WS-State-Element-Cnt 
+      D       DISPLAY "State: "
+      D           WS-State-IDX " " 
+      D           WS-State-Abbrev(WS-State-IDX) " "
+      D           WS-State-Abbrev-Name(WS-State-IDX) " "
+      D           WS-State-Full-Name(WS-State-IDX)
       D    END-PERFORM.
       D    DISPLAY SPACE.
 

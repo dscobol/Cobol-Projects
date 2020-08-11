@@ -1,51 +1,102 @@
-Alabama              Ala.   AL
-Alaska               Alaska AK
-Arizona              Ariz.  AZ
-Arkansas             Ark.   AR
-California           Calif. CA
-Colorado             Colo.  CO
-Connecticut          Conn.  CT
-Delaware             Del.   DE
-District of Columbia D.C.   DC
-Florida              Fla.   FL
-Georgia              Ga.    GA
-Hawaii               Hawaii HI
-Idaho                Idaho  ID
-Illinois             Ill.   IL
-Indiana              Ind.   IN
-Iowa                 Iowa   IA
-Kansas               Kans.  KS
-Kentucky             Ky.    KY
-Louisiana            La.    LA
-Maine                Maine  ME
-Maryland             Md.    MD
-Massachusetts        Mass.  MA
-Michigan             Mich.  MI
-Minnesota            Minn.  MN
-Mississippi          Miss.  MS
-Missouri             Mo.    MO
-Montana              Mont.  MT
-Nebraska             Nebr.  NE
-Nevada               Nev.   NV
-New Hampshire        N.H.   NH
-New Jersey           N.J.   NJ
-New Mexico           N.M.   NM
-New York             N.Y.   NY
-North Carolina       N.C.   NC
-North Dakota         N.D.   ND
-Ohio                 Ohio   OH
-Oklahoma             Okla.  OK
-Oregon               Ore.   OR
-Pennsylvania         Pa.    PA
-Rhode Island         R.I.   RI
-South Carolina       S.C.   SC
-South Dakota         S.D.   SD
-Tennessee            Tenn.  TN
-Texas                Tex.   TX
-Utah                 Utah   UT
-Vermont              Vt.    VT
-Virginia             Va.    VA
-Washington           Wash.  WA
-West Virginia        W.Va.  WV
-Wisconsin            Wis.   WI
-Wyoming              Wyo.   WY
+FILLER          PIC X(30) VALUE
+'Alabama              Ala.   AL'
+FILLER          PIC X(30) VALUE
+'Alaska               Alaska AK'
+FILLER          PIC X(30) VALUE
+'Arizona              Ariz.  AZ'
+FILLER          PIC X(30) VALUE
+'Arkansas             Ark.   AR'
+FILLER          PIC X(30) VALUE
+'California           Calif. CA'
+FILLER          PIC X(30) VALUE
+'Colorado             Colo.  CO'
+FILLER          PIC X(30) VALUE
+'Connecticut          Conn.  CT'
+FILLER          PIC X(30) VALUE
+'Delaware             Del.   DE'
+FILLER          PIC X(30) VALUE
+'District of Columbia D.C.   DC'
+FILLER          PIC X(30) VALUE
+'Florida              Fla.   FL'
+FILLER          PIC X(30) VALUE
+'Georgia              Ga.    GA'
+FILLER          PIC X(30) VALUE
+'Hawaii               Hawaii HI'
+FILLER          PIC X(30) VALUE
+'Idaho                Idaho  ID'
+FILLER          PIC X(30) VALUE
+'Illinois             Ill.   IL'
+FILLER          PIC X(30) VALUE
+'Indiana              Ind.   IN'
+FILLER          PIC X(30) VALUE
+'Iowa                 Iowa   IA'
+FILLER          PIC X(30) VALUE
+'Kansas               Kans.  KS'
+FILLER          PIC X(30) VALUE
+'Kentucky             Ky.    KY'
+FILLER          PIC X(30) VALUE
+'Louisiana            La.    LA'
+FILLER          PIC X(30) VALUE
+'Maine                Maine  ME'
+FILLER          PIC X(30) VALUE
+'Maryland             Md.    MD'
+FILLER          PIC X(30) VALUE
+'Massachusetts        Mass.  MA'
+FILLER          PIC X(30) VALUE
+'Michigan             Mich.  MI'
+FILLER          PIC X(30) VALUE
+'Minnesota            Minn.  MN'
+FILLER          PIC X(30) VALUE
+'Mississippi          Miss.  MS'
+FILLER          PIC X(30) VALUE
+'Missouri             Mo.    MO'
+FILLER          PIC X(30) VALUE
+'Montana              Mont.  MT'
+FILLER          PIC X(30) VALUE
+'Nebraska             Nebr.  NE'
+FILLER          PIC X(30) VALUE
+'Nevada               Nev.   NV'
+FILLER          PIC X(30) VALUE
+'New Hampshire        N.H.   NH'
+FILLER          PIC X(30) VALUE
+'New Jersey           N.J.   NJ'
+FILLER          PIC X(30) VALUE
+'New Mexico           N.M.   NM'
+FILLER          PIC X(30) VALUE
+'New York             N.Y.   NY'
+FILLER          PIC X(30) VALUE
+'North Carolina       N.C.   NC'
+FILLER          PIC X(30) VALUE
+'North Dakota         N.D.   ND'
+FILLER          PIC X(30) VALUE
+'Ohio                 Ohio   OH'
+FILLER          PIC X(30) VALUE
+'Oklahoma             Okla.  OK'
+FILLER          PIC X(30) VALUE
+'Oregon               Ore.   OR'
+FILLER          PIC X(30) VALUE
+'Pennsylvania         Pa.    PA'
+FILLER          PIC X(30) VALUE
+'Rhode Island         R.I.   RI'
+FILLER          PIC X(30) VALUE
+'South Carolina       S.C.   SC'
+FILLER          PIC X(30) VALUE
+'South Dakota         S.D.   SD'
+FILLER          PIC X(30) VALUE
+'Tennessee            Tenn.  TN'
+FILLER          PIC X(30) VALUE
+'Texas                Tex.   TX'
+FILLER          PIC X(30) VALUE
+'Utah                 Utah   UT'
+FILLER          PIC X(30) VALUE
+'Vermont              Vt.    VT'
+FILLER          PIC X(30) VALUE
+'Virginia             Va.    VA'
+FILLER          PIC X(30) VALUE
+'Washington           Wash.  WA'
+FILLER          PIC X(30) VALUE
+'West Virginia        W.Va.  WV'
+FILLER          PIC X(30) VALUE
+'Wisconsin            Wis.   WI'
+FILLER          PIC X(30) VALUE
+'Wyoming              Wyo.   WY'
