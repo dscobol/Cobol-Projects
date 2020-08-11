@@ -41,7 +41,7 @@
 
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.
-      D SOURCE-COMPUTER.   IBM WITH DEBUGGING MODE.
+      * SOURCE-COMPUTER.   IBM WITH DEBUGGING MODE.
 
        DATA DIVISION.
        WORKING-STORAGE SECTION.
@@ -464,6 +464,7 @@
            12 FILLER          PIC X(30) VALUE
            'Wyoming              Wyo.   WY'.
        01  WS-State-Table-Storage.
+           12 WS-State-Element-Cnt               PIC 99 VALUE 51.
            12 WS-State-Table-Setup.
               15 WS-State-Table OCCURS 51 TIMES
                  ASCENDING KEY WS-State-Abbrev
@@ -1186,7 +1187,6 @@
       D    PERFORM VARYING WS-State-IDX FROM 1 BY 1
       D       UNTIL WS-State-IDX > WS-State-Element-Cnt
       D       DISPLAY "State: "
-      D           WS-State-IDX " "
       D           WS-State-Abbrev(WS-State-IDX) " "
       D           WS-State-Abbrev-Name(WS-State-IDX) " "
       D           WS-State-Full-Name(WS-State-IDX)
