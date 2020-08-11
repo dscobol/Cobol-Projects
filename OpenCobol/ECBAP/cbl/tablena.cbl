@@ -17,8 +17,8 @@
       *    I've set up 1, 2 and 3 dimensional tables, with two types
       *    of each:
       *    1 with just alphanumeric data,
-      *    1 with just numeric data or the first element alphanumeric,  
-      *    the rest numeric to represent a load of data from an 
+      *    1 with just numeric data or the first element alphanumeric,
+      *    the rest numeric to represent a load of data from an
       *    outside source.
       *    There is also an embedded State Table to use for Search ALL.
       *
@@ -41,7 +41,7 @@
 
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.
-      D SOURCE-COMPUTER.   IBM WITH DEBUGGING MODE.
+      * SOURCE-COMPUTER.   IBM WITH DEBUGGING MODE.
 
        DATA DIVISION.
        WORKING-STORAGE SECTION.
@@ -81,23 +81,23 @@
                 18 WS-1DN-A                    PIC 9(05).
 
        01 WS-St-Crs-HOLD.
-           12 FILLER        PIC X(20) VALUE 
+           12 FILLER        PIC X(20) VALUE
               'ROBERT K KAHN       '.
            12 FILLER        PIC X(48) VALUE
               'ANTH101BCALC687ASOCS200CALGB12BAPHYS002AFLUT140C'.
-           12 FILLER        PIC X(20) VALUE 
+           12 FILLER        PIC X(20) VALUE
               'LISA CRUDUP         '.
            12 FILLER        PIC X(48) VALUE
               'BIOL201ATRIG551DSHAK213APSYC23ABBIOL002CDRUM310C'.
-           12 FILLER        PIC X(20) VALUE 
+           12 FILLER        PIC X(20) VALUE
               'RICHARD HILDEBRAND  '.
            12 FILLER        PIC X(48) VALUE
               'POLY555CGEOM231ARLIT560DBIOL13DBMECH002AACCO140B'.
-           12 FILLER        PIC X(20) VALUE 
+           12 FILLER        PIC X(20) VALUE
               'LORETTA PANTOLINE   '.
            12 FILLER        PIC X(48) VALUE
               'TUBA567ASTAT043CSHOP980ACHEM534HASTR002BVIOL610B'.
-           12 FILLER        PIC X(20) VALUE 
+           12 FILLER        PIC X(20) VALUE
               'SALLY HARRIS        '.
            12 FILLER        PIC X(48) VALUE
               'MEDC522CPIAN003BSPAN760AEART164BRUSS002BPIAN170A'.
@@ -161,12 +161,12 @@
            12 WS-SC-Element1-Cnt               PIC 9 VALUE 5.
            12 WS-SC-Element2-Cnt               PIC 9 VALUE 6.
            12 WS-SC-Table-Setup.
-              15 WS-SC-Student-Table 
-                 OCCURS 5 TIMES 
+              15 WS-SC-Student-Table
+                 OCCURS 5 TIMES
                  INDEXED BY WS-SC-St-IDX.
                  18 WS-SC-Student-Name            PIC X(20).
-                 18 WS-SC-Course-Table 
-                    OCCURS 6 TIMES 
+                 18 WS-SC-Course-Table
+                    OCCURS 6 TIMES
                     INDEXED BY WS-SC-Crs-IDX.
                     21 WS-SC-Course-Name          PIC X(07).
                     21 WS-SC-Course-Grade         PIC X(01).
@@ -464,9 +464,10 @@
            12 FILLER          PIC X(30) VALUE
            'Wyoming              Wyo.   WY'.
        01  WS-State-Table-Storage.
+           12 WS-State-Element-Cnt               PIC 99 VALUE 51.
            12 WS-State-Table-Setup.
               15 WS-State-Table OCCURS 51 TIMES
-                 ASCENDING KEY WS-State-Abbrev 
+                 ASCENDING KEY WS-State-Abbrev
                  INDEXED BY WS-State-IDX.
                 18 WS-State-Full-Name            PIC X(21).
                 18 WS-State-Abbrev-Name          PIC X(7).
@@ -490,8 +491,8 @@
            12 WS-Show-Number         PIC 999999.99+.
            12 WS-Hold-Counter        PIC S9(4) COMP VALUE ZERO.
            12 WS-Hold-Value          PIC S9(4) COMP VALUE ZERO.
-           12 WS-Hold-High-Value     PIC S9(4) COMP VALUE LOW-VALUE.
-           12 WS-Hold-Low-Value      PIC S9(4) COMP VALUE HIGH-VALUE.
+           12 WS-Hold-High-Value     PIC S9(4) COMP VALUE 0000.
+           12 WS-Hold-Low-Value      PIC S9(4) COMP VALUE 9999.
 
        PROCEDURE DIVISION.
        0000-Mainline.
@@ -526,7 +527,7 @@
       *    Use the 1D Number table, find the MAX value.
       *    Since it is a known number of elements, this will work.
            DISPLAY "Find the Max Number: "
-           COMPUTE WS-Show-Number = 
+           COMPUTE WS-Show-Number =
               FUNCTION MAX(
                  WS-1DN-A(1),
                  WS-1DN-A(2),
@@ -535,26 +536,26 @@
                  WS-1DN-A(5),
               )
            END-COMPUTE.
-           DISPLAY "Function - Max Number - 1D table is: " 
+           DISPLAY "Function - Max Number - 1D table is: "
               WS-Show-Number.
 
       *    But that won't work if you need to walk the table.
       *    Need to setup a Hold variable and compare instead.
-           INITIALIZE WS-Hold-High-Value. 
+           INITIALIZE WS-Hold-High-Value.
            PERFORM VARYING WS-1DN-SUB FROM 1 BY 1 UNTIL
               WS-1DN-SUB > WS-1DN-Element-Cnt
-              IF (WS-1DN-A(WS-1DN-SUB)) > WS-Hold-High-Value 
+              IF (WS-1DN-A(WS-1DN-SUB)) > WS-Hold-High-Value
                  MOVE WS-1DN-A(WS-1DN-SUB) TO WS-Hold-High-Value
               END-IF
            END-PERFORM.
            MOVE WS-Hold-High-Value TO WS-Show-Number.
-           DISPLAY " Perform - Max Number - 1D table is: " 
+           DISPLAY " Perform - Max Number - 1D table is: "
               WS-Show-Number.
 
       *    Use the 1D Number table, SUM the values.
       *    Since it is a known number of elements, this will work.
            DISPLAY "Total the values: "
-           COMPUTE WS-Show-Number = 
+           COMPUTE WS-Show-Number =
               FUNCTION SUM(
                  WS-1DN-A(1),
                  WS-1DN-A(2),
@@ -563,25 +564,25 @@
                  WS-1DN-A(5),
               )
            END-COMPUTE.
-           DISPLAY "Function - Total - 1D table is: " 
+           DISPLAY "Function - Total - 1D table is: "
               WS-Show-Number.
 
       *    But that won't work if you need to walk the table.
       *    Need to setup a Hold variable and add up instead.
-           INITIALIZE WS-Hold-High-Value. 
+           INITIALIZE WS-Hold-High-Value.
            PERFORM VARYING WS-1DN-SUB FROM 1 BY 1 UNTIL
               WS-1DN-SUB > WS-1DN-Element-Cnt
-              ADD WS-1DN-A(WS-1DN-SUB) TO WS-Hold-High-Value 
+              ADD WS-1DN-A(WS-1DN-SUB) TO WS-Hold-High-Value
               END-ADD
            END-PERFORM.
            MOVE WS-Hold-High-Value TO WS-Show-Number.
-           DISPLAY " Perform - Total - 1D table is: " 
+           DISPLAY " Perform - Total - 1D table is: "
               WS-Show-Number.
 
       *    Use the 1D Number table, find the AVG.
       *    Since it is a known number of elements, this will work.
            DISPLAY "Average(MEAN) the values: "
-           COMPUTE WS-Show-Number = 
+           COMPUTE WS-Show-Number =
               FUNCTION MEAN(
                  WS-1DN-A(1),
                  WS-1DN-A(2),
@@ -590,21 +591,21 @@
                  WS-1DN-A(5),
               )
            END-COMPUTE.
-           DISPLAY "Function - Average of Values - 1D table is: " 
+           DISPLAY "Function - Average of Values - 1D table is: "
               WS-Show-Number.
 
       *    But that won't work if you need to walk the table.
       *    Need to setup a Hold variable and add up the values
       *    and a counter for the number of numbers then divide.
-           INITIALIZE WS-Hold-Value, WS-Hold-Counter. 
+           INITIALIZE WS-Hold-Value, WS-Hold-Counter.
            PERFORM VARYING WS-1DN-SUB FROM 1 BY 1 UNTIL
               WS-1DN-SUB > WS-1DN-Element-Cnt
-              ADD +1 TO WS-Hold-Counter 
-              ADD WS-1DN-A(WS-1DN-SUB) TO WS-Hold-Value 
+              ADD +1 TO WS-Hold-Counter
+              ADD WS-1DN-A(WS-1DN-SUB) TO WS-Hold-Value
            END-PERFORM.
-           COMPUTE WS-Show-Number = 
+           COMPUTE WS-Show-Number =
               WS-Hold-Value / WS-Hold-Counter
-           DISPLAY " Perform - Average of Values - 1D table is: " 
+           DISPLAY " Perform - Average of Values - 1D table is: "
               WS-Show-Number.
 
            DISPLAY SPACE.
@@ -619,10 +620,10 @@
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
               DISPLAY SPACE
-              DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)       
+              DISPLAY WS-SC-Student-Name(WS-SC-St-IDX)
               PERFORM VARYING WS-SC-Crs-IDX FROM 1 BY 1
                  UNTIL WS-SC-Crs-IDX > WS-SC-Element2-Cnt
-                 DISPLAY "Course: " 
+                 DISPLAY "Course: "
                          WS-SC-Course-Name
                          (WS-SC-St-IDX, WS-SC-Crs-IDX)
                          "  Grade: "
@@ -648,13 +649,13 @@
       *    Calculating for Company first:
       *    (ALL) is not available for this so have to walk the table.
 
-           PERFORM VARYING WS-3DI1-IDX 
+           PERFORM VARYING WS-3DI1-IDX
               FROM 1 BY 1
               UNTIL WS-3DI1-IDX > WS-3DI-Element1-Cnt
-              PERFORM VARYING WS-3DI2-IDX 
+              PERFORM VARYING WS-3DI2-IDX
                  FROM 1 BY 1
                  UNTIL WS-3DI2-IDX > WS-3DI-Element2-Cnt
-                 PERFORM VARYING WS-3DI3-IDX 
+                 PERFORM VARYING WS-3DI3-IDX
                     FROM 1 BY 1
                     UNTIL WS-3DI3-IDX > WS-3DI-Element3-Cnt
                     COMPUTE WS-Company-Total = WS-Company-Total +
@@ -665,24 +666,24 @@
            END-PERFORM.
 
            DISPLAY SPACE.
-           DISPLAY "Company Total: " WS-Company-Total              
+           DISPLAY "Company Total: " WS-Company-Total
            DISPLAY SPACE.
 
       *    Okay, Calculating is fine.
       *    Calculate and print subtotals in one go.
            DISPLAY SPACE.
-           DISPLAY "Company Totals Report - By Region"              
+           DISPLAY "Company Totals Report - By Region"
            DISPLAY SPACE.
            INITIALIZE WS-Region-Total,
                       WS-Division-Total,
                       WS-Company-Total.
-           PERFORM VARYING WS-3DI1-IDX 
+           PERFORM VARYING WS-3DI1-IDX
               FROM 1 BY 1
               UNTIL WS-3DI1-IDX > WS-3DI-Element1-Cnt
-              PERFORM VARYING WS-3DI2-IDX 
+              PERFORM VARYING WS-3DI2-IDX
                  FROM 1 BY 1
                  UNTIL WS-3DI2-IDX > WS-3DI-Element2-Cnt
-                 PERFORM VARYING WS-3DI3-IDX 
+                 PERFORM VARYING WS-3DI3-IDX
                     FROM 1 BY 1
                     UNTIL WS-3DI3-IDX > WS-3DI-Element3-Cnt
                     COMPUTE WS-Region-Total = WS-Region-Total +
@@ -693,7 +694,7 @@
                     WS-3DI-L2-B(WS-3DI1-IDX, WS-3DI2-IDX)
                     " is "
                     WS-Region-Total
-                 COMPUTE WS-Division-Total = 
+                 COMPUTE WS-Division-Total =
                     WS-Division-Total + WS-Region-Total
                  INITIALIZE WS-Region-Total
               END-PERFORM
@@ -702,7 +703,7 @@
                  " is "
                  WS-Division-Total
               DISPLAY SPACE
-              COMPUTE WS-Company-Total = 
+              COMPUTE WS-Company-Total =
                  WS-Company-Total + WS-Division-Total
               INITIALIZE WS-Division-Total
            END-PERFORM.
@@ -714,25 +715,25 @@
 
            DISPLAY SPACE.
            DISPLAY "Company Totals Report".
-           DISPLAY "By Region - 4th Quarter Only".              
+           DISPLAY "By Region - 4th Quarter Only".
            DISPLAY SPACE.
            INITIALIZE WS-Region-Total,
                       WS-Division-Total,
                       WS-Company-Total.
-           PERFORM VARYING WS-3DI1-IDX 
+           PERFORM VARYING WS-3DI1-IDX
               FROM 1 BY 1
               UNTIL WS-3DI1-IDX > WS-3DI-Element1-Cnt
-              PERFORM VARYING WS-3DI2-IDX 
+              PERFORM VARYING WS-3DI2-IDX
                  FROM 1 BY 1
                  UNTIL WS-3DI2-IDX > WS-3DI-Element2-Cnt
-                    COMPUTE WS-Region-Total = 
+                    COMPUTE WS-Region-Total =
                        WS-3DI-L3-C(WS-3DI1-IDX, WS-3DI2-IDX, 4)
                     END-COMPUTE
                     DISPLAY "Total for Region: "
                        WS-3DI-L2-B(WS-3DI1-IDX, WS-3DI2-IDX)
                        " is "
                        WS-Region-Total
-                    COMPUTE WS-Division-Total = 
+                    COMPUTE WS-Division-Total =
                        WS-Division-Total + WS-Region-Total
                     INITIALIZE WS-Region-Total
               END-PERFORM
@@ -741,7 +742,7 @@
                  " is "
                  WS-Division-Total
               DISPLAY SPACE
-              COMPUTE WS-Company-Total = 
+              COMPUTE WS-Company-Total =
                  WS-Company-Total + WS-Division-Total
               INITIALIZE WS-Division-Total
            END-PERFORM.
@@ -752,7 +753,7 @@
       *    Report the Average for each region and division.
 
            DISPLAY SPACE.
-           DISPLAY "Company Totals Report - By Region"              
+           DISPLAY "Company Totals Report - By Region"
            DISPLAY "Average per Region and Division".
            DISPLAY SPACE.
            INITIALIZE WS-Region-Total,
@@ -761,13 +762,13 @@
                       WS-Region-Counter,
                       WS-Division-Counter,
                       WS-Company-Counter.
-           PERFORM VARYING WS-3DI1-IDX 
+           PERFORM VARYING WS-3DI1-IDX
               FROM 1 BY 1
               UNTIL WS-3DI1-IDX > WS-3DI-Element1-Cnt
-              PERFORM VARYING WS-3DI2-IDX 
+              PERFORM VARYING WS-3DI2-IDX
                  FROM 1 BY 1
                  UNTIL WS-3DI2-IDX > WS-3DI-Element2-Cnt
-                 PERFORM VARYING WS-3DI3-IDX 
+                 PERFORM VARYING WS-3DI3-IDX
                     FROM 1 BY 1
                     UNTIL WS-3DI3-IDX > WS-3DI-Element3-Cnt
                     COMPUTE WS-Region-Total = WS-Region-Total +
@@ -777,37 +778,37 @@
                  END-PERFORM
                  DIVIDE WS-Region-Total BY WS-Region-Counter
                     GIVING WS-Average-Display ROUNDED
-                    ON SIZE ERROR 
+                    ON SIZE ERROR
                        DISPLAY "There was a problem with divide."
-                 END-DIVIDE 
+                 END-DIVIDE
                  DISPLAY "Average for Region: "
                     WS-3DI-L2-B(WS-3DI1-IDX, WS-3DI2-IDX)
                     " is "
-                    WS-Average-Display 
-                 COMPUTE WS-Division-Total = 
+                    WS-Average-Display
+                 COMPUTE WS-Division-Total =
                     WS-Division-Total + WS-Region-Total
                  ADD WS-Region-Counter TO WS-Division-Counter
                  INITIALIZE WS-Region-Total, WS-Region-Counter
               END-PERFORM
-              COMPUTE WS-Average-Display = 
+              COMPUTE WS-Average-Display =
                     (WS-Division-Total / WS-Division-Counter)
               DISPLAY "     Average for Division: "
                  WS-3DI-A(WS-3DI1-IDX)
                  " is "
                  WS-Average-Display
               DISPLAY SPACE
-              COMPUTE WS-Company-Total = 
+              COMPUTE WS-Company-Total =
                  WS-Company-Total + WS-Division-Total
               ADD WS-Division-Counter TO WS-Company-Counter
               INITIALIZE WS-Division-Total, WS-Division-Counter
            END-PERFORM.
-           
+
            DISPLAY SPACE.
            DIVIDE WS-Company-Total BY WS-Company-Counter
               GIVING WS-Average-Display ROUNDED
-              ON SIZE ERROR 
+              ON SIZE ERROR
                  DISPLAY "There was a problem with divide."
-           END-DIVIDE 
+           END-DIVIDE
            DISPLAY "          Average for Region/Division/Company is: "
               WS-Average-Display.
 
@@ -820,22 +821,22 @@
 
       *    Note to self: When doing multiple searches using the same
       *       status flag, make sure to set it to FALSE before
-      *       searching the next time else ... no searching. 
-           SET WS-Student-Not-Found TO TRUE       
+      *       searching the next time else ... no searching.
+           SET WS-Student-Not-Found TO TRUE
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
-               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
                OR WS-Student-Found
               SET WS-SC-Crs-IDX TO 1
       *    Note to self: Make sure it is searching the 2nd level table
       *       not the first level table.
               SEARCH WS-SC-Course-Table
-              WHEN (WS-SC-Course-Name 
-                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PIAN003' 
-               AND WS-SC-Course-Grade 
-                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'B')                 
+              WHEN (WS-SC-Course-Name
+                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PIAN003'
+               AND WS-SC-Course-Grade
+                   (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'B')
                  DISPLAY '*** Musician Found ***'
                  DISPLAY FUNCTION TRIM(
-                    WS-SC-Student-Name(WS-SC-St-IDX)) 
+                    WS-SC-Student-Name(WS-SC-St-IDX))
                     " got an B in PIAN003."
                  SET WS-Student-Found TO TRUE
               END-SEARCH
@@ -846,19 +847,19 @@
            DISPLAY SPACE.
 
 
-           SET WS-Student-Not-Found TO TRUE       
+           SET WS-Student-Not-Found TO TRUE
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
-               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
                OR WS-Student-Found
               SET WS-SC-Crs-IDX TO 1
               SEARCH WS-SC-Course-Table
-                 WHEN (WS-SC-Course-Name 
-                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'TUBA567' 
-                 AND WS-SC-Course-Grade 
-                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'A')                 
+                 WHEN (WS-SC-Course-Name
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'TUBA567'
+                 AND WS-SC-Course-Grade
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'A')
                  DISPLAY '*** Musician Found ***'
                  DISPLAY FUNCTION TRIM(
-                    WS-SC-Student-Name(WS-SC-St-IDX)) 
+                    WS-SC-Student-Name(WS-SC-St-IDX))
                     " got an A in TUBA567."
                  SET WS-Student-Found TO TRUE
               END-SEARCH
@@ -869,19 +870,19 @@
            DISPLAY SPACE.
 
       *    Is SALLY HARRIS taking ear-training (EART164)?
-           SET WS-Student-Not-Found TO TRUE       
+           SET WS-Student-Not-Found TO TRUE
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
-               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
                OR WS-Student-Found
               SET WS-SC-Crs-IDX TO 1
               SEARCH WS-SC-Course-Table
-                 WHEN (WS-SC-Course-Name 
-                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'EART164' 
-                  AND WS-SC-Student-Name 
-                      (WS-SC-St-IDX) = 'SALLY HARRIS')                 
+                 WHEN (WS-SC-Course-Name
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'EART164'
+                  AND WS-SC-Student-Name
+                      (WS-SC-St-IDX) = 'SALLY HARRIS')
                     DISPLAY '*** Student Found ***'
                     DISPLAY FUNCTION TRIM(
-                       WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       WS-SC-Student-Name(WS-SC-St-IDX))
                        " has taken EART164."
                   SET WS-Student-Found TO TRUE
               END-SEARCH
@@ -892,18 +893,18 @@
            DISPLAY SPACE.
 
       *    Find ANYONE who's studied TRIG551 or DRUM310
-           SET WS-Student-Not-Found TO TRUE       
+           SET WS-Student-Not-Found TO TRUE
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
-               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+               UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
                OR WS-Student-Found
               SET WS-SC-Crs-IDX TO 1
               SEARCH WS-SC-Course-Table
-                 WHEN (WS-SC-Course-Name 
-                      (WS-SC-St-IDX, WS-SC-Crs-IDX) = 
-                      'TRIG551' OR 'DRUM310')                 
+                 WHEN (WS-SC-Course-Name
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX) =
+                      'TRIG551' OR 'DRUM310')
                     DISPLAY '*** Student Found ***'
                     DISPLAY FUNCTION TRIM(
-                       WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       WS-SC-Student-Name(WS-SC-St-IDX))
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        "."
@@ -924,11 +925,11 @@
                UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
               SET WS-SC-Crs-IDX TO 1
               SEARCH WS-SC-Course-Table
-                 WHEN (WS-SC-Course-Name 
-                    (WS-SC-St-IDX, WS-SC-Crs-IDX)(1:4) = 'BIOL')                                       
+                 WHEN (WS-SC-Course-Name
+                    (WS-SC-St-IDX, WS-SC-Crs-IDX)(1:4) = 'BIOL')
                     DISPLAY '*** Student Found ***'
                     DISPLAY FUNCTION TRIM(
-                       WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       WS-SC-Student-Name(WS-SC-St-IDX))
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        "."
@@ -941,18 +942,18 @@
 
       *    Find EVERYBODY who's studied BIOL ogy
       *    Use a REF-MOD to filter out all the classes.
-      *    This one will show LISA twice because she has 
+      *    This one will show LISA twice because she has
       *    taken two BIOL classes.
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
                UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
                PERFORM VARYING WS-SC-Crs-IDX FROM 1 BY 1
-                  UNTIL WS-SC-Crs-IDX > WS-SC-Element2-Cnt 
+                  UNTIL WS-SC-Crs-IDX > WS-SC-Element2-Cnt
                   SEARCH WS-SC-Course-Table
-                  WHEN (WS-SC-Course-Name 
-                      (WS-SC-St-IDX, WS-SC-Crs-IDX)(1:4) = 'BIOL')                                       
+                  WHEN (WS-SC-Course-Name
+                      (WS-SC-St-IDX, WS-SC-Crs-IDX)(1:4) = 'BIOL')
                     DISPLAY '*** Student Found ***'
                     DISPLAY FUNCTION TRIM(
-                       WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       WS-SC-Student-Name(WS-SC-St-IDX))
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        "."
@@ -965,29 +966,29 @@
            DISPLAY SPACE.
 
       *    What did LISA CRUDUP get in PSYCH23A?
-           SET WS-Student-Not-Found TO TRUE       
+           SET WS-Student-Not-Found TO TRUE
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
-              UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+              UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
               OR WS-Student-Found
               SET WS-SC-Crs-IDX TO 1
-              SEARCH WS-SC-Course-Table           
+              SEARCH WS-SC-Course-Table
                  WHEN (WS-SC-Course-Name
                       (WS-SC-St-IDX, WS-SC-Crs-IDX) = 'PSYC23A'
-                  AND WS-SC-Student-Name                 
-                      (WS-SC-St-IDX) = 'LISA CRUDUP')                                                                                                                       
+                  AND WS-SC-Student-Name
+                      (WS-SC-St-IDX) = 'LISA CRUDUP')
                     DISPLAY '*** Student Found ***'
                     DISPLAY
                        FUNCTION TRIM(
-                          WS-SC-Student-Name(WS-SC-St-IDX)) 
+                          WS-SC-Student-Name(WS-SC-St-IDX))
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        " and recieved a "
                        WS-SC-Course-Grade(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        "."
-                    SET WS-Student-Found TO TRUE        
+                    SET WS-Student-Found TO TRUE
               END-SEARCH
            END-PERFORM.
-           IF WS-Student-Not-Found 
+           IF WS-Student-Not-Found
               DISPLAY "<<< Student Not Found >>>"
            END-IF
 
@@ -997,14 +998,14 @@
 
       *    Are there any records with invalid grades?
            PERFORM VARYING WS-SC-St-IDX FROM 1 BY 1
-              UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt 
+              UNTIL WS-SC-St-IDX > WS-SC-Element1-Cnt
               SET WS-SC-Crs-IDX TO 1
-              SEARCH WS-SC-Course-Table           
+              SEARCH WS-SC-Course-Table
                  WHEN NOT WS-SC-Valid-Grade
-                    (WS-SC-St-IDX, WS-SC-Crs-IDX) 
+                    (WS-SC-St-IDX, WS-SC-Crs-IDX)
                     DISPLAY '*** Bad Grade Found ***'
                     DISPLAY
-                       FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX)) 
+                       FUNCTION TRIM(WS-SC-Student-Name(WS-SC-St-IDX))
                        " has taken "
                        WS-SC-Course-Name(WS-SC-St-IDX, WS-SC-Crs-IDX)
                        " and recieved a "
@@ -1012,7 +1013,7 @@
                        "."
               END-SEARCH
            END-PERFORM.
-           IF WS-Student-Not-Found 
+           IF WS-Student-Not-Found
               DISPLAY "<<< No Bad Grades were found. >>>"
            END-IF
 
@@ -1027,15 +1028,15 @@
            DISPLAY SPACE.
 
            SEARCH ALL WS-State-Table
-              AT END DISPLAY 'RECORD NOT FOUND' 
-              WHEN WS-State-Abbrev(WS-State-IDX) = 'TN'                 
+              AT END DISPLAY 'RECORD NOT FOUND'
+              WHEN WS-State-Abbrev(WS-State-IDX) = 'TN'
                  DISPLAY WS-State-Abbrev (WS-State-IDX)
                     " is also known as "
-                    FUNCTION TRIM(                    
+                    FUNCTION TRIM(
                        WS-State-Abbrev-Name(WS-State-IDX))
                     " and it's full name is "
                     FUNCTION TRIM(
-                       WS-State-Full-Name (WS-State-IDX))                          
+                       WS-State-Full-Name (WS-State-IDX))
                     "."
            END-SEARCH.
 
@@ -1045,14 +1046,14 @@
            DISPLAY SPACE.
 
        2900-Display-The-Tables.
-           DISPLAY "If DEBUG MODE is on, A bunch of tables will show.".   
+           DISPLAY "If DEBUG MODE is on, A bunch of tables will show.".
       *    Simple Table with Alphanumeric data.
       D    DISPLAY "This is the Simple 1D Table:"
       D    DISPLAY "Using numbers as subscripts:"
-      D    DISPLAY "WS-1D-Table - 1: " WS-1D-A(1). 
-      D    DISPLAY "WS-1D-Table - 2: " WS-1D-A(2). 
-      D    DISPLAY "WS-1D-Table - 3: " WS-1D-A(3). 
-      D    DISPLAY "WS-1D-Table - 4: " WS-1D-A(4). 
+      D    DISPLAY "WS-1D-Table - 1: " WS-1D-A(1).
+      D    DISPLAY "WS-1D-Table - 2: " WS-1D-A(2).
+      D    DISPLAY "WS-1D-Table - 3: " WS-1D-A(3).
+      D    DISPLAY "WS-1D-Table - 4: " WS-1D-A(4).
       D    DISPLAY "WS-1D-Table - 5: " WS-1D-A(5).
       D    DISPLAY SPACE.
 
@@ -1061,25 +1062,25 @@
       D    MOVE 1 TO WS-1D-SUB.
       D    PERFORM 5 TIMES
       D       DISPLAY "WS-1D-Table Entry: " WS-1D-A(WS-1D-SUB)
-      D       ADD 1 TO WS-1D-SUB 
+      D       ADD 1 TO WS-1D-SUB
       D    END-PERFORM.
       D    DISPLAY SPACE.
 
       D    DISPLAY "This is the Simple 1D Table:"
       D    DISPLAY "Using subscript varying:"
       D    PERFORM VARYING WS-1D-SUB FROM 1 BY 1
-      D       UNTIL WS-1D-SUB > 5 
-      D       DISPLAY "WS-1D-Table Entry: " WS-1D-A(WS-1D-SUB) 
+      D       UNTIL WS-1D-SUB > 5
+      D       DISPLAY "WS-1D-Table Entry: " WS-1D-A(WS-1D-SUB)
       D    END-PERFORM.
       D    DISPLAY SPACE.
-          
+
       *    Simple Table with Numbers.
       D    DISPLAY "This is the Simple 1D Number Table:"
       D    DISPLAY "Using numbers as subscripts:"
-      D    DISPLAY "WS-1DN-Table - 1: " WS-1DN-A(1). 
-      D    DISPLAY "WS-1DN-Table - 2: " WS-1DN-A(2). 
-      D    DISPLAY "WS-1DN-Table - 3: " WS-1DN-A(3). 
-      D    DISPLAY "WS-1DN-Table - 4: " WS-1DN-A(4). 
+      D    DISPLAY "WS-1DN-Table - 1: " WS-1DN-A(1).
+      D    DISPLAY "WS-1DN-Table - 2: " WS-1DN-A(2).
+      D    DISPLAY "WS-1DN-Table - 3: " WS-1DN-A(3).
+      D    DISPLAY "WS-1DN-Table - 4: " WS-1DN-A(4).
       D    DISPLAY "WS-1DN-Table - 5: " WS-1DN-A(5).
       D    DISPLAY SPACE.
 
@@ -1088,73 +1089,73 @@
       D    MOVE 1 TO WS-1DN-SUB.
       D    PERFORM 5 TIMES
       D       DISPLAY "WS-1DN-Table Entry: " WS-1DN-A(WS-1DN-SUB)
-      D       ADD 1 TO WS-1DN-SUB 
+      D       ADD 1 TO WS-1DN-SUB
       D    END-PERFORM.
       D    DISPLAY SPACE.
 
       D    DISPLAY "This is the Simple 1D Number Table:"
       D    DISPLAY "Using subscript varying:"
       D    PERFORM VARYING WS-1DN-SUB FROM 1 BY 1
-      D       UNTIL WS-1DN-SUB > 5 
-      D       DISPLAY "WS-1DN-Table Entry: " WS-1DN-A(WS-1DN-SUB) 
+      D       UNTIL WS-1DN-SUB > 5
+      D       DISPLAY "WS-1DN-Table Entry: " WS-1DN-A(WS-1DN-SUB)
       D    END-PERFORM.
       D    DISPLAY SPACE.
 
       D    DISPLAY "This is the 2D Table:"
       D    DISPLAY "Using numbers as subscripts:"
-      D    DISPLAY "WS-2D-Table 1-Level 1: " 
-      D       WS-2D-A(1) "-" WS-2D-L2(1, 1). 
-      D    DISPLAY "WS-2D-Table 1-Level 2: " 
-      D       WS-2D-A(1) "-" WS-2D-L2(1, 2). 
-      D    DISPLAY "WS-2D-Table 1-Level 3: " 
-      D       WS-2D-A(1) "-" WS-2D-L2(1, 3). 
-      D    DISPLAY "WS-2D-Table 1-Level 4: " 
-      D       WS-2D-A(1) "-" WS-2D-L2(1, 4). 
-      D    DISPLAY "WS-2D-Table 1-Level 5: " 
+      D    DISPLAY "WS-2D-Table 1-Level 1: "
+      D       WS-2D-A(1) "-" WS-2D-L2(1, 1).
+      D    DISPLAY "WS-2D-Table 1-Level 2: "
+      D       WS-2D-A(1) "-" WS-2D-L2(1, 2).
+      D    DISPLAY "WS-2D-Table 1-Level 3: "
+      D       WS-2D-A(1) "-" WS-2D-L2(1, 3).
+      D    DISPLAY "WS-2D-Table 1-Level 4: "
+      D       WS-2D-A(1) "-" WS-2D-L2(1, 4).
+      D    DISPLAY "WS-2D-Table 1-Level 5: "
       D       WS-2D-A(1) "-" WS-2D-L2(1, 5).
       D    DISPLAY SPACE.
-      D    DISPLAY "WS-2D-Table 2-Level 1: " 
-      D       WS-2D-A(2) "-" WS-2D-L2(2, 1). 
-      D    DISPLAY "WS-2D-Table 2-Level 2: " 
-      D       WS-2D-A(2) "-" WS-2D-L2(2, 2). 
-      D    DISPLAY "WS-2D-Table 2-Level 3: " 
-      D       WS-2D-A(2) "-" WS-2D-L2(2, 3). 
-      D    DISPLAY "WS-2D-Table 2-Level 4: " 
-      D       WS-2D-A(2) "-" WS-2D-L2(2, 4). 
-      D    DISPLAY "WS-2D-Table 2-Level 5: " 
+      D    DISPLAY "WS-2D-Table 2-Level 1: "
+      D       WS-2D-A(2) "-" WS-2D-L2(2, 1).
+      D    DISPLAY "WS-2D-Table 2-Level 2: "
+      D       WS-2D-A(2) "-" WS-2D-L2(2, 2).
+      D    DISPLAY "WS-2D-Table 2-Level 3: "
+      D       WS-2D-A(2) "-" WS-2D-L2(2, 3).
+      D    DISPLAY "WS-2D-Table 2-Level 4: "
+      D       WS-2D-A(2) "-" WS-2D-L2(2, 4).
+      D    DISPLAY "WS-2D-Table 2-Level 5: "
       D       WS-2D-A(2) "-" WS-2D-L2(2, 5).
       D    DISPLAY SPACE.
-      D    DISPLAY "WS-2D-Table 3-Level 1: " 
-      D       WS-2D-A(3) "-" WS-2D-L2(3, 1). 
-      D    DISPLAY "WS-2D-Table 3-Level 2: " 
-      D       WS-2D-A(3) "-" WS-2D-L2(3, 2). 
-      D    DISPLAY "WS-2D-Table 3-Level 3: " 
-      D       WS-2D-A(3) "-" WS-2D-L2(3, 3). 
-      D    DISPLAY "WS-2D-Table 3-Level 4: " 
-      D       WS-2D-A(3) "-" WS-2D-L2(3, 4). 
-      D    DISPLAY "WS-2D-Table 3-Level 5: " 
+      D    DISPLAY "WS-2D-Table 3-Level 1: "
+      D       WS-2D-A(3) "-" WS-2D-L2(3, 1).
+      D    DISPLAY "WS-2D-Table 3-Level 2: "
+      D       WS-2D-A(3) "-" WS-2D-L2(3, 2).
+      D    DISPLAY "WS-2D-Table 3-Level 3: "
+      D       WS-2D-A(3) "-" WS-2D-L2(3, 3).
+      D    DISPLAY "WS-2D-Table 3-Level 4: "
+      D       WS-2D-A(3) "-" WS-2D-L2(3, 4).
+      D    DISPLAY "WS-2D-Table 3-Level 5: "
       D       WS-2D-A(3) "-" WS-2D-L2(3, 5).
       D    DISPLAY SPACE.
-      D    DISPLAY "WS-2D-Table 4-Level 1: " 
-      D       WS-2D-A(4) "-" WS-2D-L2(4, 1). 
-      D    DISPLAY "WS-2D-Table 4-Level 2: " 
-      D       WS-2D-A(4) "-" WS-2D-L2(4, 2). 
-      D    DISPLAY "WS-2D-Table 4-Level 3: " 
-      D       WS-2D-A(4) "-" WS-2D-L2(4, 3). 
-      D    DISPLAY "WS-2D-Table 4-Level 4: " 
-      D       WS-2D-A(4) "-" WS-2D-L2(4, 4). 
-      D    DISPLAY "WS-2D-Table 4-Level 5: " 
+      D    DISPLAY "WS-2D-Table 4-Level 1: "
+      D       WS-2D-A(4) "-" WS-2D-L2(4, 1).
+      D    DISPLAY "WS-2D-Table 4-Level 2: "
+      D       WS-2D-A(4) "-" WS-2D-L2(4, 2).
+      D    DISPLAY "WS-2D-Table 4-Level 3: "
+      D       WS-2D-A(4) "-" WS-2D-L2(4, 3).
+      D    DISPLAY "WS-2D-Table 4-Level 4: "
+      D       WS-2D-A(4) "-" WS-2D-L2(4, 4).
+      D    DISPLAY "WS-2D-Table 4-Level 5: "
       D       WS-2D-A(4) "-" WS-2D-L2(4, 5).
       D    DISPLAY SPACE.
-      D    DISPLAY "WS-2D-Table 5-Level 1: " 
-      D       WS-2D-A(5) "-" WS-2D-L2(5, 1). 
-      D    DISPLAY "WS-2D-Table 5-Level 2: " 
-      D       WS-2D-A(5) "-" WS-2D-L2(5, 2). 
-      D    DISPLAY "WS-2D-Table 5-Level 3: " 
-      D       WS-2D-A(5) "-" WS-2D-L2(5, 3). 
-      D    DISPLAY "WS-2D-Table 5-Level 4: " 
-      D       WS-2D-A(5) "-" WS-2D-L2(5, 4). 
-      D    DISPLAY "WS-2D-Table 5-Level 5: " 
+      D    DISPLAY "WS-2D-Table 5-Level 1: "
+      D       WS-2D-A(5) "-" WS-2D-L2(5, 1).
+      D    DISPLAY "WS-2D-Table 5-Level 2: "
+      D       WS-2D-A(5) "-" WS-2D-L2(5, 2).
+      D    DISPLAY "WS-2D-Table 5-Level 3: "
+      D       WS-2D-A(5) "-" WS-2D-L2(5, 3).
+      D    DISPLAY "WS-2D-Table 5-Level 4: "
+      D       WS-2D-A(5) "-" WS-2D-L2(5, 4).
+      D    DISPLAY "WS-2D-Table 5-Level 5: "
       D       WS-2D-A(5) "-" WS-2D-L2(5, 5).
       D    DISPLAY SPACE.
 
@@ -1162,11 +1163,11 @@
       D    DISPLAY "Using subscript addition:"
       D    MOVE 1 TO WS-2D-SUB1.
       D    PERFORM 5 TIMES
-      D       DISPLAY "WS-2D-Table Entry: " 
-      D          WS-2D-A(WS-2D-SUB1) 
+      D       DISPLAY "WS-2D-Table Entry: "
+      D          WS-2D-A(WS-2D-SUB1)
       D       MOVE 1 TO WS-2D-SUB2
       D       PERFORM 5 TIMES
-      D          DISPLAY "      WS-2D-SUB Entry: " 
+      D          DISPLAY "      WS-2D-SUB Entry: "
       D             WS-2D-L2(WS-2D-SUB1, WS-2D-SUB2)
       D             ADD 1 TO WS-2D-SUB2
       D       END-PERFORM
@@ -1178,13 +1179,13 @@
       D    DISPLAY "Using subscript varying:"
       D    PERFORM VARYING WS-2D-SUB1 FROM 1 BY 1
       D       UNTIL WS-2D-SUB1 > 5
-      D       DISPLAY "WS-2D-Table Entry: " 
-      D          WS-2D-A(WS-2D-SUB1) 
+      D       DISPLAY "WS-2D-Table Entry: "
+      D          WS-2D-A(WS-2D-SUB1)
       D       PERFORM VARYING WS-2D-SUB2 FROM 1 BY 1
-      D          UNTIL WS-2D-SUB2 > 5 
-      D          DISPLAY "      WS-2D-SUB Entry: " 
+      D          UNTIL WS-2D-SUB2 > 5
+      D          DISPLAY "      WS-2D-SUB Entry: "
       D             WS-2D-L2(WS-2D-SUB1, WS-2D-SUB2)
-      D       END-PERFORM 
+      D       END-PERFORM
       D    END-PERFORM.
       D    DISPLAY SPACE.
 
@@ -1230,9 +1231,8 @@
       D    DISPLAY "This is the State 1D Table:"
       D    DISPLAY "Using index varying:"
       D    PERFORM VARYING WS-State-IDX FROM 1 BY 1
-      D       UNTIL WS-State-IDX > WS-State-Element-Cnt 
+      D       UNTIL WS-State-IDX > WS-State-Element-Cnt
       D       DISPLAY "State: "
-      D           WS-State-IDX " " 
       D           WS-State-Abbrev(WS-State-IDX) " "
       D           WS-State-Abbrev-Name(WS-State-IDX) " "
       D           WS-State-Full-Name(WS-State-IDX)
