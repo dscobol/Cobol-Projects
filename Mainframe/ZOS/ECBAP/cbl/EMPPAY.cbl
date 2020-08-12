@@ -1,10 +1,12 @@
        IDENTIFICATION DIVISION.
        PROGRAM-ID. EMPPAY.
+      ***** This is an unbelievably simple COBOL program
        DATA DIVISION.
        WORKING-STORAGE SECTION.
+       77  REC-COUNTER              PIC 9(1).
        01  EMP-RECORD.
            05  EMP-NAME.
-                10 EMP-FNAME        PIC X(15).
+                10 EMP-FNAME        PIC X(15) VALUE 'FRANCISCO'.
                 10 EMP-LNAME        PIC X(15).
            05  EMP-HOURLY-RATE      PIC 9(3)V99.
            05  EMP-OT-RATE          PIC V99.
@@ -26,4 +28,5 @@
            DISPLAY "Hourly Rate: " EMP-HOURLY-RATE.
            DISPLAY "Bonus-Rate: " EMP-OT-RATE.
            DISPLAY "Gross Pay: " EMP-PAY.
+           DISPLAY "Hi Chris - how's Loretta today?".
            GOBACK.

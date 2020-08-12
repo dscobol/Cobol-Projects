@@ -1,12 +1,3 @@
-      *****************************************************************
-      * Program name:    UNSTRNG
-      *
-      * Maintenence Log
-      * Date       Author        Maintenance Requirement
-      * ---------- ------------  ---------------------------------------
-      * 2020-07-29 MYNAME        Created for ECBAP class
-      *
-      *****************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. UNSTRNG.
        DATA DIVISION.
@@ -42,7 +33,7 @@
            05   VAR-0            PIC X(05) VALUE 'QR*ST'.
        77  ALL-FIELDS-2          PIC X(30).
        PROCEDURE DIVISION.
-           MOVE 'PHILLIP MCGRAW C' TO EMP-FULLNAME.
+           MOVE 'CHESTER MCGRAW C' TO EMP-FULLNAME.
            UNSTRING EMP-FULLNAME DELIMITED BY SPACES
                 INTO FNAME, LNAME, MIDINIT
            END-UNSTRING.
@@ -56,4 +47,3 @@
                 DELIMITED BY SIZE
                 INTO ALL-FIELDS-2.
            GOBACK.
-

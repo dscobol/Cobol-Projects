@@ -1,108 +1,70 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. FAVRPT.
-      * REMARKS:
+       PROGRAM-ID. FAVRPTA.
+      ***** This is an unbelievably simple COBOL program
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT FAVIN
-           ASSIGN TO DA-S-FAVIN
-              ORGANIZATION IS SEQUENTIAL
-              FILE STATUS IS WS-Favin-Status.
-
-           SELECT FAVOUT
-           ASSIGN TO DA-S-FAVOUT
-              ORGANIZATION IS SEQUENTIAL
-              FILE STATUS IS WS-Favout-Status.
+           SELECT FAVIN  ASSIGN TO FAVIN.
+           SELECT FAVRPT ASSIGN TO FAVRPT.
 
        DATA DIVISION.
        FILE SECTION.
        FD  FAVIN
-           LABEL RECORDS ARE STANDARD
            RECORDING MODE IS F
-           BLOCK CONTAINS 0 RECORDS
-           RECORD CONTAINS 58 CHARACTERS.
-       01  FAV-RECORD.
-           12 FI-Group-Name               PIC X(30).
-           12 FI-Number-Of-Musicians      PIC 9(02).
-           12 FI-Musical-Genre            PIC X(12).
-           12 FI-Costs.
-              15 FI-CD-Cost               PIC 9(3)V99.
-              15 FI-Shipping-Cost         PIC 9(2)V99.
-              15 FI-Tax                   PIC 9(2)V99.
-           12 FI-Group-Is-Still-Together  PIC X.
-
-       FD  FAVOUT
            LABEL RECORDS ARE STANDARD
-           RECORDING MODE IS F
+           RECORD CONTAINS 80 CHARACTERS
            BLOCK CONTAINS 0 RECORDS
-           RECORD CONTAINS 63 CHARACTERS.
-       01  FAVOUT-RECORD.
-           12 FO-Group-Name               PIC X(30).
-           12 FO-Number-Of-Musicians      PIC 9(02).
-           12 FO-Musical-Genre            PIC X(12).
-           12 FO-Costs.
-              15 FO-CD-Cost               PIC 9(3)V99.
-              15 FO-Shipping-Cost         PIC 9(2)V99.
-              15 FO-Tax                   PIC 9(2)V99.
-           12 FO-Group-Is-Still-Together  PIC X.
-
+           DATA RECORD IS FAVIN-REC.
+       01  FAVIN-REC.
+           05  ARTIST-NAME            PIC X(30).
+           05  NUMBER-OF-MUSICIANS    PIC 9(2).
+           05  MUSICAL-GENRE          PIC X(12).
+           05  COST.
+                10  CD-COST             PIC 9(3)V99.
+                10  SHIPPING-COST       PIC 9(2)V99.
+                10  TAX                 PIC 9(2).
+           05  BAND-IS-STILL-TOGETHER   PIC X(1).
+       FD  FAVRPT
+           RECORDING MODE IS F
+           LABEL RECORDS ARE STANDARD
+           RECORD CONTAINS 80 CHARACTERS
+           BLOCK CONTAINS 0 RECORDS
+           DATA RECORD IS FAVRPT-REC.
+       01  FAVRPT-REC.
+           05  ARTIST-NAME-O            PIC X(30).
+           05  NUMBER-OF-MUSICIANS-O    PIC 9(2).
+           05  MUSICAL-GENRE-O          PIC X(12).
+           05  FINAL-COST               PIC 9(4)V99.
+           05  COST.
+                10  CD-COST-O             PIC 9(3)V99.
+                10  SHIPPING-COST-O       PIC 9(2)V99.
+                10  TAX-O                 PIC 9(2)V99.
+           05  BAND-IS-STILL-TOGETHER-O   PIC X(1).
        WORKING-STORAGE SECTION.
-       01  WS-FILE-STATUS.
-           12  WS-Favin-Status         PIC X(2) VALUE SPACES.
-               88 WS-Favin-EOF                  VALUE '10'.
-               88 WS-Favin-Okay                 VALUE '00'.
-           12  WS-Favout-Status        PIC X(2) VALUE SPACES.
-               88 WS-Favout-EOF                 VALUE '10'.
-               88 WS-Favout-Okay                VALUE '00'.
-
        PROCEDURE DIVISION.
-
            OPEN INPUT FAVIN.
-           OPEN OUTPUT FAVOUT.
+           OPEN OUTPUT FAVRPT.
 
            READ FAVIN.
-
-           MOVE FI-Group-Name TO FO-Group-Name.
-           MOVE FI-Number-Of-Musicians TO FO-Number-Of-Musicians.
-           MOVE FI-Musical-Genre TO FO-Musical-Genre.
-           COMPUTE FO-CD-Cost =
-                      FI-CD-Cost + FI-Shipping-Cost + FI-Tax.
-           MOVE FI-Shipping-Cost TO FO-Shipping-Cost.
-           MOVE FI-Tax TO FO-Tax.
-           MOVE FI-Group-Is-Still-Together TO
-                   FO-Group-Is-Still-Together.
-
-           WRITE FAVOUT-RECORD.
+           COMPUTE FINAL-COST =
+                      (CD-COST * (TAX/100) ) + CD-COST
+                           + SHIPPING-COST.
+           MOVE ARTIST-NAME TO ARTIST-NAME-O.
+           WRITE FAVRPT-REC.
 
            READ FAVIN.
-
-           MOVE FI-Group-Name TO FO-Group-Name.
-           MOVE FI-Number-Of-Musicians TO FO-Number-Of-Musicians.
-           MOVE FI-Musical-Genre TO FO-Musical-Genre.
-           COMPUTE FO-CD-Cost =
-                      FI-CD-Cost + FI-Shipping-Cost + FI-Tax.
-           MOVE FI-Shipping-Cost TO FO-Shipping-Cost.
-           MOVE FI-Tax TO FO-Tax.
-           MOVE FI-Group-Is-Still-Together TO
-                   FO-Group-Is-Still-Together.
-
-           WRITE FAVOUT-RECORD.
+           COMPUTE CD-COST-O =
+                      CD-COST * TAX.
+           MOVE ARTIST-NAME TO ARTIST-NAME-O.
+           WRITE FAVRPT-REC.
 
            READ FAVIN.
+           COMPUTE CD-COST-O =
+                      CD-COST * TAX.
+           MOVE ARTIST-NAME TO ARTIST-NAME-O.
+           WRITE FAVRPT-REC.
 
-           MOVE FI-Group-Name TO FO-Group-Name.
-           MOVE FI-Number-Of-Musicians TO FO-Number-Of-Musicians.
-           MOVE FI-Musical-Genre TO FO-Musical-Genre.
-           COMPUTE FO-CD-Cost =
-                      FI-CD-Cost + FI-Shipping-Cost + FI-Tax.
-           MOVE FI-Shipping-Cost TO FO-Shipping-Cost.
-           MOVE FI-Tax TO FO-Tax.
-           MOVE FI-Group-Is-Still-Together TO
-                   FO-Group-Is-Still-Together.
 
-           WRITE FAVOUT-RECORD.
-
-           CLOSE FAVIN
-                 FAVOUT.
+           CLOSE  FAVIN, FAVRPT.
 
            GOBACK.

@@ -10,7 +10,7 @@
        FILE-CONTROL.
            SELECT PRINT-LINE ASSIGN TO PRTLINE.
             SELECT ACCT-REC   ASSIGN TO ACCTREC.
-      *-------------
+      *---
        DATA DIVISION.
       *-------------
        FILE SECTION.
@@ -41,7 +41,7 @@
       *
        WORKING-STORAGE SECTION.
        01  FLAGS.
-           05 LASTREC          PIC X VALUE SPACE.
+           05 LASTREC           PIC X VALUE SPACE.
       *
        01  TLIMITED-TBALANCE.
            05 TLIMITED            PIC S9(9)V99 COMP-3 VALUE ZERO.
@@ -108,6 +108,9 @@
                10  WS-CURRENT-MINUTE       PIC 9(02).
            10  WS-CURRENT-SECOND       PIC 9(02).
                10  WS-CURRENT-MILLISECONDS PIC 9(02).
+       01  DEBUG-DATA.
+           05 TRACE-MSG         PIC X(133).
+           05 TOTAL             PIC 9(4).
       *
       *------------------
        PROCEDURE DIVISION.
@@ -129,7 +132,7 @@
            WRITE PRINT-REC FROM HEADER-4.
            MOVE SPACES TO PRINT-REC.
       *
-       READ-NEXT-RECORD.
+       READ-NEXT-RECORD SECTION.
            PERFORM READ-RECORD
             PERFORM UNTIL LASTREC = 'Y'
               PERFORM LIMIT-BALANCE-TOTAL
@@ -137,23 +140,23 @@
               PERFORM READ-RECORD
             END-PERFORM
            .
-       WRITE-TLIMITED-TBALANCE.
+       WRITE-TLIMITED-TBALANCE SECTION.
             MOVE TLIMITED   TO TLIMITED-O.
             MOVE TBALANCE TO TBALANCE-O.
             WRITE PRINT-REC FROM TRAILER-1.
             WRITE PRINT-REC FROM TRAILER-2.
       *
-       CLOSE-STOP.
+       CLOSE-STOP SECTION.
            CLOSE ACCT-REC.
              CLOSE PRINT-LINE.
            GOBACK.
       *
-       READ-RECORD.
+       READ-RECORD SECTION.
            READ ACCT-REC
            AT END MOVE 'Y' TO LASTREC
            END-READ.
       *
-       LIMIT-BALANCE-TOTAL.
+       LIMIT-BALANCE-TOTAL SECTION.
            COMPUTE TLIMITED   = TLIMITED   + ACCT-LIMIT   END-COMPUTE
            COMPUTE TBALANCE = TBALANCE + ACCT-BALANCE END-COMPUTE
            .

@@ -144,7 +144,7 @@
            SEARCH WS-STUDENT-COURSE-TAB-RDF
            WHEN (WS-COURSE-NBR-RDF (ST-IDX, CRS-IDX)  = 'TUBA567'
                 AND WS-COURSE-GRADE-RDF (ST-IDX, CRS-IDX) = 'A')
-                OR ( WS-COURSE-NBR-RDF (ST-IDX, CRS-IDX) = 'PIANO003'
+                OR ( WS-COURSE-NBR-RDF (ST-IDX, CRS-IDX)= 'PIANO003'
                 AND WS-COURSE-GRADE-RDF (ST-IDX, CRS-IDX) = 'A')
                 DISPLAY '*** Musician Found ***'
                 MOVE 'Y' TO SW-MUS-FOUND

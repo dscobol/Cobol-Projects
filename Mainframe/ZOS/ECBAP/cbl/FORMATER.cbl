@@ -346,29 +346,31 @@
 
        400-NUMERIC-RANGE-EDITS.
            MOVE "400-NUMERIC-RANGE-EDITS" TO PARA-NAME.
-      ******** Call to VSAM file to read DIAG record
-           IF  (PHARMACY-COST IN INPATIENT-TREATMENT-REC > 990)
-           IF  (MEDICATION-COST > 9900.0
-           OR  MEDICATION-COST < 1.01)
-               MOVE "*** INVALID MEDICATION COST" TO
-               ERR-MSG IN INPATIENT-TREATMENT-REC-ERR.
-               MOVE "Y" TO ERROR-FOUND-SW
-               PERFORM 710-WRITE-TRMTERR THRU 710-EXIT
-               GO TO 400-EXIT
-           IF  (PHARMACY-COST IN INPATIENT-TREATMENT-REC > 880)
-           IF  (ANCILLARY-CHARGE > 900 AND ERROR-FOUND-SW = 'N')
-           IF  LAB-TEST-ID(ROW-SUB) AND NOT VALID-CATEGORY(ROW-SUB)
-             OR  PHARMACY-COST IN INPATIENT-TREATMENT-REC < .88
-           MOVE "*** INVALID PHARMACY COSTS" TO
-                ERR-MSG IN INPATIENT-TREATMENT-REC-ERR.
-                IF  (ANCILLARY-CHARGE > 100)
-                NEXT SENTENCE ELSE
-                IF  (ANCILLARY-CHARGE > 1000
-                    OR  ANCILLARY-CHARGE < 1.01)
-                        MOVE "Y" TO ERROR-FOUND-SW
-                        GO TO 400-EXIT.
-                IF VALID-RECORD
-                    PERFORM 450-CROSS-FIELD-EDITS THRU 450-EXIT.
+      ******** CALL TO VSAM FILE TO READ DIAG RECORD
+           IF (PHARMACY-COST IN INPATIENT-TREATMENT-REC > 990)
+               IF (MEDICATION-COST > 9900.0
+                  OR MEDICATION-COST < 1.01)
+                   MOVE "*** INVALID MEDICATION COST" TO
+                      ERR-MSG IN INPATIENT-TREATMENT-REC-ERR.
+           MOVE "Y" TO ERROR-FOUND-SW
+           PERFORM 710-WRITE-TRMTERR THRU 710-EXIT
+           GO TO 400-EXIT
+           IF (PHARMACY-COST IN INPATIENT-TREATMENT-REC > 880)
+               IF (ANCILLARY-CHARGE > 900 AND ERROR-FOUND-SW = 'N')
+                   IF LAB-TEST-ID(ROW-SUB) AND NOT VALID-CATEGORY
+                      (ROW-SUB)
+                      OR PHARMACY-COST IN INPATIENT-TREATMENT-REC < .88
+                       MOVE "*** INVALID PHARMACY COSTS" TO
+                          ERR-MSG IN INPATIENT-TREATMENT-REC-ERR.
+           IF (ANCILLARY-CHARGE > 100)
+           NEXT SENTENCE
+           ELSE
+               IF (ANCILLARY-CHARGE > 1000
+                  OR ANCILLARY-CHARGE < 1.01)
+                   MOVE "Y" TO ERROR-FOUND-SW
+                   GO TO 400-EXIT.
+           IF VALID-RECORD
+               PERFORM 450-CROSS-FIELD-EDITS THRU 450-EXIT.
 
        400-EXIT.
            EXIT.

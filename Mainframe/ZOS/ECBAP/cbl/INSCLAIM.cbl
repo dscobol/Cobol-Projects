@@ -12,10 +12,6 @@
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT CLAIMFILE
-             ASSIGN TO UT-S-CLAIM
-               ORGANIZATION IS SEQUENTIAL
-               FILE STATUS IS CLAIMFILE-ST.
            SELECT PRINTFILE
              ASSIGN TO CLAIMRPT
                ORGANIZATION IS SEQUENTIAL
@@ -23,21 +19,18 @@
 
        DATA DIVISION.
        FILE SECTION.
-       FD  CLAIMFILE
-           RECORD CONTAINS 80 CHARACTERS.
-       01 CLAIM-RECORD                  PIC X(80).
 
        FD  PRINTFILE
            RECORD CONTAINS 132 CHARACTERS.
-       01 PRINT-LINE                    PIC X(132).
+       01  PRINT-LINE                    PIC X(132).
 
        WORKING-STORAGE SECTION.
-       77 WS-STORAGE-IND                PIC X(60)
+       77  WS-STORAGE-IND                PIC X(60)
                                                        VALUE
                'WORKING STORAGE BEGINS HERE'.
 
-       77 ALLOWED-AMT                   PIC S9(7)V99   VALUE 9999999.99.
-       77 DEDUCTIBLE-PERC               PIC V999        VALUE .002.
+       77  ALLOWED-AMT                  PIC S9(7)V99   VALUE 9999999.99.
+       77  DEDUCTIBLE-PERC               PIC V999        VALUE .002.
 
            COPY CLAIMREC.
 
@@ -56,6 +49,7 @@
                88 DEDUCTIBLE-MET                       VALUE 'Y'.
            05 PAY-THE-CLAIM-WS          PIC X(1).
                88 PAY-THE-CLAIM                        VALUE 'Y'.
+           05 CLAIMFILE-ST-WS             PIC X(2).
 
        01 COUNTERS-AND-ACCUMULATORS-WS.
            05 DEDUCTIBLE-WS             PIC S9(5)V99.
@@ -176,7 +170,7 @@
            05 TOT-CLAIM-AMOUNT-PAID-OUT PIC $$$,$$$,$$9.99.
            05 FILLER                    PIC X(5)       VALUE SPACES.
 
-       01 FILLER                        PIC X(12)
+       01  FILLER                        PIC X(12)
                          VALUE 'WS ENDS HERE'.
       *
        PROCEDURE DIVISION.
@@ -211,28 +205,16 @@
            PERFORM 400-READ-CLAIMS.
 
        300-OPEN-FILES.
-           OPEN INPUT CLAIMFILE
-           IF NOT CLAIMFILE-OK
-              DISPLAY 'CLAIM FILE PROBLEM'
-              GO TO 999-ERROR-RTN.
+           MOVE 'OP' TO CLAIMFILE-ST-WS.
+           CALL 'INSCLIO' USING CLAIM-RECORD-WS, CLAIMFILE-ST-WS.
 
            OPEN OUTPUT PRINTFILE
            IF NOT PRINTFILE-OK
               DISPLAY 'PRINT REPORT PROBLEM'
               GO TO 999-ERROR-RTN.
-
-       300-COMPUTE-DEDUCTIBLE.
-           COMPUTE DEDUCTIBLE-WS ROUNDED =
-              POLICY-AMOUNT * DEDUCTIBLE-PERC
-      *
-           IF POLICY-DEDUCTIBLE-PAID >= DEDUCTIBLE-WS
-              MOVE "Y" TO POLICY-DEDUCTIBLE-MET-WS
-           ELSE
-              MOVE "N" TO POLICY-DEDUCTIBLE-MET-WS
-           END-IF.
       *
        300-COMPUTE-CLAIM.
-           PERFORM 300-COMPUTE-DEDUCTIBLE
+           PERFORM 310-COMPUTE-DEDUCTIBLE
            IF DEDUCTIBLE-MET
               COMPUTE CLAIM-PAID-WS ROUNDED = CLAIM-AMOUNT
                 - (POLICY-COINSURANCE) *(CLAIM-AMOUNT)
@@ -251,20 +233,25 @@
               MOVE 'N' TO PAY-THE-CLAIM-WS
            END-IF.
       *
+       310-COMPUTE-DEDUCTIBLE.
+           COMPUTE DEDUCTIBLE-WS ROUNDED =
+              POLICY-AMOUNT * DEDUCTIBLE-PERC
+
+           IF POLICY-DEDUCTIBLE-PAID >= DEDUCTIBLE-WS
+              MOVE "Y" TO POLICY-DEDUCTIBLE-MET-WS
+           ELSE
+              MOVE "N" TO POLICY-DEDUCTIBLE-MET-WS
+           END-IF.
+      *
        340-DETAIL-LINE.
+           DISPLAY 'AAA'.
       *
        360-COMPUTE-INSURANCE-TOTAL.
+           DISPLAY 'BBBB'.
 
        400-READ-CLAIMS.
-           READ CLAIMFILE INTO CLAIM-RECORD-WS
-           AT END
-              MOVE "Y" TO CLAIMFILE-EOF
-           END-READ.
-           IF CLAIMFILE-OK OR NO-MORE-CLAIMS
-           NEXT SENTENCE
-           ELSE
-              DISPLAY 'CLAIM FILE PROBLEM'
-              GO TO 999-ERROR-RTN.
+           MOVE 'RE' TO CLAIMFILE-ST-WS.
+           CALL 'INSCLIO' USING CLAIM-RECORD-WS, CLAIMFILE-ST-WS.
 
        400-WRITE-HEADING-LINES.
            MOVE +1          TO LINE-COUNT.
@@ -326,7 +313,6 @@
            SIZE ERROR
               DISPLAY 'SIZE ERROR ON TOTAL CLAIM PAID'
            END-ADD.
-
       *
        700-WRITE-CLAIM-TOTALS.
            WRITE PRINT-LINE FROM TOTAL-DASH-LINE
@@ -336,6 +322,8 @@
            MOVE TOT-CLAIM-AMOUNT-PAID TO TOT-CLAIM-AMOUNT-PAID-OUT
            WRITE PRINT-LINE FROM TOTAL-LINE-OUT.
        900-WRAP-UP.
-           CLOSE CLAIMFILE, PRINTFILE.
+           CLOSE PRINTFILE.
+           MOVE 'CL' TO CLAIMFILE-ST-WS.
+           CALL 'INSCLIO' USING CLAIM-RECORD-WS, CLAIMFILE-ST-WS.
        999-ERROR-RTN.
            GOBACK.

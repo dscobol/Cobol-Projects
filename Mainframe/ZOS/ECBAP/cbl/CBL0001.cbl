@@ -1,8 +1,8 @@
       *-----------------------
        IDENTIFICATION DIVISION.
       *-----------------------
-       PROGRAM-ID.    CBL0001
-       AUTHOR.        HOW DOES THIS PROGRAM WORK?
+       PROGRAM-ID.    CBL0001.
+       AUTHOR.        SIMPLE READ WRITE OF QSAM FILE.
       *--------------------
        ENVIRONMENT DIVISION.
       *--------------------
@@ -58,11 +58,11 @@
        CLOSE-STOP.
            CLOSE ACCT-REC.
            CLOSE PRINT-LINE.
-           STOP RUN.
+           GOBACK.
       *
        READ-RECORD.
            READ ACCT-REC
-           AT END MOVE 'Y' TO LASTREC
+               AT END MOVE 'Y' TO LASTREC
            END-READ.
       *
        WRITE-RECORD.

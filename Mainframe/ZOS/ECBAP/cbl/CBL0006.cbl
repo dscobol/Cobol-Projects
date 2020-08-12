@@ -11,7 +11,7 @@
            SELECT PRINT-LINE ASSIGN TO PRTLINE.
            SELECT ACCT-REC   ASSIGN TO ACCTREC.
       *-------------
-       DATA DIVISION. 
+       DATA DIVISION.
       *-------------
        FILE SECTION.
        FD  PRINT-LINE RECORDING MODE F.

@@ -68,7 +68,7 @@
       * Initialization Routine
            INITIALIZE PAYROLL-IN, PAYROLL-OUT.
       * Priming Read
-      *     PERFORM 300-Open-Files.    *> Comment out to get ABEND 4038
+           PERFORM 300-Open-Files.    *> Comment out to get ABEND 4038
            PERFORM 400-Read-Payroll.  *> Comment out with empty input file
        100-Main.
            DISPLAY '100-main'.        *> For shops not using the Debugger

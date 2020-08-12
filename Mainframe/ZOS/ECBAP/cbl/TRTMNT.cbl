@@ -1304,7 +1304,6 @@
 079200************************************************************      07920001
 079300*       ERROR TRAPPING ROUTINE FOR INVALID SQLCODES        *      07930001
 079400************************************************************      07940001
-079500                                                                  07950001
 079600      DISPLAY '**** WE HAVE A SERIOUS PROBLEM HERE *****'.        07960001
 079700      DISPLAY '999-ERROR-TRAP-RTN '.                              07970001
 079800      MULTIPLY SQLCODE BY -1 GIVING SQLCODE.                      07980001

@@ -1,12 +1,3 @@
-      *****************************************************************
-      * Program name:    STRING2
-      *
-      * Maintenence Log
-      * Date       Author        Maintenance Requirement
-      * ---------- ------------  ---------------------------------------
-      * 2020-07-29 MYNAME        Created for ECBAP class
-      *
-      *****************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. STRING2.
       * The following example shows the STRING statement selecting and
@@ -41,4 +32,3 @@
               WITH POINTER LINE-POS.
            DISPLAY RPT-LINE.
            GOBACK.
-

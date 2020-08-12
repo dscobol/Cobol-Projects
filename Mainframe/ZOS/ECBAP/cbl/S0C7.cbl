@@ -24,7 +24,8 @@
       *    MOVE HIGH-VALUES TO A-TABLE.
       *    MOVE SPACES TO A-TABLE.
       * Unitialized fields
-           MOVE SUB TO SUB-COMP.
+           IF SUB NUMERIC MOVE SUB TO SUB-COMP.
+           GOBACK.
            MOVE SUB TO SUB-DISPLAY.
            MOVE SUB TO SUB-COMP-3.
            MOVE A-TAB(SUB) TO SUB-COMP. *> ABEND

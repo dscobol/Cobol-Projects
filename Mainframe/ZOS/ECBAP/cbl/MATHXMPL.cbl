@@ -1,19 +1,21 @@
        IDENTIFICATION DIVISION.
       * ******* EXAMPLES OF TRUNCTION, ROUNDING ERRORS AND OVERFLOW
       * ******* ALSO NEGATIVE NUMBERS
-       PROGRAM-ID. MATHEX.
+       PROGRAM-ID. MATHXMPL.
        DATA DIVISION.
        WORKING-STORAGE SECTION.
+      * Numeric Constants.
        01  NEG-1            PIC S9 VALUE -1.
        01  ZERO-VAL         PIC S9 VALUE +0.
        01  WS-FAHR          PIC 999 VALUE 60.
-       01  WS-CEL           PIC 999 VALUE 0.
        01  EXP1             PIC 999 VALUE 5.
        01  EXP2             PIC 999 VALUE 2.
-       01  HYPOTENUSE       PIC 9(05) VALUE 0.
        01  SIDE1            PIC 999 VALUE 10.
        01  SIDE2            PIC 999 VALUE 10.
+
        01  NUMERIC-VARIABLES.
+           05 HYPOTENUSE       PIC 9(05) VALUE 0.
+           05 WS-CEL           PIC 999 VALUE 0.
            05 FLD1         PIC 99.
            05 FLD1-BIG     PIC S9(5).
            05 FLD1-SIGNED  PIC S99.
@@ -41,10 +43,12 @@
            05 RESULT-FLD3       PIC 9(9)V9(9).
            05 MONTHLY-PAYMENT   PIC 9(9)V99.
            05 PRINCIPAL         PIC 9(9)    VALUE 2000000.
-           05 INT-RATE          PIC V99     VALUE .01.
+           05 INT-RATE          PIC V9     VALUE .1.
            05 INT-RATE-DEC      PIC 9(5)V99 VALUE 10.01.
            05 NBR-PAYMENTS      PIC 9(3)    VALUE 120.
        PROCEDURE DIVISION.
+           PERFORM INIT-RTN.
+           PERFORM PARENTHESIS-EXAMPLES.
            PERFORM INIT-RTN.
            PERFORM ROUNDING-EXAMPLES.
            PERFORM ADD-EXAMPLES.
@@ -80,17 +84,25 @@
            MOVE  15 TO FLDD.
            MOVE  16 TO FLDE.
        ROUNDING-EXAMPLES.
+      *** NOTE THE DIFFERENCE IN NUMERIC RESULTS
+           COMPUTE int-rate     = ( (1.00 + 10 / 100) ** 5) + .05.
+           COMPUTE int-rate ROUNDED = ( (1.00 + 10 / 100) ** 5) + .05.
+           COMPUTE int-rate-DEC = ( (1.00 + 10 / 100) ** 5) + .05.
+           DISPLAY 'END OF ROUNDING'.
+       PARENTHESIS-EXAMPLES.
       *** NOTE THE DIFFERENCE BETWEEN THESE THREE STATEMENTS
-           COMPUTE int-rate     = ( (1.00 + 10 / 100) ** 5) + .5.
-           COMPUTE int-rate ROUNDED = ( (1.00 + 10 / 100) ** 5) + .5.
-           COMPUTE int-rate-DEC = ( (1.00 + 10 / 100) ** 5) +. 5.
+           COMPUTE FLD6 = FLD1 + FLD2 - FLD3 * FLD4 / FLD5.
+           COMPUTE FLD6 = (FLD1 + FLD2) - FLD3 * (FLD4 / FLD5).
+           COMPUTE FLD6 = FLD1 + ( (FLD2 - FLD3) * FLD4 ) / FLD5.
+           COMPUTE FLD6 = (FLD1 + FLD2 - FLD3) * (FLD4 / FLD5).
+           DISPLAY 'END OF PARENTHESIS'.
        ADD-EXAMPLES.
       ***** On Size Error examples
            ADD FLD1 TO FLD2.
            ADD FLD3 TO FLD4 GIVING FLD5.
            ADD FLD3 TO FLD4 GIVING FLD5-BIG.
            ADD FLD6 TO FLD7 GIVING FLD8 FLD9.
-      *     DISPLAY NUMERIC-VARIABLES.
+           DISPLAY 'END OF ADD-EXAMPLES'.
        SUBTRACT-EXAMPLES.
            SUBTRACT FLD1 FROM FLD2.
            SUBTRACT FLD4 FROM FLD1.
@@ -99,7 +111,7 @@
            SUBTRACT FLD1 FROM 200 GIVING FLDF.
            SUBTRACT FLD3 FROM FLD4 GIVING FLD5.
            SUBTRACT FLD6 FROM FLD7 GIVING FLD8 FLD9.
-           DISPLAY NUMERIC-VARIABLES.
+           DISPLAY 'END OF SUBTRACT EXAMPLES'.
        MULTIPLY-EXAMPLES.
       ***** On Size Error examples
            MULTIPLY FLD1 BY FLD2.
@@ -108,10 +120,11 @@
            MULTIPLY FLD1-BIG BY NEG-1.
            MULTIPLY FLD3 BY FLD5 GIVING FLD6
                      ON SIZE ERROR MOVE 9 TO FLD1.
+      * Change the above MULTIPLY statement - remove ON SIZE ERROR
            MULTIPLY FLD3 BY FLD5 GIVING FLD5-BIG.
            MULTIPLY FLD6 BY FLD7 GIVING FLD8 FLD9.
            MULTIPLY FLD6 BY FLD7 GIVING FLD8 FLD9-BIG.
-           DISPLAY NUMERIC-VARIABLES.
+           DISPLAY 'END OF MULTIPLY EXAMPLES'.
        DIVIDE-EXAMPLES.
       ***** On Size Error & Rounded examples
            DIVIDE   FLD3 INTO FLD4.
@@ -122,7 +135,7 @@
            DIVIDE   FLD8 BY FLD9 GIVING FLDA FLDA-DEC.
            DIVIDE   FLD1 BY ZERO-VAL GIVING FLD1-SIGNED
                ON SIZE ERROR DISPLAY 'ATTEMPT TO DIVIDE BY ZERO'.
-           DISPLAY NUMERIC-VARIABLES.
+           DISPLAY 'END OF DIVIDE EXAMPLES'.
        COMPUTE-EXAMPLES.
            Compute
                RESULT-FLD1 = FLD1 + FLD2 / FLD3 ** 4
@@ -130,12 +143,15 @@
            Compute
                RESULT-FLD2 = (FLD1 + FLD2) * FLD3 / (FLD3 ** 4) - FLD5
                ON SIZE ERROR DISPLAY 'ATTEMPT TO DIVIDE BY ZERO'.
+           DISPLAY 'END OF COMPUTE EXAMPLES'.
        COMPUTE-PYTHAGORAS.
             COMPUTE HYPOTENUSE =
-                          FUNCTION SQRT (SIDE1 ** 2 + SIDE2 ** 2).
+                 FUNCTION SQRT (SIDE1 ** 2 + SIDE2 ** 2).
+           DISPLAY 'WHAT IS THE SQUARE ROOT OF 200?'.
        COMPUTE-FAHR-CELS.
             COMPUTE WS-CEL = (WS-FAHR - 32) * (0.5556).
             COMPUTE WS-CEL ROUNDED = (WS-FAHR - 32) * (0.5556).
+           DISPLAY 'END OF FAHR-CELLS'.
        COMPUTE-MONTHLY-PAYMENT.
             COMPUTE MONTHLY-Payment
                     = Principal *
@@ -143,3 +159,4 @@
                   (1 + INT-RATE) ** NBR-PAYMENTS) /
                      (((1 + INT-RATE ) ** NBR-PAYMENTS) - 1)
                      ON SIZE ERROR MOVE 9 TO FLD1.
+           DISPLAY 'END OF MORTGAGE'.

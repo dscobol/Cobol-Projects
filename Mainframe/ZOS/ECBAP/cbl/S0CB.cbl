@@ -20,7 +20,7 @@
            MOVE 12340 TO CURRENT-HOURS-WORKED, TOTAL-HOURS-WORKED,
                           FIELD-A.
            DIVIDE A-TAB(2) INTO CURRENT-HOURS-WORKED
-      *         ON SIZE ERROR DISPLAY 'DIVIDE BY ZERO!!'.
+              ON SIZE ERROR DISPLAY 'DIVIDE BY ZERO!!'.
            COMPUTE SUB = TOTAL-HOURS-WORKED / LAST-DIGIT
       *        ON SIZE ERROR DISPLAY 'DIVIDE BY ZERO!!'
       *    Uncomment the ON SIZE ERROR statement to see the difference.
