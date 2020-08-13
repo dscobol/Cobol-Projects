@@ -50,12 +50,12 @@ RECFM='FB'
 FILES_CMD='zos-files' # files
 JOBS_CMD='zos-jobs' # zos-jobs
 
-echo 'Zowe: delete the dataset'
+echo 'Zowe, delete the dataset.'
 zowe ${FILES_CMD} delete data-set \
    ${HLQ}.${PROJECT}.${MEMBNAME} -f
 sleep 1s
 
-echo 'Zowe: create the dataset'
+echo 'Zowe, create the dataset.'
 zowe ${FILES_CMD} create data-set-sequential \
    ${HLQ}.${PROJECT}.${MEMBNAME} \
    --block-size ${BLKSIZE} \
@@ -64,6 +64,6 @@ zowe ${FILES_CMD} create data-set-sequential \
    --size ${SIZE}
 sleep 1s
 
-echo 'Copy the file to the created dataset..'
+echo 'Zowe, upload the file.'
 zowe ${FILES_CMD} upload file-to-data-set \
    ${DATANAME} ${HLQ}.${PROJECT}.${MEMBNAME}

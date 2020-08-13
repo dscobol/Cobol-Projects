@@ -42,9 +42,9 @@ MEMBNAME='MEMBERS'
 FILES_CMD="zos-files" # files
 JOBS_CMD="zos-jobs" # zos-jobs
 
-echo "Submit the JCL to allocate the test dataset"
+echo "Zowe, submit the JCL to allocate the dataset."
 zowe ${JOBS_CMD} submit local-file allocate.jcl
 sleep 2s
 
-echo "Copy the test data to the created dataset.."
+echo "Zowe, upload the file."
 zowe ${FILES_CMD} upload file-to-data-set ${DATANAME} ${HLQ}.${PROJECT}.${MEMBNAME}
