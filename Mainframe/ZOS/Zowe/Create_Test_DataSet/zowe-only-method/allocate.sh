@@ -32,26 +32,26 @@ DATANAME='members.dat.txt'
 # Update these parameters to the new name of the dataset.
 PROJECT='TEST'
 MEMBNAME='MEMBERS'
-LRECL="27"
+LRECL='27'
+BLKSIZE='2700'
 
 # These are defaults.  
-HLQ="Z81187"
-BLKSIZE="0"
+HLQ='Z81187'
 
 # If you are just uploading test datasets to play with, these are good.
-SIZE="3TRK"
+SIZE='3TRK'
 RECFM='FB'
 
 
-FILES_CMD="zos-files" # files
-JOBS_CMD="zos-jobs" # zos-jobs
+FILES_CMD='zos-files' # files
+JOBS_CMD='zos-jobs' # zos-jobs
 
-echo "Zowe: delete the dataset"
+echo 'Zowe: delete the dataset'
 zowe ${FILES_CMD} delete data-set \
    ${HLQ}.${PROJECT}.${MEMBNAME} -f
 sleep 1s
 
-echo "Zowe: create the dataset"
+echo 'Zowe: create the dataset'
 zowe ${FILES_CMD} create data-set-sequential \
    ${HLQ}.${PROJECT}.${MEMBNAME} \
    --block-size ${BLKSIZE} \
@@ -60,6 +60,6 @@ zowe ${FILES_CMD} create data-set-sequential \
    --size ${SIZE}
 sleep 1s
 
-echo "Copy the file to the created dataset.."
+echo 'Copy the file to the created dataset..'
 zowe ${FILES_CMD} upload file-to-data-set \
    ${DATANAME} ${HLQ}.${PROJECT}.${MEMBNAME}
