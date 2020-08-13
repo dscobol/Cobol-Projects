@@ -32,6 +32,10 @@ DATANAME='members.dat.txt'
 # Update these parameters to the new name of the dataset.
 PROJECT='TEST'
 MEMBNAME='MEMBERS'
+
+# BLKSIZE must be a multiple of LRECL.
+# Easiest way is just multiply LRECL by 1000 or 100 or 10.
+# Don't go too big with the multiplier though.
 LRECL='27'
 BLKSIZE='2700'
 
