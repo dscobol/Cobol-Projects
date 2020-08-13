@@ -7,7 +7,7 @@
 //    SET HLQ='Z81187'                        *TSO USER ID
 //    SET PROJECT='TEST'
 //    SET FILENAME='MEMBERS'
-//    SET LENGTH='28'
+//    SET LENGTH='27'
 //    SET FORMAT='FB'
 //*************************
 //* CLEAN UP DATASETS
@@ -30,5 +30,5 @@
 //DD1      DD DSN=&HLQ..&PROJECT..&FILENAME.,
 //            DCB=(BLKSIZE=0,LRECL=&LENGTH.,RECFM=&FORMAT.,DSORG=PS),
 //            DISP=(NEW,CATLG),
-//            SPACE=(TRK,(5,1),RLSE)
+//            SPACE=(TRK,(3,1),RLSE)
 //*
