@@ -5,9 +5,9 @@
 //* QUALIFIER UNDER WHICH THE &PROJECT. DATASETS MAY RESIDE.
 //*
 //    SET HLQ='Z81187'                        *TSO USER ID
-//    SET PROJECT='LEARN'
-//    SET FILENAME='INSTYPE'
-//    SET LENGTH='3'
+//    SET PROJECT='TEST'
+//    SET FILENAME='MEMBERS'
+//    SET LENGTH='28'
 //    SET FORMAT='FB'
 //*************************
 //* CLEAN UP DATASETS
