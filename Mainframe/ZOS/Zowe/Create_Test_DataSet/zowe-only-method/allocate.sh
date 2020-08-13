@@ -47,12 +47,19 @@ FILES_CMD="zos-files" # files
 JOBS_CMD="zos-jobs" # zos-jobs
 
 echo "Zowe: delete the dataset"
-zowe ${FILES_CMD} delete data-set ${HLQ}.${PROJECT}.${MEMBNAME} -f
+zowe ${FILES_CMD} delete data-set \
+   ${HLQ}.${PROJECT}.${MEMBNAME} -f
 sleep 1s
 
 echo "Zowe: create the dataset"
-zowe ${FILES_CMD} create data-set-sequential ${HLQ}.${PROJECT}.${MEMBNAME} --block-size ${BLKSIZE} --record-format ${RECFM} --record-length ${LRECL} --size ${SIZE}
+zowe ${FILES_CMD} create data-set-sequential \
+   ${HLQ}.${PROJECT}.${MEMBNAME} \
+   --block-size ${BLKSIZE} \
+   --record-format ${RECFM} \
+   --record-length ${LRECL} \
+   --size ${SIZE}
 sleep 1s
 
 echo "Copy the file to the created dataset.."
-zowe ${FILES_CMD} upload file-to-data-set ${DATANAME} ${HLQ}.${PROJECT}.${MEMBNAME}
+zowe ${FILES_CMD} upload file-to-data-set \
+   ${DATANAME} ${HLQ}.${PROJECT}.${MEMBNAME}
