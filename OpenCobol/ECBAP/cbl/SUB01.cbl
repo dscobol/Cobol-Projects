@@ -17,12 +17,12 @@
        01  LF-G     PIC X(05).
       * Enter SUB01 - establish "address-ability" to
       *    the variables passed from MAINPGM
-       PROCEDURE DIVISION USING 
-          LF-A, LF-B, LF-C, LF-D, LF-E, LF-F, LF-G.
+       PROCEDURE DIVISION USING
+           LF-A, LF-B, LF-C, LF-D, LF-E, LF-F, LF-G.
 
            MOVE 'SUB1' TO LF-A, LF-B, LF-C, LF-D, LF-E, LF-F, LF-G.
 
-           DISPLAY "In SUB01:Before static call: " 
+           DISPLAY "In SUB01:Before static call: "
               LF-A, LF-B, LF-C, LF-D, LF-E, LF-F, LF-G.
 
            CALL 'SUB03' USING CF-D, CF-E, CF-F.
@@ -30,14 +30,14 @@
            DISPLAY "In SUB01:Before static call - Link fields: "
               LF-A, LF-B, LF-C, LF-D, LF-E, LF-F, LF-G.
 
-           DISPLAY "In SUB01: After static call WS fields: " 
+           DISPLAY "In SUB01: After static call WS fields: "
               CF-D, " ", CF-E, " ", CF-F.
 
            MOVE CF-D TO LF-D
            MOVE CF-E TO LF-E
            MOVE CF-F TO LF-F
 
-           DISPLAY "In SUB01:After static call - After MOVE: " 
+           DISPLAY "In SUB01:After static call - After MOVE: "
               LF-A, LF-B, LF-C, LF-D, LF-E, LF-F, LF-G.
 
            MOVE "SUB04" to G-PROG.
