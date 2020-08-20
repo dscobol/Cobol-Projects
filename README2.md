@@ -51,3 +51,6 @@ The FAV series of programs are created using my prefered structure, naming conve
 But, in any case, they will always be identified by the Workshop number.
 
 The assignments and their status will be listed in README4.
+
+Hey, where did the other code go?
+It wasn't my code. I didn't have explicit permission to post it so it was removed.
