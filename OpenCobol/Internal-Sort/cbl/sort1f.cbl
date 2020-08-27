@@ -2,14 +2,24 @@
       * Program name:    SORT1F
       * Original author: dastagg
       *
-      * Description: Program to sort tables.
-      *    This version will just sort with USING and GIVING.
+      *    Overview: This is a series of simple examples demonstrating
+      *       COBOL Internal Sorting.
       *
+      *    List:
+      *        SORT1F: Just USING and GIVING
+      *        SORT2F: Input Procedure and GIVING
+      *        SORT3F: USING and Output Procedure
+      *        SORT4F: Input Procedure and Output Procedure.
+      *
+      *    Description: Program to use COBOL's internal sort 
+      *       facility to sort and process datasets.
+      *
+      *    This version will sort with USING and GIVING.
       *
       * Maintenence Log
       * Date       Author        Maintenance Requirement
       * ---------  ------------  --------------------------------
-      * 2020-08-16 dastagg       Created for ECBAP class
+      * 2020-08-16 dastagg       Created to learn.
       *
       **********************************************************
        IDENTIFICATION DIVISION.
@@ -22,8 +32,7 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT INFile
-           ASSIGN TO 
-           "../../../Cobol-Projects/common/data/customer.dat.txt"
+           ASSIGN TO "../data/customer.dat.txt"
            ORGANIZATION IS LINE SEQUENTIAL.
 
            SELECT SORTFile
