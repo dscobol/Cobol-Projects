@@ -33,11 +33,11 @@
 # have that extra blank line from the uploaded file.
 #
 ################################################################
-DATANAME='members.dat.txt'
+DATANAME='psap.dat.txt'
 
 HLQ="Z81187"
 PROJECT='TEST'
-MEMBNAME='MEMBERS'
+MEMBNAME='PSAP'
 
 FILES_CMD="zos-files" # files
 JOBS_CMD="zos-jobs" # zos-jobs
